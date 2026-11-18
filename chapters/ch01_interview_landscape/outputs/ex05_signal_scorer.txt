@@ -1,0 +1,6 @@
+coding     {'problem_solving': 4, 'coding': 4, 'communication': 3, 'testing': 3} -> {'score': 3.65, 'decision': 'strong hire', 'weakest': 'testing'}
+coding     {'problem_solving': 3, 'coding': 3, 'communication': 2, 'testing': 2} -> {'score': 2.65, 'decision': 'lean no', 'weakest': 'testing'}
+coding     {'problem_solving': 4, 'coding': 1, 'communication': 4, 'testing': 4} -> {'score': 3.1, 'decision': 'no hire', 'weakest': 'coding'}
+practical  {'problem_solving': 3, 'coding': 3, 'communication': 4, 'testing': 2} -> {'score': 2.9, 'decision': 'hire', 'weakest': 'testing'}
+ml_coding  {'problem_solving': 3, 'coding': 3, 'communication': 3, 'testing': 2, 'domain': 2} -> {'score': 2.65, 'decision': 'lean no', 'weakest': 'domain'}
+Error: missing ratings: ['communication', 'problem_solving', 'testing']

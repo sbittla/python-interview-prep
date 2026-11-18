@@ -1,0 +1,22 @@
+trace for abacbdefegde
+  i= 0 ch=a last= 2 piece_end= 2
+  i= 1 ch=b last= 4 piece_end= 4
+  i= 2 ch=a last= 2 piece_end= 4
+  i= 3 ch=c last= 3 piece_end= 4
+  i= 4 ch=b last= 4 piece_end= 4  <- cut
+  i= 5 ch=d last=10 piece_end=10
+  i= 6 ch=e last=11 piece_end=11
+  i= 7 ch=f last= 7 piece_end=11
+  i= 8 ch=e last=11 piece_end=11
+  i= 9 ch=g last= 9 piece_end=11
+  i=10 ch=d last=10 piece_end=11
+  i=11 ch=e last=11 piece_end=11  <- cut
+sizes: [5, 7]
+pieces: ['abacb', 'defegde']
+
+'ababcbacadefegdehijhklij'   -> [9, 7, 8] (brute [9, 7, 8])
+'abc'                        -> [1, 1, 1] (brute [1, 1, 1])
+'aaaa'                       -> [4] (brute [4])
+'a'                          -> [1] (brute [1])
+'abcba'                      -> [5] (brute [5])
+'eccbbbbdec'                 -> [10] (brute [10])

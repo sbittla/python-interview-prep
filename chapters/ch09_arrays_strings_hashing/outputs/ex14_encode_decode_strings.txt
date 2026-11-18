@@ -1,0 +1,10 @@
+['hi', '', 'a#b']      -> '2#hi0#3#a#b'          round-trip ok: True
+['12#', '#', '3']      -> '3#12#1##1#3'          round-trip ok: True
+[]                     -> ''                     round-trip ok: True
+['']                   -> '0#'                   round-trip ok: True
+['héllo', '日本語']       -> '5#héllo3#日本語'         round-trip ok: True
+naive comma join breaks: ['a', 'b', 'c'] and [] -> ['']
+rle 'aaabcc'         -> '3a1b2c'   back ok: True
+rle 'abc'            -> '1a1b1c'   back ok: True
+rle ''               -> ''         back ok: True
+rle 'aaaaaaaaaaaab'  -> '12a1b'    back ok: True

@@ -1,0 +1,5 @@
+sends: [10.0, 15.0, 20.0, 25.0]
+returned via StopIteration.value: {'count': 4, 'average': 25.0}
+unprimed send -> TypeError: can't send non-None value to a just-started generator
+summaries: {'latency': {'count': 3, 'average': 18.67}, 'size': {'count': 2, 'average': 200.0}}
+closed generator state: True

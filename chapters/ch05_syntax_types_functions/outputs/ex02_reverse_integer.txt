@@ -1,0 +1,7 @@
+                   123 ->         321   (brute agrees: True)
+                  -120 ->         -21   (brute agrees: True)
+                     0 ->           0   (brute agrees: True)
+            1534236469 ->           0   (brute agrees: True)
+           -2147483412 -> -2143847412   (brute agrees: True)
+ 100000000000000000000 ->           1   (brute agrees: True)
+floor-mod gotcha: -123 % 10 = 7 ; -123 // 10 = -13

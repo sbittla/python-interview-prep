@@ -1,0 +1,7 @@
+compose(inc, dbl)(5) = 11
+pipeline(inc, dbl)(5) = 12
+identity: 42 same
+['Ada Lovelace', 'Grace Hopper', 'Linus Torvalds']
+brute agrees: True
+{'abs': 3, 'neg': 3, 'square': 9}
+sorted by last name: ['Grace Hopper', 'Ada Lovelace', 'Linus Torvalds']

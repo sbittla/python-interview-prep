@@ -1,0 +1,13 @@
+balloons [[10, 16], [2, 8], [1, 6], [7, 12]] -> arrows 2
+touching [[1,2],[2,3]] -> arrows 1 (closed intervals share x=2)
+empty -> arrows 0
+
+meetings [(0, 30), (5, 10), (15, 20)] -> rooms 2 (brute 2)
+meetings [(1, 5), (5, 10)] -> rooms 1 (brute 1)
+meetings [(1, 10), (2, 9), (3, 8)] -> rooms 3 (brute 3)
+meetings [] -> rooms 0 (brute 0)
+
+weights [3, 2, 2, 1] limit 3 -> boats 3
+weights [1, 2] limit 3 -> boats 1
+weights [3, 5, 3, 4] limit 5 -> boats 4
+weights [5, 1, 4, 2] limit 6 -> boats 2

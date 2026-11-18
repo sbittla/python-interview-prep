@@ -1,0 +1,6 @@
+output      : [5, 25, 21]
+brute agrees: True
+['add']     -> ValueError: stack underflow
+['push']    -> ValueError: bad command: push
+['push x']  -> ValueError: bad command: push x
+['jump 3']  -> ValueError: bad command: jump 3

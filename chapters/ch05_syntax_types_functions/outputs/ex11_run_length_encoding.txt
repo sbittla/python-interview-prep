@@ -1,0 +1,7 @@
+'aaabcc'             -> 'a3b1c2'         round-trip ok: True, brute agrees: True
+''                   -> ''               round-trip ok: True, brute agrees: True
+'a'                  -> 'a1'             round-trip ok: True, brute agrees: True
+'abc'                -> 'a1b1c1'         round-trip ok: True, brute agrees: True
+'zzzzzzzzzzzz'       -> 'z12'            round-trip ok: True, brute agrees: True
+'wwwwaaadexxxxxx'    -> 'w4a3d1e1x6'     round-trip ok: True, brute agrees: True
+ValueError: missing count after 'a' at index 0

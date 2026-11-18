@@ -1,0 +1,34 @@
+{
+  "candidates": [
+    {
+      "name": "Candidate A (SWE, 3 weeks out)",
+      "track": "S",
+      "ratings": {
+        "python_fluency": 4, "complexity": 3, "arrays_hashing": 4, "linear_structures": 3,
+        "trees_graphs": 2, "techniques": 1, "practical": 3, "concurrency": 2,
+        "data_ml": 0, "genai": 0, "communication": 3
+      },
+      "mock_scores": [62, 71]
+    },
+    {
+      "name": "Candidate B (GenAI/LLM, 10 days out)",
+      "track": "L",
+      "ratings": {
+        "python_fluency": 4, "complexity": 3, "arrays_hashing": 3, "linear_structures": 3,
+        "trees_graphs": 3, "techniques": 3, "practical": 3, "concurrency": 3,
+        "data_ml": 3, "genai": 4, "communication": 4
+      },
+      "mock_scores": [78, 84, 86]
+    },
+    {
+      "name": "Candidate C (Data/ML, 5 weeks out)",
+      "track": "M",
+      "ratings": {
+        "python_fluency": 2, "complexity": 2, "arrays_hashing": 2, "linear_structures": 1,
+        "trees_graphs": 1, "techniques": 1, "practical": 2, "concurrency": 1,
+        "data_ml": 3, "genai": 1, "communication": 2
+      },
+      "mock_scores": []
+    }
+  ]
+}

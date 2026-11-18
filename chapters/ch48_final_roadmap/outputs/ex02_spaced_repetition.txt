@@ -1,0 +1,38 @@
+Practice log: 24 attempts, 12 problems, today = 2026-11-18
+
+problem                      pattern              last       streak  due         status
+course_schedule              topological_sort     struggled       0  2026-11-10  overdue
+longest_substring_no_repeat  sliding_window       solved          2  2026-11-10  overdue
+merge_intervals              intervals            solved          2  2026-11-14  overdue
+kth_largest                  heap                 solved          1  2026-11-15  overdue
+coin_change                  dynamic_programming  struggled       0  2026-11-16  overdue
+number_of_islands            graph_bfs            solved          1  2026-11-16  overdue
+daily_temperatures           monotonic_stack      solved          1  2026-11-17  overdue
+word_break                   dynamic_programming  failed          0  2026-11-17  overdue
+lru_cache                    design               solved          1  2026-11-18  due today
+top_k_frequent               heap                 struggled       0  2026-11-18  due today
+two_sum                      hashing              solved          4  2026-12-04  upcoming
+valid_parentheses            stack                solved          4  2026-12-05  upcoming
+
+Agenda, max 3 reviews per day (overdue first):
+  2026-11-18: course_schedule, longest_substring_no_repeat, merge_intervals
+  2026-11-19: kth_largest, coin_change, number_of_islands
+  2026-11-20: word_break, daily_temperatures, top_k_frequent
+  2026-11-21: lru_cache
+  2026-11-22: (rest)
+  2026-11-23: (rest)
+  2026-11-24: (rest)
+
+Weakest patterns first:
+  dynamic_programming  attempts=3 clean-solve=0% avg=43.3 min
+  topological_sort     attempts=2 clean-solve=0% avg=40.0 min
+  design               attempts=2 clean-solve=50% avg=33.5 min
+  heap                 attempts=2 clean-solve=50% avg=22.5 min
+  sliding_window       attempts=3 clean-solve=67% avg=26.0 min
+
+Ladder demo for one problem solved again and again:
+  after 2026-11-01: next = ('2026-11-02', 1)
+  after 2026-11-02: next = ('2026-11-05', 2)
+  after 2026-11-05: next = ('2026-11-12', 3)
+  after 2026-11-12: next = ('2026-12-03', 4)
+  after 2026-12-03: next = (None, 5)

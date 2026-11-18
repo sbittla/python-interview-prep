@@ -1,0 +1,6 @@
+solve('aab')   = [['a', 'a', 'b'], ['aa', 'b']]
+solve('a')     = [['a']]
+solve('racecar') = [['r', 'a', 'c', 'e', 'c', 'a', 'r'], ['r', 'a', 'cec', 'a', 'r'], ['r', 'aceca', 'r'], ['racecar']]
+solve('abba')  = [['a', 'b', 'b', 'a'], ['a', 'bb', 'a'], ['abba']]
+brute agrees on 'aabbaa': True
+partitions of 'a'*10 = 512 (2^9 = 512)

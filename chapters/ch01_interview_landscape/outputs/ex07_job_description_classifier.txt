@@ -1,0 +1,12 @@
+Backend: track=S counts={'S': 8, 'M': 0, 'L': 0}
+    rounds: ['behavioural', 'coding', 'practical', 'system_design']
+    top terms: [('apis', 1), ('backend', 1), ('concurrency', 1)]
+Data scientist: track=M counts={'S': 0, 'M': 8, 'L': 0}
+    rounds: ['behavioural', 'coding', 'ml_coding', 'ml_concepts', 'sql_or_pandas']
+    top terms: [('pandas', 2), ('a/b testing', 1), ('experimentation', 1)]
+LLM engineer: track=L counts={'S': 2, 'M': 1, 'L': 7}
+    rounds: ['behavioural', 'coding', 'llm_coding', 'llm_system_design']
+    top terms: [('agents', 1), ('apis', 1), ('embeddings', 1)]
+Vague: track=S counts={'S': 0, 'M': 0, 'L': 0}
+    rounds: []
+    top terms: []

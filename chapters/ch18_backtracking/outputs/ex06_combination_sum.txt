@@ -1,0 +1,6 @@
+solve([2, 3, 6, 7], 7) = [[2, 2, 3], [7]]
+solve([2, 3, 5], 8)    = [[2, 2, 2, 2], [2, 3, 3], [3, 5]]
+solve([2], 1)          = []
+solve([7, 3, 2], 18)   has 7 combinations
+agrees with brute force: True
+calls for target 30 over 6 primes: 672

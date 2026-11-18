@@ -1,0 +1,10 @@
+solve(board, 'ABCCED'      ) -> True
+solve(board, 'SEE'         ) -> True
+solve(board, 'ABCB'        ) -> False
+solve(board, 'A'           ) -> True
+solve(board, 'ESCCBA'      ) -> True
+solve(board, 'ABCESEEDAS'  ) -> True
+board restored after search: True
+adversarial word 'AAAAAAAAAB': brute=True solve=True
+reversing to start from the rare letter makes fewer calls: True
+missing letter is rejected without any DFS: True

@@ -1,0 +1,7 @@
+'babad'              -> 'bab'          brute='bab' dp='bab'
+'cbbd'               -> 'bb'           brute='bb' dp='bb'
+'a'                  -> 'a'            brute='a' dp='a'
+''                   -> ''             brute='' dp=''
+'forgeeksskeegfor'   -> 'geeksskeeg'   brute='geeksskeeg' dp='geeksskeeg'
+'abacdfgdcaba'       -> 'aba'          brute='aba' dp='aba'
+palindromic substrings in 'aaa': 6

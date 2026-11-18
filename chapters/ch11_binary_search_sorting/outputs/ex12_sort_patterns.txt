@@ -1,0 +1,17 @@
+largest number [10, 2]: '210' brute='210'
+largest number [3, 30, 34, 5, 9]: '9534330' brute='9534330'
+largest number [0, 0]: '0' brute='0'
+largest number [1]: '1' brute='1'
+largest number [121, 12]: '12121' brute='12121'
+wrong (plain string sort): 9534303
+merge: [[1, 6], [8, 10], [15, 18]]
+merge touching: [[1, 5]]
+merge nested: [[1, 10]]
+merge empty: []
+tuple key : [('amy', 'eng', 120), ('bob', 'eng', 120), ('cal', 'eng', 100), ('dan', 'ops', 95), ('eve', 'ops', 90)]
+multipass : [('amy', 'eng', 120), ('bob', 'eng', 120), ('cal', 'eng', 100), ('dan', 'ops', 95), ('eve', 'ops', 90)]
+h-index [3, 0, 6, 1, 5]: sort=3 counting=3
+h-index [1, 3, 1]: sort=1 counting=1
+h-index [0, 0]: sort=0 counting=0
+h-index [100]: sort=1 counting=1
+h-index []: sort=0 counting=0

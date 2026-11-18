@@ -1,0 +1,4 @@
+groups: [['ate', 'eat', 'tea'], ['bat'], ['nat', 'tan']]
+agree : True
+edge  : [] [['']] [['', ''], ['a']]
+key   : eilnst (1, 1, 0)

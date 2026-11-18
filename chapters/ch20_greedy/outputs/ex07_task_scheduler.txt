@@ -1,0 +1,9 @@
+tasks=AAABBB        n=2  formula= 8  simulation= 8  schedule=AB_AB_AB
+tasks=AAABBB        n=0  formula= 6  simulation= 6  schedule=ABABAB
+tasks=AAAAAABCDEFG  n=2  formula=16  simulation=16  schedule=ABCADEAFGA__A__A
+tasks=AAABBBCCD     n=2  formula= 9  simulation= 9  schedule=ABCABCABD
+tasks=A             n=5  formula= 1  simulation= 1  schedule=A
+tasks=AAA           n=3  formula= 9  simulation= 9  schedule=A___A___A
+
+frame picture for AAABBB, n=2 (f=3, m=2):
+  [A B _] [A B _] [A B]  -> (3-1)*(2+1) + 2 = 8

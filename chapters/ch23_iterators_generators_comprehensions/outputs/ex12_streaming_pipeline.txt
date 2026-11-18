@@ -1,0 +1,10 @@
+nothing pulled yet: 0 0 0
+result: [1, 9, 25]
+pulled from source: 6 | squares: 6 | odd: 3
+batches: [['a', 'b', 'c'], ['d', 'e', 'f'], ['g']]
+windows: [(1, 2, 3), (2, 3, 4)]
+count: 15
+per minute (total, errors): {'10:00': (8, 2), '10:01': (7, 1), '10:02': (8, 1)}
+levels: {'ERROR': 4, 'INFO': 16, 'WARN': 3}
+first two slow: [('10:00', '/api/payments', 1203), ('10:00', '/api/payments', 3001)]
+lines read to find them: 10 of 26

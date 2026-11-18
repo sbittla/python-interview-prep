@@ -1,0 +1,24 @@
+== Shared editor + whiteboard, AI-free round ==
+ 1. [ ] Confirm the language and Python version you will use
+ 2. [ ] Ask how long the round is and whether it has one or several problems
+ 3. [ ] Prepare two clarifying questions you always ask
+ 4. [ ] Plan to state time and space complexity out loud
+ 5. [ ] Practise in a plain editor without autocomplete or linting
+ 6. [ ] Ask whether code will be executed or only read
+ 7. [ ] Dry-run on a small example by tracing variables in a table
+ 8. [ ] Practise writing code by hand without autocomplete
+ 9. [ ] Leave space between lines for corrections
+10. [ ] Practise the last two weeks without AI assistants
+11. [ ] Memorise stdlib signatures you rely on (heapq, bisect, collections)
+
+== Take-home, policy unknown ==
+ 1. [ ] Confirm the language and Python version you will use
+ 2. [ ] Ask how long the round is and whether it has one or several problems
+ 3. [ ] Prepare two clarifying questions you always ask
+ 4. [ ] Plan to state time and space complexity out loud
+ 5. [ ] Clarify the deadline, scope and how the submission is graded
+ 6. [ ] Include a README, tests and run instructions
+ 7. [ ] Keep commits small with clear messages
+ 8. [ ] Ask the recruiter in writing whether AI tools are allowed in this round
+
+Error: unknown formats ['hackathon']; valid: ['notebook', 'online_judge', 'pair_programming', 'shared_editor', 'take_home', 'whiteboard']

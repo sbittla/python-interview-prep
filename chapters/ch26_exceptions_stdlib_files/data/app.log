@@ -1,0 +1,8 @@
+2026-01-05 09:15:02 INFO  [auth] user=alice@example.com login ok ip=10.0.0.12
+2026-01-05 09:15:09 WARN  [auth] user=bob@example.org failed password ip=10.0.0.15
+2026-01-05 09:16:44 ERROR [db] query timeout after 3000ms request_id=REQ-48213
+2026-01-05 09:17:01 INFO  [api] GET /orders/1001 200 12ms request_id=REQ-48214
+2026-01-05 09:17:03 ERROR [api] POST /orders 500 87ms request_id=REQ-48215
+this line is garbage and should be skipped
+2026-01-05 09:18:30 INFO  [auth] user=carol.smith@example.co.uk logout ip=10.0.0.21
+2026-01-05 09:19:12 WARN  [db] slow query 1450ms request_id=REQ-48216

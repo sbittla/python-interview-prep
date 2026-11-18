@@ -1,0 +1,14 @@
+solve([1, 2, 3])       = [[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]
+brute_force([1, 2, 3]) = [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
+same set of subsets    : True
+solve([])              = [[]]
+count for n=10         = 1024
+recursion tree for [1, 2, 3] (each line is one call = one subset):
+  []
+      [1]
+          [1, 2]
+              [1, 2, 3]
+          [1, 3]
+      [2]
+          [2, 3]
+      [3]

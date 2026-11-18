@@ -1,0 +1,12 @@
+meetings      : [(1, 4), (3, 5), (0, 6), (5, 7), (3, 9), (5, 9), (6, 10), (8, 11), (8, 12), (2, 14), (12, 16)]
+chosen        : [(1, 4), (5, 7), (8, 11), (12, 16)]
+max_activities: 4 | brute force: 4
+min_removals  : 7
+
+rule earliest start   picks 1, optimum is 2
+rule shortest first   picks 1, optimum is 2
+rule fewest conflicts picks 3, optimum is 4
+
+edge: empty      -> 0 0
+edge: touching   -> 3
+edge: identical  -> 1 removals 3

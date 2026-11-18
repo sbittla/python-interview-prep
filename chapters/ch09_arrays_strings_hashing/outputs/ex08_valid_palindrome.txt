@@ -1,0 +1,12 @@
+'A man, a plan, a canal: Panama'   palindrome=True  brute=True
+'race a car'                       palindrome=False  brute=False
+''                                 palindrome=True  brute=True
+' '                                palindrome=True  brute=True
+'.,'                               palindrome=True  brute=True
+'0P'                               palindrome=False  brute=False
+"No 'x' in Nixon"                  palindrome=True  brute=True
+one-delete 'abca'   -> True
+one-delete 'abc'    -> False
+one-delete 'deeee'  -> True
+one-delete 'a'      -> True
+one-delete 'cbbcc'  -> True

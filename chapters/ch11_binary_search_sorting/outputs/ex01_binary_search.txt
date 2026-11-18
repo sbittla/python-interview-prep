@@ -1,0 +1,19 @@
+nums: [-3, 0, 4, 7, 9, 12, 15, 20]
+target=   7: brute/recursive/closed/half-open/exponential = (3, 3, 3, 3, 3)
+target=  -3: brute/recursive/closed/half-open/exponential = (0, 0, 0, 0, 0)
+target=  20: brute/recursive/closed/half-open/exponential = (7, 7, 7, 7, 7)
+target=   5: brute/recursive/closed/half-open/exponential = (-1, -1, -1, -1, -1)
+target= 100: brute/recursive/closed/half-open/exponential = (-1, -1, -1, -1, -1)
+target= -10: brute/recursive/closed/half-open/exponential = (-1, -1, -1, -1, -1)
+empty list: -1 -1
+single element hit/miss: 0 -1
+
+Trace for target 9:
+  lo=0 hi=7 mid=3 nums[mid]=7 -> lo=mid+1
+  lo=4 hi=7 mid=5 nums[mid]=12 -> hi=mid-1
+  lo=4 hi=4 mid=4 nums[mid]=9 -> found
+Trace for target 5:
+  lo=0 hi=7 mid=3 nums[mid]=7 -> hi=mid-1
+  lo=0 hi=2 mid=1 nums[mid]=0 -> lo=mid+1
+  lo=2 hi=2 mid=2 nums[mid]=4 -> lo=mid+1
+  lo=3 hi=2 -> empty interval, return -1

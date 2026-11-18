@@ -1,0 +1,10 @@
+first record: {'ts': '2024-03-01T10:00:01', 'level': 'INFO', 'method': 'GET', 'path': '/api/users', 'status': 200, 'ms': 12}
+valid records: 23
+by level: {'INFO': 16, 'ERROR': 4, 'WARN': 3}
+errors by path: {'/api/payments': 3, '/api/orders': 1}
+warn+error by status: {429: 2, 500: 2, 404: 1, 502: 1, 503: 1}
+slow (>=1000ms) paths: ['/api/payments', '/api/payments', '/api/orders']
+p50 latency ms: 19
+p90 latency ms: 1203
+p99 latency ms: 3001
+parsed sample: [{'ts': '2024-01-01T00:00:00', 'level': 'INFO', 'method': 'GET', 'path': '/x', 'status': 200, 'ms': 5}]

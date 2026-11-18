@@ -1,0 +1,166 @@
+similar words should have similar vectors.
+she restarts the laptop after the crash.
+the horse sleeps in the barn.
+she restarts the laptop after the crash.
+a hungry rabbit runs across the field.
+she cooks pasta in the kitchen.
+the router connects to the network.
+we bake fresh bread for dinner.
+the rabbit eats grass near the farm.
+they eat soup at the table every evening.
+we bake fresh bread for dinner.
+my goat drinks water from the pond.
+the farmer feeds the horse every morning.
+the new laptop runs the program quickly.
+the farmer feeds the rabbit every morning.
+the train stops at the station.
+the printer stores data for the team.
+my rabbit drinks water from the pond.
+my horse drinks water from the pond.
+the horse sleeps in the barn.
+they eat cheese at the table every evening.
+she restarts the router after the crash.
+she parks the car near the road.
+the new laptop runs the program quickly.
+the fast bus travels along the highway.
+she cooks bread in the kitchen.
+she cooks rice in the kitchen.
+my keyboard needs a software update.
+tokenization splits text into smaller units called tokens.
+the young horse plays with the other animals.
+she cooks bread in the kitchen.
+a red train waits at the traffic light.
+the chef serves warm cheese with salt.
+they eat cheese at the table every evening.
+the dog sleeps in the barn.
+she restarts the keyboard after the crash.
+he buys bread at the market.
+she parks the car near the road.
+the old truck needs new tires.
+my horse drinks water from the pond.
+she restarts the router after the crash.
+the new router runs the program quickly.
+the keyboard connects to the network.
+the old train needs new tires.
+my printer needs a software update.
+he drives the train to the city.
+the rabbit eats grass near the farm.
+the new laptop runs the program quickly.
+she restarts the keyboard after the crash.
+she restarts the router after the crash.
+the new server runs the program quickly.
+the new router runs the program quickly.
+the rabbit sleeps in the barn.
+the bread tastes better when it is hot.
+the fast train travels along the highway.
+the young cat plays with the other animals.
+she restarts the keyboard after the crash.
+the new server runs the program quickly.
+a red car waits at the traffic light.
+my rabbit drinks water from the pond.
+she cooks rice in the kitchen.
+the rabbit eats grass near the farm.
+he drives the car to the city.
+the cat sleeps in the barn.
+the farmer feeds the goat every morning.
+they eat cheese at the table every evening.
+my rabbit drinks water from the pond.
+she cooks soup in the kitchen.
+embeddings map tokens to dense vectors of numbers.
+the goat sleeps in the barn.
+the printer connects to the network.
+a red car waits at the traffic light.
+the farmer feeds the horse every morning.
+a red bicycle waits at the traffic light.
+the chef serves warm pasta with salt.
+she restarts the router after the crash.
+he drives the truck to the city.
+he drives the bicycle to the city.
+the chef serves warm rice with salt.
+he buys pasta at the market.
+a hungry horse runs across the field.
+a hungry rabbit runs across the field.
+the router connects to the network.
+the laptop connects to the network.
+my rabbit drinks water from the pond.
+she restarts the keyboard after the crash.
+the young cat plays with the other animals.
+the goat eats grass near the farm.
+she parks the train near the road.
+she restarts the server after the crash.
+the keyboard connects to the network.
+he drives the bus to the city.
+the chef serves warm bread with salt.
+my goat drinks water from the pond.
+the router connects to the network.
+a hungry cat runs across the field.
+the farmer feeds the rabbit every morning.
+we bake fresh bread for dinner.
+my router needs a software update.
+she parks the train near the road.
+the chef serves warm soup with salt.
+the chef serves warm pasta with salt.
+the chef serves warm cheese with salt.
+she cooks pasta in the kitchen.
+she parks the car near the road.
+a hungry cat runs across the field.
+a tokenizer maps tokens to integer ids.
+the old car needs new tires.
+the keyboard connects to the network.
+the printer stores data for the team.
+the horse eats grass near the farm.
+they eat rice at the table every evening.
+a red bus waits at the traffic light.
+the horse sleeps in the barn.
+the rabbit sleeps in the barn.
+the young goat plays with the other animals.
+the chef serves warm soup with salt.
+the new server runs the program quickly.
+the engineer repairs the router at the office.
+he drives the bicycle to the city.
+the engineer repairs the laptop at the office.
+we bake fresh cheese for dinner.
+my cat drinks water from the pond.
+the rice tastes better when it is hot.
+the old bus needs new tires.
+a red bicycle waits at the traffic light.
+they eat pasta at the table every evening.
+the horse eats grass near the farm.
+she parks the car near the road.
+the bus stops at the station.
+the young cat plays with the other animals.
+the new keyboard runs the program quickly.
+a red train waits at the traffic light.
+she restarts the keyboard after the crash.
+she parks the bus near the road.
+the train stops at the station.
+a hungry horse runs across the field.
+my horse drinks water from the pond.
+the newer model is faster than the older model.
+my laptop needs a software update.
+the router connects to the network.
+he drives the bicycle to the city.
+he buys rice at the market.
+the farmer feeds the dog every morning.
+the old truck needs new tires.
+the cat sleeps in the barn.
+a red bicycle waits at the traffic light.
+the router stores data for the team.
+we bake fresh bread for dinner.
+she parks the car near the road.
+the bicycle stops at the station.
+the engineer repairs the printer at the office.
+the new printer runs the program quickly.
+the fast car travels along the highway.
+she restarts the printer after the crash.
+a red car waits at the traffic light.
+the server stores data for the team.
+she cooks bread in the kitchen.
+the goat sleeps in the barn.
+the new laptop runs the program quickly.
+the lowest price is lower than the newest price.
+she parks the bus near the road.
+the keyboard connects to the network.
+they eat soup at the table every evening.
+the chef serves warm bread with salt.
+they eat bread at the table every evening.

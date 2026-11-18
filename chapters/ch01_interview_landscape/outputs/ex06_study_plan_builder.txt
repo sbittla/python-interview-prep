@@ -1,0 +1,16 @@
+6 weeks x 15 h, fast_track=True, track S -> crash-4
+10 weeks x 11 h, fast_track=False, track M -> standard-8
+12 weeks x 7 h, fast_track=False, track L -> foundations-12
+5 weeks x 10 h, fast_track=False, track S -> crash-4  (warning: tight timeline, consider postponing)
+
+standard-8 for track L:
+  Week 1: Playbook, Big-O, Python essentials, gotchas, arrays/strings/hashing (Ch. 1-9)
+  Week 2: Two pointers, sliding window, prefix sums, binary search, sorting (Ch. 10-11)
+  Week 3: Stacks, queues, linked lists, recursion and trees (Ch. 12-14)
+  Week 4: Heaps, top-K, graphs (Ch. 15-17) + mock #1
+  Week 5: Backtracking, DP, greedy, intervals (Ch. 18-21)
+  Week 6: Track part 1: Ch. 38-40
+  Week 7: Track part 2: Ch. 41-43
+  Week 8: Two full mocks, weak-area repair, revision (Ch. 44-48)
+
+Error: not enough time

@@ -1,0 +1,7 @@
+'A man, a plan, a canal: Panama'     -> True   brute agrees: True
+'race a car'                         -> False  brute agrees: True
+''                                   -> True   brute agrees: True
+' '                                  -> True   brute agrees: True
+'.,'                                 -> True   brute agrees: True
+'0P'                                 -> False  brute agrees: True
+"No 'x' in Nixon"                    -> True   brute agrees: True

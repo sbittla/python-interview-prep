@@ -1,0 +1,5 @@
+a: 1 2 3 | b: 110 120 | a now 3 b now 120
+running means: [10.0, 15.0, 30.0, 25.0]
+closure cells: [10, 120]
+UnboundLocalError: cannot access local variable 'count' where it is not associated with a value
+global version: 1 2

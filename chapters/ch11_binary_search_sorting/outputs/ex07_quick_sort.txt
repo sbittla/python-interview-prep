@@ -1,0 +1,12 @@
+Lomuto partition of [3, 6, 1, 8, 2, 9, 2] around pivot 2: [1, 2, 3, 8, 2, 9, 6], pivot index 1
+Hoare partition of [3, 6, 1, 8, 2, 9, 2] around pivot 8: [3, 6, 1, 2, 2, 9, 8], split after 4
+3-way partition of [2, 1, 2, 3, 2, 0, 2] around 2: [1, 0, 2, 2, 2, 2, 3], equal block [2..5]
+sample: [40, 7, 1, 47, 17, 15, 14, 8, 47, 6, 43, 47, 34, 5, 37]
+lomuto : [1, 5, 6, 7, 8, 14, 15, 17, 34, 37, 40, 43, 47, 47, 47]
+hoare  : [1, 5, 6, 7, 8, 14, 15, 17, 34, 37, 40, 43, 47, 47, 47]
+3-way  : [1, 5, 6, 7, 8, 14, 15, 17, 34, 37, 40, 43, 47, 47, 47]
+naive  : [1, 5, 6, 7, 8, 14, 15, 17, 34, 37, 40, 43, 47, 47, 47]
+all agree with sorted(): True
+sort colours: [0, 0, 1, 1, 2, 2]
+all equal: [7, 7, 7, 7, 7, 7]  empty: []  one: [4]
+sorted input of 3000 with random pivot ok: True

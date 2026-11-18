@@ -1,0 +1,6 @@
+numpy>=1.26
+pandas>=2.1
+pytest>=8.0
+# CPU build of PyTorch (Chapters 37 and 39):
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch>=2.2

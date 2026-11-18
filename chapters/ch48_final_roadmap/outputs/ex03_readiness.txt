@@ -1,0 +1,58 @@
+== Candidate A (SWE, 3 weeks out) | track S
+  python_fluency     w=3  #### 4/4
+  complexity         w=3  ###  3/4
+  arrays_hashing     w=4  #### 4/4
+  linear_structures  w=3  ###  3/4
+  trees_graphs       w=4  ##   2/4
+  techniques         w=3  #    1/4
+  practical          w=3  ###  3/4
+  concurrency        w=2  ##   2/4
+  communication      w=3  ###  3/4
+  self-assessment :  70.5
+  mock evidence   :  66.5
+  readiness       :  69.3 -> ALMOST
+  gate            : critical gap in techniques
+  repair techniques         (-9 pts) chapters [18, 19, 20, 21]
+  repair trees_graphs       (-8 pts) chapters [14, 15, 16, 17]
+  repair concurrency        (-4 pts) chapters [27, 28]
+
+== Candidate B (GenAI/LLM, 10 days out) | track L
+  python_fluency     w=3  #### 4/4
+  complexity         w=2  ###  3/4
+  arrays_hashing     w=3  ###  3/4
+  linear_structures  w=2  ###  3/4
+  trees_graphs       w=2  ###  3/4
+  techniques         w=2  ###  3/4
+  practical          w=2  ###  3/4
+  concurrency        w=2  ###  3/4
+  data_ml            w=1  ###  3/4
+  genai              w=4  #### 4/4
+  communication      w=3  #### 4/4
+  self-assessment :  84.6
+  mock evidence   :  85.0
+  readiness       :  84.7 -> READY
+  repair arrays_hashing     (-3 pts) chapters [9, 10, 11]
+  repair complexity         (-2 pts) chapters [8, 22]
+  repair concurrency        (-2 pts) chapters [27, 28]
+
+== Candidate C (Data/ML, 5 weeks out) | track M
+  python_fluency     w=3  ##   2/4
+  complexity         w=2  ##   2/4
+  arrays_hashing     w=3  ##   2/4
+  linear_structures  w=2  #    1/4
+  trees_graphs       w=2  #    1/4
+  techniques         w=2  #    1/4
+  practical          w=2  ##   2/4
+  concurrency        w=1  #    1/4
+  data_ml            w=4  ###  3/4
+  genai              w=1  #    1/4
+  communication      w=3  ##   2/4
+  self-assessment :  46.0
+  mock evidence   : none (score capped at 70)
+  readiness       :  46.0 -> NOT YET
+  repair arrays_hashing     (-6 pts) chapters [9, 10, 11]
+  repair communication      (-6 pts) chapters [2, 46, 47]
+  repair linear_structures  (-6 pts) chapters [12, 13]
+
+Weights per track (sum): {'L': 26, 'M': 25, 'S': 28}
+invalid input -> missing ratings: arrays_hashing, communication, complexity, concurrency, data_ml, genai, linear_structures, practical, techniques, trees_graphs

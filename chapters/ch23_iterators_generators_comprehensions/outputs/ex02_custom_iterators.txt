@@ -1,0 +1,9 @@
+iter(c) is c: True
+first pass : [3, 2, 1]
+second pass: [] (exhausted)
+StepRange(0, 10, 3) -> [0, 3, 6, 9] again: [0, 3, 6, 9] len: 4
+StepRange(10, 0, -4) -> [10, 6, 2] len: 3
+StepRange(5, 5, 1) -> [] len: 0
+len matches range: True
+manual_for: [1, 2, 3]
+ValueError: step must not be zero

@@ -1,0 +1,11 @@
+even_squares: [4, 16, 36]
+even_squares([]): []
+word_lengths: {'python': 6, 'is': 2, 'fun': 3}
+invert: {'A': ['ann', 'cid'], 'B': ['bob', 'eve'], 'C': ['dee']}
+invert_one_pass: {'A': ['ann', 'cid'], 'B': ['bob', 'eve'], 'C': ['dee']}
+same result: True
+transpose: [[1, 4], [2, 5], [3, 6]]
+transpose([]): []
+bad grid : [[9, 0, 0], [9, 0, 0], [9, 0, 0]]
+good grid: [[9, 0, 0], [0, 0, 0], [0, 0, 0]]
+first letters: ['a', 'b', 'c']

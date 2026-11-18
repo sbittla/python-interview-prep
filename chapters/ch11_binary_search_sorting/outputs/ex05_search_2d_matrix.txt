@@ -1,0 +1,15 @@
+(a) target= 3: virtual-1D=True brute=True
+(a) target=13: virtual-1D=False brute=False
+(a) target=60: virtual-1D=True brute=True
+(a) target= 1: virtual-1D=True brute=True
+(a) target= 0: virtual-1D=False brute=False
+(a) target=61: virtual-1D=False brute=False
+(a) index 6 maps to row/col: (1, 2) -> 16
+(b) target= 5: staircase=True brute=True
+(b) target=20: staircase=False brute=False
+(b) target=30: staircase=True brute=True
+(b) target=18: staircase=True brute=True
+(b) target= 0: staircase=False brute=False
+(c) all k: [1, 5, 9, 10, 11, 12, 13, 13, 15]
+(c) heap agrees: [1, 5, 9, 10, 11, 12, 13, 13, 15]
+empty matrix: False False False

@@ -1,0 +1,11 @@
+symbol freq code
+  a      5  1100
+  b      9  1101
+  c     12  100
+  d     13  101
+  e     16  111
+  f     45  0
+weighted length: 224 | cost(): 224 | fixed 3-bit: 300
+encode 'abacabadf' -> 1100110111001001100110111001010
+decode back -> 'abacabadf'
+single symbol: {'z': '0'} cost 4

@@ -1,0 +1,10 @@
+slicing : [[0, 1, 2], [3, 4, 5], [6]]
+manual  : [[0, 1, 2], [3, 4, 5], [6]]
+islice  : [[0, 1, 2], [3, 4, 5], [6]]
+exact   : [['a', 'b'], ['c', 'd'], ['e', 'f']]
+empty   : []
+padded  : [('a', 'b', 'c'), ('d', 'e', 'f'), ('g', '-', '-')]
+zip trick drops tail: [(0, 1, 2), (3, 4, 5)]
+from generator: [[0, 1, 4, 9], [16, 25, 36, 49], [64, 81]]
+infinite stream, first two chunks: [0, 1, 2, 3, 4] [5, 6, 7, 8, 9]
+ValueError: n must be >= 1

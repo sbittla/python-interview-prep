@@ -1,0 +1,14 @@
+coin systems (amount -> greedy / optimal):
+  [1, 5, 10, 25]: canonical up to 100
+  [1, 3, 4]: first failure at 6: greedy 3, optimal 2
+  [1, 7, 10]: first failure at 14: greedy 5, optimal 2
+  [1, 15, 25]: first failure at 30: greedy 6, optimal 2
+  [1, 2, 5, 10, 20, 50, 100, 200]: canonical up to 100
+  [3, 5]: first failure at 6: greedy -1, optimal 2
+  [3, 5] amount 7 -> greedy -1 | optimal -1
+  [3, 5] amount 9 -> greedy -1 | optimal 3
+
+items (value, weight): [(60, 10), (100, 20), (120, 30)] capacity 50
+  fractional greedy        : 240.0
+  0/1 greedy by ratio      : 160
+  0/1 dynamic programming  : 220

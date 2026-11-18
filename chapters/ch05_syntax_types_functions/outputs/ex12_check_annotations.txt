@@ -1,0 +1,9 @@
+hints are not enforced: ababab
+raw __annotations__   : {'w': 'int', 'h': 'int', 'label': 'str | None', 'return': 'int'}
+resolved hints        : {'w': 'int', 'h': 'int', 'label': 'str | None', 'return': 'int'}
+['h: expected int, got str']
+[]
+['h: expected int, got float', 'label: expected str | None, got int', 'w: expected int, got bool']
+['verbose: expected bool, got str', 'xs: expected list[float], got tuple']
+brute misses string hints: []
+TypeError: too many positional arguments

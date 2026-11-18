@@ -1,0 +1,32 @@
+Interview: Thu 2026-12-03 10:00 | virtual | 60-minute coding round
+
+[ ] Thu 2026-11-19 10:00   T-14d  Start weak-area repair: top 3 areas from the readiness scorer
+[ ] Thu 2026-11-26 10:00    T-7d  Last full mock under real timing; score it with the rubric
+[ ] Tue 2026-12-01 10:00   T-48h  Stop new topics. Revise summary cards, gotchas, complexity table
+[ ] Wed 2026-12-02 10:00   T-24h  Light review only: 2 easy warm-ups, re-read the playbook; sleep early
+[ ] Wed 2026-12-02 10:00   T-24h  Test camera, mic, screen share and the interview editor link
+[ ] Thu 2026-12-03 07:00    T-3h  Breakfast/water; one warm-up problem you have solved before
+[ ] Thu 2026-12-03 09:30   T-30m  Open blank editor, pen and paper; notifications off
+[ ] Thu 2026-12-03 09:30   T-30m  Quiet room, charger plugged in, backup hotspot ready
+[ ] Thu 2026-12-03 09:55    T-5m  Breathe; first sentence ready: restate the problem
+[ ] Thu 2026-12-03 11:00    T+1h  Write notes: questions, what went well, what to fix
+[ ] Fri 2026-12-04 10:00   T+24h  Send a short thank-you; log problems into the practice log
+
+Phase plan:
+  10:00  intro         3 min
+  10:03  clarify       5 min
+  10:08  examples      4 min
+  10:12  brute force   4 min
+  10:16  optimise      6 min
+  10:22  code         23 min
+  10:45  test         10 min
+  10:55  questions     5 min
+
+45-minute round: intro 2, clarify 4, examples 3, brute force 3, optimise 5, code 17, test 7, questions 4  (sum 45)
+90-minute round: intro 5, clarify 8, examples 6, brute force 6, optimise 9, code 34, test 15, questions 7  (sum 90)
+
+Onsite differences:
+[ ] Wed 2026-12-09 13:30   T-24h  Plan the route, pack ID, confirm the host's name and building
+[ ] Thu 2026-12-10 12:45   T-45m  Arrive 15 minutes early; find the reception
+phase_plan(10) -> ValueError: round length must be 20-120 minutes
+phase_plan(150) -> ValueError: round length must be 20-120 minutes

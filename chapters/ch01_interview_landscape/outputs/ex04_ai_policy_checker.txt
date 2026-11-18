@@ -1,0 +1,9 @@
+coding         verified     forbidden
+practical      likely       partial
+system_design  conflicting  None
+take_home      unverified   None
+
+Questions to send the recruiter:
+ - Are AI assistants (chat or autocomplete) allowed in the take_home round?
+ - Could you confirm by email that the practical round policy is still 'partial'?
+ - I have received different answers about AI tools in the system_design round. Could you confirm the current policy in writing?

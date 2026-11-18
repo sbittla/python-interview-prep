@@ -1,0 +1,15 @@
+Backend Engineer   scores={'S': 5, 'M': 0, 'L': 0} -> track S
+    parts:   0 I II III IV V VIII
+    reasons: ['apis', 'backend', 'databases']
+Data Scientist     scores={'S': 0, 'M': 8, 'L': 0} -> track M
+    parts:   0 I II III V VI VIII
+    reasons: ['data', 'pandas', 'scientist', 'statistics']
+LLM Engineer       scores={'S': 0, 'M': 0, 'L': 5} -> track L
+    parts:   0 II III IV V VII VIII
+    reasons: ['embeddings', 'llm', 'rag']
+ML engineer        scores={'S': 0, 'M': 3, 'L': 3} -> track M
+    parts:   0 I II III V VI VIII
+    reasons: ['ml']
+Engineer           scores={'S': 0, 'M': 0, 'L': 0} -> track S
+    parts:   0 I II III IV V VIII
+    reasons: []

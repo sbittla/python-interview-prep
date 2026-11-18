@@ -1,0 +1,12 @@
+k=1: quickselect=6 heap=6 sort=6
+k=2: quickselect=5 heap=5 sort=5
+k=3: quickselect=4 heap=4 sort=4
+k=4: quickselect=3 heap=3 sort=3
+k=5: quickselect=2 heap=2 sort=2
+k=6: quickselect=1 heap=1 sort=1
+duplicates, k=4: 4 4 4
+all equal, k=3: 7
+single element: 42
+median of [9, 1, 8, 2, 7, 3, 6]: 6
+random 2000 values, all k in steps of 250 agree: True
+2 closest points: [(-2, 2), (0, 1)]

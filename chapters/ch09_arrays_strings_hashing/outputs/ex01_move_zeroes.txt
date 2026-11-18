@@ -1,0 +1,6 @@
+[0, 1, 0, 3, 12]       -> [1, 3, 12, 0, 0]  (brute=True, bubble=True)
+[0]                    -> [0]  (brute=True, bubble=True)
+[]                     -> []  (brute=True, bubble=True)
+[1, 2, 3]              -> [1, 2, 3]  (brute=True, bubble=True)
+[0, 0, 1]              -> [1, 0, 0]  (brute=True, bubble=True)
+[4, 0, -2, 0, 0, 7]    -> [4, -2, 7, 0, 0, 0]  (brute=True, bubble=True)

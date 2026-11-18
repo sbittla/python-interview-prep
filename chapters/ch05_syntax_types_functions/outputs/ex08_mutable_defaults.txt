@@ -1,0 +1,7 @@
+buggy 1: ['ada']
+buggy 2: ['ada', 'grace'] <- leaked from call 1
+hidden default now: (['ada', 'grace'],)
+fixed 1: ['ada']
+fixed 2: ['grace']
+caller's empty list is mutated: True ['linus']
+tag_counts: {'a': 2, 'b': 1} {'c': 1}

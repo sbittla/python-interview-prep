@@ -1,0 +1,42 @@
+from __future__ import annotations
+
+from typing import Optional
+
+import pytest
+
+
+def area(w: int, h: int = 1, label: str | None = None) -> int:
+    return w * h
+
+
+def mixed(xs: list[int], scale: float, name, flag: Optional[bool] = None, *, extra: dict[str, int] | None = None):
+    return None
+
+
+def test_examples(load):
+    m = load("ex12_check_annotations")
+    assert m.solve(area, 3, "4") == ["h: expected int, got str"]
+    assert m.solve(area, 3, 4, label=None) == []
+
+
+def test_bool_is_not_int_and_unions(load):
+    m = load("ex12_check_annotations")
+    assert m.solve(area, True, 2.5, label=7) == [
+        "h: expected int, got float", "label: expected str | None, got int", "w: expected int, got bool"]
+
+
+def test_generics_float_and_unannotated(load):
+    m = load("ex12_check_annotations")
+    assert m.solve(mixed, [1], 2, object()) == []      # an int is accepted for float
+    errors = m.solve(mixed, (1,), "s", 1, flag=1, extra=[])
+    assert [e.split(":")[0] for e in errors] == ["extra", "flag", "scale", "xs"]
+    assert "scale: expected float, got str" in errors
+    assert "xs: expected list[int], got tuple" in errors
+
+
+def test_binding_errors(load):
+    m = load("ex12_check_annotations")
+    with pytest.raises(TypeError):
+        m.solve(area, 1, 2, 3, 4)
+    with pytest.raises(TypeError):
+        m.solve(area)

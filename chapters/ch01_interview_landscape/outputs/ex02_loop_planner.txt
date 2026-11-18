@@ -1,0 +1,10 @@
+SWE loop, 40 h: {'behavioural': 2, 'coding': 24, 'phone_screen': 5, 'system_design': 9}
+ML loop,  40 h: {'behavioural': 3, 'coding': 14, 'ml_coding': 14, 'online_assessment': 9}
+Sum check: True
+
+SWE loop over 3 weeks x 12 h:
+  Week 1: behavioural=1, coding=7, phone_screen=2, system_design=3
+  Week 2: behavioural=1, coding=7, phone_screen=1, system_design=3
+  Week 3: coding=7, phone_screen=1, system_design=3
+
+Error: unknown round type: trivia

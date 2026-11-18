@@ -1,0 +1,7 @@
+nums=[2, 7, 11, 15]     target=9   -> (0, 1)  brute=(0, 1)
+nums=[3, 2, 4]          target=6   -> (1, 2)  brute=(1, 2)
+nums=[3, 3]             target=6   -> (0, 1)  brute=(0, 1)
+nums=[1, 2]             target=7   -> None  brute=None
+nums=[]                 target=0   -> None  brute=None
+nums=[-3, 4, 3, 90]     target=0   -> (0, 2)  brute=(0, 2)
+nums=[5, 1, 5, 1]       target=6   -> (0, 1)  brute=(0, 1)

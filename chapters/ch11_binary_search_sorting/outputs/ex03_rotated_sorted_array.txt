@@ -1,0 +1,15 @@
+rotated by 0: [0, 1, 2, 4, 5, 6, 7] min=0 rotations=0
+rotated by 3: [4, 5, 6, 7, 0, 1, 2] min=0 rotations=4
+rotated by 6: [7, 0, 1, 2, 4, 5, 6] min=0 rotations=1
+target=0: one-pass=4 two-pass=4 brute=4
+target=4: one-pass=0 two-pass=0 brute=0
+target=2: one-pass=6 two-pass=6 brute=6
+target=7: one-pass=3 two-pass=3 brute=3
+target=3: one-pass=-1 two-pass=-1 brute=-1
+target=8: one-pass=-1 two-pass=-1 brute=-1
+single [1] find 1 / 0: 0 -1
+two elements [3,1] find 1: 1
+empty: -1
+duplicates [2,5,6,0,0,1,2] has 0: True
+duplicates [2,5,6,0,0,1,2] has 3: False
+duplicates [1,1,1,1,0,1] has 0: True

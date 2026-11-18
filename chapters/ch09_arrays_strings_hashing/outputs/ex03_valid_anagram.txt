@@ -1,0 +1,6 @@
+'listen'     'silent'     -> True  (all methods agree: True)
+'rat'        'car'        -> False  (all methods agree: True)
+''           ''           -> True  (all methods agree: True)
+'a'          'A'          -> False  (all methods agree: True)
+'aab'        'abb'        -> False  (all methods agree: True)
+'dormitory'  'dirtyroom'  -> True  (all methods agree: True)

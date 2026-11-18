@@ -1,0 +1,14 @@
+[2, 3, 1, 1, 4]  can_reach=True  (dp True ) min_jumps= 2 (dp 2)
+[3, 2, 1, 0, 4]  can_reach=False (dp False) min_jumps=-1 (dp -1)
+[0]              can_reach=True  (dp True ) min_jumps= 0 (dp 0)
+[1, 0]           can_reach=True  (dp True ) min_jumps= 1 (dp 1)
+[0, 1]           can_reach=False (dp False) min_jumps=-1 (dp -1)
+[2, 0, 0]        can_reach=True  (dp True ) min_jumps= 1 (dp 1)
+[1, 1, 1, 1]     can_reach=True  (dp True ) min_jumps= 3 (dp 3)
+
+trace of min_jumps on [2, 3, 1, 1, 2, 4, 2, 0, 1, 1]
+  layer 1: indices up to 2
+  layer 2: indices up to 4
+  layer 3: indices up to 6
+  layer 4: indices up to 9
+answer: 4

@@ -1,0 +1,7 @@
+eager    : [1, 2, 3, 4, 5, 'ab', 6]
+recursive: [1, 2, 3, 4, 5, 'ab', 6]
+iterative: [1, 2, 3, 4, 5, 'ab', 6]
+atom input: ['hello'] [7]
+recursive on depth 5000: RecursionError
+iterative on depth 5000: [42]
+first item of huge: 0

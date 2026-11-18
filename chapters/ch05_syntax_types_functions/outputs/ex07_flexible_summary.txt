@@ -1,0 +1,9 @@
+{'count': 3, 'mean': 2.0, 'min': 1, 'max': 3}
+{'count': 2, 'mean': 1.5, 'min': 1, 'max': 2, 'unit': 'ms', 'source': 'probe-7'}
+unpacked list: {'count': 3, 'mean': 3.292, 'min': 2.5, 'max': 4.125}
+brute agrees : True
+ValueError: no values
+TypeError: None in values
+ValueError: label clashes: count
+result: {'count': 3, 'mean': 2.0, 'min': 1, 'max': 3}
+SyntaxError: positional argument follows keyword argument

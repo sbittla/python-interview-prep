@@ -1,0 +1,10 @@
+input     bubble swaps selection swaps insertion shifts
+sorted               0               0                0
+reversed            15               3               15
+random               9               3                9
+all agree: True
+input cards : [2a, 2b, 1c]
+bubble      : [1c, 2a, 2b]
+selection   : [1c, 2b, 2a] <- 2a and 2b swapped: not stable
+insertion   : [1c, 2a, 2b]
+edge cases: [] [1] [1, 2, 2]

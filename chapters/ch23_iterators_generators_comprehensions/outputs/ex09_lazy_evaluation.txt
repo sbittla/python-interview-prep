@@ -1,0 +1,9 @@
+eager result: 64 | items pulled: 1000000
+lazy result : 64 | items pulled: 9
+all even? False | pulled: 3
+any even? True | pulled: 3
+first on infinite count(): 97
+first with default: nothing
+generator object smaller than list: True
+generator size independent of n: True
+sum twice: 14 0
