@@ -123,7 +123,7 @@ def main() -> None:
         ("user", "Can I return one if it does not fit?"),
     ]
     print("\nmessage costs:", [message_cost(t) for _, t in chat])
-    for window in [120, 60, 40]:
+    for window in [120, 60, 45]:
         kept = fit_messages(chat, window, reserve_for_output=16)
         used = sum(message_cost(t) for _, t in kept)
         print(f"window={window:3d} reserve=16 -> kept {len(kept)} msgs, {used} tokens: "

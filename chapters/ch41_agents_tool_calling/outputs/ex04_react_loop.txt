@@ -1,0 +1,55 @@
+== happy path: stop=final_answer steps=4 answer=777000
+    Thought: I need Lisbon's population.
+    Action: lookup[population of Lisbon]
+    Observation: 545000
+    Thought: Now Porto.
+    Action: lookup[population of Porto]
+    Observation: 232000
+    Thought: Add them.
+    Action: calculate[545000 + 232000]
+    Observation: 777000
+    Final Answer: 777000
+== recovers from tool error: stop=final_answer steps=3 answer=545000
+    Thought: Look it up.
+    Action: lookup[Lisbon]
+    Observation: error: KeyError: "no fact for 'Lisbon'"
+    Thought: Wrong key, be specific.
+    Action: lookup[population of Lisbon]
+    Observation: 545000
+    Final Answer: 545000
+== stuck in a loop: stop=repeated_action steps=2 answer=None
+    Thought: Search.
+    Action: lookup[population of Porto]
+    Observation: 232000
+== never parses: stop=parse_errors steps=2 answer=None
+    Observation: error: expected 'Action: tool[input]' or 'Final Answer: ...'
+== rambles forever: stop=max_steps steps=4 answer=None
+    Thought: try 1.
+    Action: calculate[1 + 1]
+    Observation: 2
+    Thought: try 2.
+    Action: calculate[2 + 2]
+    Observation: 4
+    Thought: try 3.
+    Action: calculate[3 + 3]
+    Observation: 6
+    Thought: try 4.
+    Action: calculate[4 + 4]
+    Observation: 8
+== last prompt sent in the happy path:
+Answer the question. Use this format:
+Thought: <reasoning>
+Action: <tool>[<input>]   (tools: calculate, lookup)
+or
+Final Answer: <answer>
+
+Question: What is the combined population of Lisbon and Porto?
+Thought: I need Lisbon's population.
+Action: lookup[population of Lisbon]
+Observation: 545000
+Thought: Now Porto.
+Action: lookup[population of Porto]
+Observation: 232000
+Thought: Add them.
+Action: calculate[545000 + 232000]
+Observation: 777000

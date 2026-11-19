@@ -1,0 +1,7 @@
+longest_outage: (4, 3) | brute: (4, 3)
+no outage: (-1, 0) | empty: (-1, 0)
+running balances: [100, 70, 120, 30, 40]
+lowest_balance: 30 | brute: 30
+pairs <= 8: [('bun', 'cake'), ('bun', 'tea'), ('cake', 'tea')]
+codes '1234' len 3: reuse = 64 | no reuse = 24
+runs of 'aaabccdd': [('a', 3), ('b', 1), ('c', 2), ('d', 2)]

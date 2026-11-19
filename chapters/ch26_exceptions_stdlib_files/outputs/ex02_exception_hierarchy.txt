@@ -1,0 +1,15 @@
+== hierarchy ==
+ValidationError  code=VALIDATION  status=400 is AppError: True
+NotFoundError    code=NOT_FOUND   status=404 is AppError: True
+ConflictError    code=CONFLICT    status=409 is AppError: True
+NotFoundError is LookupError: True
+
+== boundary ==
+create {'username': 'ada', 'email': 'ada@example.com'} -> {'status': 200, 'data': {'username': 'ada', 'email': 'ada@example.com'}}
+create {'username': 'ada', 'email': 'ada@example.com'} -> {'status': 409, 'error': {'code': 'CONFLICT', 'message': "user 'ada' already exists", 'details': {'username': 'ada'}}}
+create {'username': 'X!', 'email': 'nope'} -> {'status': 400, 'error': {'code': 'VALIDATION', 'message': 'invalid user', 'details': {'username': '3-20 chars of a-z, 0-9, _', 'email': 'must look like name@domain.tld'}}}
+get    {'username': 'ada'} -> {'status': 200, 'data': {'username': 'ada', 'email': 'ada@example.com'}}
+get    {'username': 'grace'} -> {'status': 404, 'error': {'code': 'NOT_FOUND', 'message': "no user 'grace'", 'details': {'username': 'grace'}}}
+
+== bugs still propagate ==
+KeyError escaped the boundary: 'delete'

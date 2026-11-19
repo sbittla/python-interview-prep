@@ -1,0 +1,11 @@
+start          : 10 -> 20 -> 30 -> None length 3
+insert_at(0,5) : 5 -> 10 -> 20 -> 30 -> None
+insert_at(4,40): 5 -> 10 -> 20 -> 30 -> 40 -> None
+delete_at(2)   : 5 -> 10 -> 30 -> 40 -> None
+reverse        : 40 -> 30 -> 10 -> 5 -> None
+recursive      : 3 -> 2 -> 1 -> None
+reverse []     : None
+delete_at([1], 1) -> IndexError 1
+iterative 100000 nodes, new head: 99999
+recursion limit: 1000
+recursive 5000 nodes -> RecursionError

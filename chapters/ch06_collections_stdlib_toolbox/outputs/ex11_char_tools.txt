@@ -1,0 +1,14 @@
+first_unique('swiss') = 1  brute = 1
+first_unique('leetcode') = 0  brute = 0
+first_unique('aabb') = -1  brute = -1
+first_unique('') = -1  brute = -1
+first_unique('z') = 0  brute = 0
+shift('Hello, World!', 3) = 'Khoor, Zruog!'  translate agrees: True
+shift('xyz ABC', 2) = 'zab CDE'  translate agrees: True
+shift('abc', -1) = 'zab'  translate agrees: True
+shift('abc', 53) = 'bcd'  translate agrees: True
+shift('café', 1) = 'dbgé'  translate agrees: True
+profile('Abba')[:3] = (2, 2, 0) | len = 26
+anagrams listen/silent: True
+ord('a') = 97 | chr(90) = Z | '-'.join('abc') = a-b-c
+'a,b,,c'.split(',') = ['a', 'b', '', 'c'] | ' a  b '.split() = ['a', 'b']

@@ -1,0 +1,13 @@
+  1__
+ /   \
+2     3
+     / \
+    4   5
+dfs: 1,2,#,#,3,4,#,#,5,#,# -> [1, 2, 3, None, None, 4, 5]
+bfs: 1,2,3,#,#,4,5 -> [1, 2, 3, None, None, 4, 5]
+[]                   dfs='#'                    bfs=''               ok=True
+[-7]                 dfs='-7,#,#'               bfs='-7'             ok=True
+[10, -20, None, 300] dfs='10,-20,300,#,#,#,#'   bfs='10,-20,#,300'   ok=True
+[1, 1, 1]            dfs='1,1,#,#,1,#,#'        bfs='1,1,1'          ok=True
+no markers: 1,2 vs 1,2 -> ambiguous
+bfs codec on 100000-node chain round-trips: True

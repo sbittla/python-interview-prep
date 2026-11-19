@@ -1,0 +1,9 @@
+n=0    sum=0      depth linear=1    halves=1   loop=0
+n=1    sum=0      depth linear=2    halves=1   loop=0
+n=8    sum=28     depth linear=9    halves=4   loop=0
+n=100  sum=4950   depth linear=101  halves=8   loop=0
+n=900  sum=404550 depth linear=901  halves=11  loop=0
+sum_linear n=5000 raises RecursionError: True
+sum_halves n=5000 raises RecursionError: False
+sum_loop   n=5000 raises RecursionError: False
+sum_halves depth at n=10**6: 21

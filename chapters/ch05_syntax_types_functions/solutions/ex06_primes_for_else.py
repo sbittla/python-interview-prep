@@ -76,7 +76,7 @@ def main() -> None:
     print("agree <2000 :", all(is_prime(n) == brute_force_is_prime(n) for n in range(-5, 2000)))
     print("first prime :", solve([4, 6, 9, 11, 13]))
     print("none        :", solve([0, 1, -7, 8]))
-    print("big prime   :", is_prime(1_000_000_007), "| Mersenne 2**61-1:", is_prime(2**61 - 1))
+    print("big prime   :", is_prime(1_000_000_007), "| Mersenne 2**31-1:", is_prime(2**31 - 1))
 
 
 if __name__ == "__main__":

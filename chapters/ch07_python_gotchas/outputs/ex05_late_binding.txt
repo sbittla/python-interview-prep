@@ -1,0 +1,4 @@
+buggy multipliers: [20, 20, 20]
+fixed multipliers: [0, 10, 20]
+buggy counter: UnboundLocalError
+fixed counter: [1, 2, 3]

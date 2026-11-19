@@ -1,0 +1,4 @@
+buggy remove_evens([2, 4, 6, 1]): [4, 1]
+fixed remove_evens([2, 4, 6, 1]): [1]
+buggy drop_zero_counts: RuntimeError - dictionary changed size during iteration
+fixed drop_zero_counts: {'b': 2}

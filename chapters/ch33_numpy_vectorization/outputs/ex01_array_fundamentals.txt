@@ -1,0 +1,35 @@
+== creation functions ==
+zeros   : [0. 0. 0.]
+ones int: [1 1 1]
+arange  : [0 3 6 9]
+linspace: [0.   0.25 0.5  0.75 1.  ]
+full    : [[7 7]
+ [7 7]]
+eye     :
+[[1 0 0]
+ [0 1 0]
+ [0 0 1]]
+
+== dtype upcasting ==
+[1, 2.5]      -> float64
+[1, True]     -> int64
+['a', 1]      -> <U21
+int32 + f32   -> float64
+
+== array_info ==
+{'shape': (2, 3), 'ndim': 2, 'size': 6, 'dtype': 'float32', 'nbytes': 24}
+{'shape': (5,), 'ndim': 1, 'size': 5, 'dtype': 'int64', 'nbytes': 40}
+{'shape': (0, 4), 'ndim': 2, 'size': 0, 'dtype': 'float64', 'nbytes': 0}
+
+== overflow and safe_sum ==
+int8 elementwise 100+100 : [-56 -56]
+safe_sum(int8)           : 300
+safe_sum(uint8 x1000)    : 255000
+astype float -> int truncates: [ 1 -1]
+
+== make_grid ==
+[[ 0  1  2  3]
+ [ 4  5  6  7]
+ [ 8  9 10 11]]
+loop == vectorised: True
+empty grid shape  : (0, 5)

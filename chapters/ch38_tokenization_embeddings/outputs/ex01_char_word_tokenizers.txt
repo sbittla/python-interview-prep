@@ -1,0 +1,21 @@
+corpus lines: 166
+char vocab size: 29  first 12: ['<pad>', '<unk>', ' ', '.', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+word vocab size (min_freq=2): 116  top 8: ['the', '.', 'she', 'at', 'a', 'to', 'in', 'runs']
+
+sample: 'The engineer repairs the laptop.'
+char ids (32): [1, 11, 8, 2, 8, 16, 10, 12, 16, 8, 8, 20, 2, 20, 8, 18] ...
+word ids (6): [2, 96, 101, 2, 37, 3]
+char round trip exact: False
+word round trip: 'the engineer repairs the laptop.'  (case lost)
+
+unseen: 'The astronaut repairs the spaceship in orbit!'
+word ids: [2, 1, 101, 2, 1, 8, 1, 1]
+word decode: 'the <unk> repairs the <unk> in <unk> <unk>'
+word OOV rate: 0.500
+char OOV count: 2
+char unk for emoji: [11, 12, 2, 1]
+
+length comparison (tokens per sentence):
+  chars= 42 words= 7  similar words should have similar vectors.
+  chars= 40 words= 8  she restarts the laptop after the crash.
+  chars= 29 words= 7  the horse sleeps in the barn.

@@ -12,6 +12,11 @@ from pathlib import Path
 
 import pytest
 
+# Cap BLAS threads before any test imports numpy/torch: deterministic and avoids OpenBLAS
+# buffer-allocation failures on many-core machines.
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "4")
+os.environ.setdefault("OMP_NUM_THREADS", "4")
+
 
 @pytest.fixture
 def load(request):

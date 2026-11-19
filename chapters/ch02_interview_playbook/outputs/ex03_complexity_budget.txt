@@ -1,0 +1,12 @@
+Largest class that fits in ~1 s at 10^7 simple ops/s:
+  n =            10: O(n!)
+  n =            20: O(2^n)
+  n =           500: O(n^2)
+  n =         3,000: O(n^2)
+  n =       100,000: O(n log n)
+  n =     1,000,000: O(n)
+  n = 1,000,000,000: O(log n)
+
+Doubling check (operation counts, n = 1000 -> 2000):
+  brute pair count exponent ~ 2.0
+  hash  pair count exponent ~ 1.0

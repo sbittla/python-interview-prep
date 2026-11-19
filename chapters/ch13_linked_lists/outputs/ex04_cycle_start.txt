@@ -1,0 +1,8 @@
+[3, 2, 0, -4]                    pos=1  -> entry index 1, loop length 3, brute agrees True
+[1, 2]                           pos=0  -> entry index 0, loop length 2, brute agrees True
+[1]                              pos=0  -> entry index 0, loop length 1, brute agrees True
+[1]                              pos=-1 -> entry index None, loop length 0, brute agrees True
+[]                               pos=-1 -> entry index None, loop length 0, brute agrees True
+[5, 5, 5, 5, 5]                  pos=3  -> entry index 3, loop length 2, brute agrees True
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]   pos=9  -> entry index 9, loop length 1, brute agrees True
+acyclic nodes walked: 3

@@ -1,0 +1,13 @@
+toy predictions: [0, 1]
+vote tie (k=2 -> labels 0 and 1) goes to smaller label: [0]
+vectorised distances match loops: True
+  k=  1 val acc=0.9000
+  k=  3 val acc=0.9400
+  k=  5 val acc=0.9600
+  k=  9 val acc=0.9600
+  k= 15 val acc=0.9600
+  k= 31 val acc=0.9600
+  k=101 val acc=0.7800
+chosen k: 5
+test acc with k=5: 0.9000
+with a large-scale noise feature: raw acc=0.5800  standardised acc=0.9200

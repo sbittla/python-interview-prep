@@ -1,0 +1,6 @@
+a-only=[4, 1]     b-only=[5, 6, 1]  shared=[8, 4, 5]  -> 8  all rungs agree True
+a-only=[1, 9, 1]  b-only=[3]        shared=[2, 4]     -> 2  all rungs agree True
+a-only=[2, 6, 4]  b-only=[1, 5]     shared=[]         -> None  all rungs agree True
+a-only=[]         b-only=[7]        shared=[7]        -> 7  all rungs agree True
+a-only=[]         b-only=[]         shared=[]         -> None  all rungs agree True
+equal values, distinct nodes -> None

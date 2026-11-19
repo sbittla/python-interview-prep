@@ -1,0 +1,11 @@
+undirected:
+  n=3 [(0, 1), (1, 2), (2, 0)]: dfs=True dsu=True
+  n=4 [(0, 1), (1, 2), (2, 3)]: dfs=False dsu=False
+  n=4 [(0, 1), (2, 3)]: dfs=False dsu=False
+directed:
+  diamond (no cycle) solve=False brute=False cycle=[]
+  1->2->3->1         solve=True  brute=True  cycle=[1, 2, 3, 1]
+  self-loop          solve=True  brute=True  cycle=[1, 1]
+  two comps          solve=True  brute=True  cycle=[2, 3, 4, 2]
+  empty              solve=False brute=False cycle=[]
+wrong 'visited only' on diamond: True (should be False)

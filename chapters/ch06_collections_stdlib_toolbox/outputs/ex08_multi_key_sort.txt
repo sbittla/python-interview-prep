@@ -1,0 +1,6 @@
+payroll_order: ['Cy', 'Ed', 'Di', 'Al', 'Bo', 'Fa']
+dept asc, name desc: ['Ed', 'Cy', 'Di', 'Bo', 'Al', 'Fa']
+salary desc, age asc: [('Di', 120, 35), ('Bo', 90, 30), ('Al', 90, 41), ('Cy', 70, 25), ('Ed', 70, 52), ('Fa', 60, 29)]
+agrees with comparator: True True
+stable sort by letter only: [('a', 2), ('a', 1), ('b', 1), ('b', 0)]
+namedtuple: Employee(name='Bo', dept='eng', salary=90, age=30) | e.salary = 90 | e._replace(age=31).age = 31

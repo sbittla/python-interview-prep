@@ -1,0 +1,35 @@
+entropy/gini of [0,0,1,1]: 1.0 0.5
+entropy/gini of [0,0,0,1]: 0.8113 0.375
+entropy/gini of pure [1,1,1]: 0.0 0.0
+entropy: sweep split=0, 6.0050, gain=0.3195 | brute agrees: True
+gini: sweep split=0, 3.9150, gain=0.1777 | brute agrees: True
+learned tree (entropy, max_depth=3):
+  if x0 <= 6.0050:  (gain=0.3195)
+      if x1 <= 5.3250:  (gain=0.2287)
+          if x0 <= 0.1900:  (gain=0.0765)
+              predict 1  counts=[0, 1]
+          else:  # x0 > 0.1900
+              predict 0  counts=[46, 3]
+      else:  # x1 > 5.3250
+          if x0 <= 2.1100:  (gain=0.7621)
+              predict 0  counts=[23, 1]
+          else:  # x0 > 2.1100
+              predict 1  counts=[1, 34]
+  else:  # x0 > 6.0050
+      if x1 <= 5.4900:  (gain=0.0392)
+          if x1 <= 5.1200:  (gain=0.1623)
+              predict 1  counts=[2, 46]
+          else:  # x1 > 5.1200
+              predict 0  counts=[2, 0]
+      else:  # x1 > 5.4900
+          predict 1  counts=[0, 41]
+  entropy depth= 1 train acc=0.7850 test acc=0.7300
+  entropy depth= 2 train acc=0.8400 test acc=0.8500
+  entropy depth= 3 train acc=0.9650 test acc=0.9000
+  entropy depth= 5 train acc=0.9850 test acc=0.8800
+  entropy depth=12 train acc=1.0000 test acc=0.8400
+  gini    depth= 1 train acc=0.8250 test acc=0.7800
+  gini    depth= 2 train acc=0.8250 test acc=0.7800
+  gini    depth= 3 train acc=0.9500 test acc=0.9100
+  gini    depth= 5 train acc=0.9850 test acc=0.8700
+  gini    depth=12 train acc=1.0000 test acc=0.8600

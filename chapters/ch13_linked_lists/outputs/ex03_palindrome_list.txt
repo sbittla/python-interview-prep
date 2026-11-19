@@ -1,0 +1,10 @@
+middle of [1, 2, 3, 4, 5]  -> 3
+middle of [1, 2, 3, 4]     -> 3
+middle of [1]              -> 1
+middle of []               -> None
+palindrome [1, 2, 2, 1]     -> True  restored=True
+palindrome [1, 2, 3, 2, 1]  -> True  restored=True
+palindrome [1, 2]           -> False restored=True
+palindrome [1, 2, 3]        -> False restored=True
+palindrome []               -> True  restored=True
+palindrome [9]              -> True  restored=True

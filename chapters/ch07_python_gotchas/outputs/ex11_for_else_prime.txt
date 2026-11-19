@@ -1,0 +1,5 @@
+buggy primes < 30: [2, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29]
+fixed primes < 30: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+first_divisor(91): 7
+first_divisor(97): None
+first_divisor(3) (empty loop -> else): None

@@ -1,0 +1,15 @@
+S =
+[[ 1.      0.     -1.    ]
+ [ 0.7071  0.7071 -0.7071]
+ [ 0.      0.      0.    ]]
+loop agrees: True
+zero-vector row is all 0: True
+
+== tiny retrieval demo ==
+  cat   0.9902
+  dog   0.9758
+  pet   0.9430
+
+== cosine vs euclidean on unit vectors ==
+||a-b||^2 == 2 - 2cos: True
+same nearest neighbour ranking: True

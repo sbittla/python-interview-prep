@@ -1,0 +1,16 @@
+== retries
+  flaky (2 failures)   ok=True attempts=3 calls=3 slept=[0.5, 1.0] type=None
+                       observation={"ok": true, "result": 0.92}
+  flaky (9 failures)   ok=False attempts=4 calls=4 slept=[0.5, 1.0, 2.0] type=transient
+                       observation={"error": {"attempts": 4, "message": "TransientToolError: 503 Service Unavailable", "retryable": false, "type": "transient"}, "ok": false}
+  bad input            ok=False attempts=1 calls=1 slept=[] type=invalid_input
+                       observation={"error": {"attempts": 1, "message": "ValueError: unsupported currency 'JPY'; use one of ['EUR', 'GBP']", "retryable": false, "type": "invalid_input"}, "ok": false}
+  internal bug         ok=False attempts=1 calls=1 slept=[] type=internal
+                       observation={"error": {"attempts": 1, "message": "the tool failed unexpectedly; try a different approach or tell the user", "retryable": false, "type": "internal"}, "ok": false}
+== self-correcting agent
+  user     : 100 USD in EUR?
+  assistant: {"args": {"amount": "100", "currency": "EUR"}, "tool": "convert"}
+  tool     : {"error": {"attempts": 1, "message": "TypeError: amount must be a number, got str", "retryable": false, "type": "invalid_input"}, "ok": false}
+  assistant: {"args": {"amount": 100, "currency": "EUR"}, "tool": "convert"}
+  tool     : {"ok": true, "result": 92.0}
+  answer: 100 USD is 92.0 EUR.

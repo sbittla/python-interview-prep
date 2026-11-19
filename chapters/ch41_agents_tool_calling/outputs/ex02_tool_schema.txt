@@ -1,0 +1,66 @@
+== generated schemas
+{
+  "name": "get_weather",
+  "description": "Get the current weather for a city.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "city": {
+        "type": "string",
+        "description": "City name, e.g. \"Oslo\"."
+      },
+      "unit": {
+        "type": "string",
+        "enum": [
+          "celsius",
+          "fahrenheit"
+        ],
+        "description": "Temperature unit for the answer.",
+        "default": "celsius"
+      }
+    },
+    "required": [
+      "city"
+    ],
+    "additionalProperties": false
+  }
+}
+{
+  "name": "search_docs",
+  "description": "Search internal documentation.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "Free-text query."
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Restrict results to these tags."
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Maximum number of results.",
+        "default": 3
+      }
+    },
+    "required": [
+      "query",
+      "tags"
+    ],
+    "additionalProperties": false
+  }
+}
+== calls
+  get_weather({'city': 'Oslo'}) -> {'city': 'Oslo', 'temp': 4.0, 'unit': 'celsius'}
+  get_weather({'city': 'Lisbon', 'unit': 'fahrenheit'}) -> {'city': 'Lisbon', 'temp': 66.2, 'unit': 'fahrenheit'}
+  search_docs({'query': 'retry', 'tags': ['sre', 'api'], 'limit': 1}) -> ['doc:retry:api']
+  get_weather({}) -> ToolArgumentError: get_weather: missing required argument(s) ['city']
+  get_weather({'city': 'Oslo', 'unit': 'kelvin'}) -> ToolArgumentError: get_weather: argument 'unit'='kelvin' is not ['celsius', 'fahrenheit']
+  get_weather({'city': 'Oslo', 'country': 'NO'}) -> ToolArgumentError: get_weather: unexpected argument(s) ['country']
+  search_docs({'query': 'x', 'tags': ['a'], 'limit': True}) -> ToolArgumentError: search_docs: argument 'limit'=True is not integer
+  send_email({'to': 'a@b.c'}) -> ToolNotFound: unknown tool 'send_email'; available: ['get_weather', 'search_docs']

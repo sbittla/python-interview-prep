@@ -1,0 +1,10 @@
+search('pad'  ) -> False
+search('bad'  ) -> True
+search('.ad'  ) -> True
+search('b..'  ) -> True
+search('b.'   ) -> False
+search('...'  ) -> True
+search('....' ) -> False
+search('..t'  ) -> True
+search('.a.'  ) -> True
+agrees with brute force: True

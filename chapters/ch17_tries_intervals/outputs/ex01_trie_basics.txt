@@ -1,0 +1,19 @@
+trie (* = end of word):
+  a
+    p
+      p*
+        l
+          e*
+          y*
+  b
+    a
+      t*
+nodes: 10
+search app/ap/apples: True False False
+starts_with ap/ba/c: True True False
+delete apple: True -> nodes 9 (pruned 'e')
+delete app  : True -> nodes 9 (path kept for apply)
+delete ap   : False (not a word)
+delete bat  : True -> nodes 6 (whole branch pruned)
+words left  : ['apply']
+array trie  : True False True

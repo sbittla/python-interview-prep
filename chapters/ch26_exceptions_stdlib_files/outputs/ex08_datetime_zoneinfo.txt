@@ -1,0 +1,26 @@
+== add_business_days ==
+2026-01-09 (Fri) + 1 -> 2026-01-12 (Mon)
+2026-01-09 (Fri) + 5 -> 2026-01-16 (Fri)
+2026-01-10 (Sat) + 0 -> 2026-01-10 (Sat)
+
+== format_duration ==
+     0 s -> 0d 00h 00m 00s
+    59 s -> 0d 00h 00m 59s
+  3600 s -> 0d 01h 00m 00s
+ 93784 s -> 1d 02h 03m 04s
+
+== fixed offsets ==
+to_utc 09:00 at UTC-4  -> 2026-07-01T13:00:00+00:00
+to_utc 09:00 at UTC+5.5-> 2026-07-01T03:30:00+00:00
+minutes_between        -> 150
+naive input            -> ValueError: both timestamps need an offset
+
+== naive vs aware ==
+compare naive/aware -> TypeError: can't compare offset-naive and offset-aware datetimes
+strftime: 2026-01-01 12:00 UTC | isoformat: 2026-01-01T12:00:00+00:00
+strptime: 2026-01-05 14:30:00
+
+== named zones across DST (US spring-forward 2026-03-08) ==
+naive +1h wall clock : 02:30:00 (02:30 does not exist in New York that day)
+elapsed +1h correctly: 2026-03-08T03:30:00-04:00
+Kolkata (no DST)     : 2026-03-08T02:30:00+05:30

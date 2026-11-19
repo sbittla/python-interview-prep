@@ -1,0 +1,5 @@
+buggy: TypeError - '<' not supported between instances of 'int' and 'NoneType'
+fixed (tuple key): ['al', 'bo', 'di', 'ab', 'cy']
+fixed (two stable sorts): ['al', 'bo', 'di', 'ab', 'cy']
+fixed (cmp_to_key): ['al', 'bo', 'di', 'ab', 'cy']
+no None, buggy order: ['bo', 'al', 'di']

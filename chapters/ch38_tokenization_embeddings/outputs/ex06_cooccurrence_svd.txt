@@ -1,0 +1,11 @@
+vocab: 113 words  C nonzeros: 837  E shape: (113, 12)
+C symmetric: True  PPMI min: 0.0
+nearest('cat'): [('horse', 0.927), ('rabbit', 0.902), ('goat', 0.882), ('from', 0.869)]
+nearest('bread'): [('cheese', 0.888), ('rice', 0.774), ('pasta', 0.697), ('soup', 0.685)]
+nearest('train'): [('car', 0.999), ('bus', 0.998), ('bicycle', 0.933), ('highway', 0.828)]
+nearest('laptop'): [('keyboard', 0.964), ('program', 0.94), ('printer', 0.935), ('router', 0.935)]
+nearest('cooks'): [('buys', 0.985), ('salt', 0.918), ('they', 0.918), ('eat', 0.917)]
+
+same-category precision@4 over 20 nouns:
+  raw co-occurrence rows: 0.800
+  PPMI + SVD (k=12):      0.738

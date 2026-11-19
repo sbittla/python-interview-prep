@@ -1,0 +1,6 @@
+values=[3, 2, 0, -4] pos=1 -> entry index 1
+values=[1, 2] pos=0 -> entry index 0
+values=[1] pos=0 -> entry index 0
+values=[1] pos=-1 -> entry index -1
+values=[] pos=-1 -> entry index -1
+values=[5, 5, 5, 5] pos=2 -> entry index 2

@@ -1,0 +1,47 @@
+reshape(2, 3):
+[[0 1 2]
+ [3 4 5]]
+reshape(3, -1):
+[[0 1]
+ [2 3]
+ [4 5]]
+m.T:
+[[0 3]
+ [1 4]
+ [2 5]]
+m.reshape(-1)  : [0 1 2 3 4 5]
+m.T.reshape(-1): [0 3 1 4 2 5]
+m.T is a view  : True  contiguous: False
+
+== stack vs concatenate ==
+stack axis0 : (2, 2)  stack axis1: (2, 2)
+concatenate : (4,)
+vstack/hstack: (2, 2) (4,)
+u[:, None] / u[None, :]: (2, 1) (1, 2)
+squeeze/expand_dims    : (3,) (1, 2)
+
+== to_batches ==
+batches shape: (3, 2, 2)
+[[[ 0  1]
+  [ 2  3]]
+
+ [[ 4  5]
+  [ 6  7]]
+
+ [[ 8  9]
+  [-1 -1]]]
+mask:
+[[ True  True]
+ [ True  True]
+ [ True False]]
+real rows recovered: True
+
+== patchify ==
+[[ 0  1  4  5]
+ [ 2  3  6  7]
+ [ 8  9 12 13]
+ [10 11 14 15]]
+(32,48,3) p=8 -> (24, 192)
+loop agrees     : True
+round trip exact: True
+p=5 -> ValueError: H and W must be divisible by p

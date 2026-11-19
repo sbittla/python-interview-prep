@@ -1,0 +1,18 @@
+constant_work       counts=[10, 10, 10, 10, 10]
+                    ratios=[1.0, 1.0, 1.0, 1.0] -> O(1)
+halving             counts=[6, 7, 8, 9, 10]
+                    ratios=[1.17, 1.14, 1.12, 1.11] -> O(log n)
+linear_scan         counts=[197, 389, 773, 1541, 3077]
+                    ratios=[1.97, 1.99, 1.99, 2.0] -> O(n)
+merge_sort_count    counts=[384, 896, 2048, 4608, 10240]
+                    ratios=[2.33, 2.29, 2.25, 2.22] -> O(n log n)
+all_pairs           counts=[2016, 8128, 32640, 130816]
+                    ratios=[4.03, 4.02, 4.01] -> O(n^2)
+all_triples         counts=[560, 4960, 41664, 341376]
+                    ratios=[8.86, 8.4, 8.19] -> O(n^3)
+subsets_count       counts=[256, 1024, 4096, 16384]
+                    ratios=[4.0, 4.0, 4.0] -> O(2^n)
+permutations_count  counts=[24, 120, 720, 5040]
+                    ratios=[5.0, 6.0, 7.0] -> O(n!)
+fit_growth({8: 1}) -> ValueError: need at least two (n, count) points
+fit_growth({1: 5, 4: 9}) -> ValueError: every n must be >= 2 and every count >= 1

@@ -1,0 +1,15 @@
+probe slots, table of 8:
+  hash  0 -> [0, 1, 6, 7, 4, 5]
+  hash  8 -> [0, 1, 6, 7, 4, 5]
+  hash 16 -> [0, 1, 6, 7, 4, 5]
+  hash 13 -> [5, 2, 3, 0, 1, 6]
+indices: [0, 1, -1, -1, -1, -1, 2, -1]
+entries: [0, 8, 16] | collisions so far: 3
+after del 8 -> indices: [0, -2, -1, -1, -1, -1, 2, -1] | 16 still found: True
+re-insert 8 reuses the DUMMY slot -> indices: [0, 3, -1, -1, -1, -1, 2, -1]
+iteration (insertion order): [0, 16, 8]
+model grew at len: [6, 11, 22, 43, 86] | final table size: 256
+real dict grew at len: [6, 11, 22, 43, 86] | matches model: True
+word counts: [('the', 2), ('quick', 1), ('brown', 1), ('fox', 1), ('jumps', 1), ('over', 1), ('lazy', 1), ('dog', 1)]
+hash(-1) = -2 | hash(1) == hash(1.0) == hash(True): True
+KeyError: 'missing'

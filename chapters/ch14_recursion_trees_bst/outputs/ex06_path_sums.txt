@@ -1,0 +1,14 @@
+           _5____
+          /      \
+      ___4        8____
+     /           /     \
+  _11          13      _4_
+ /   \                /   \
+7     2              5     1
+root-to-leaf = 22: [[5, 4, 11, 2], [5, 8, 4, 5]] | brute: [[5, 4, 11, 2], [5, 8, 4, 5]]
+downward paths = 22: 3 | brute: 3
+max path sum [-10, 9, 20, None, None, 15, 7] ->  42  brute  42
+max path sum [1, 2, 3]                    ->   6  brute   6
+max path sum [-3]                         ->  -3  brute  -3
+max path sum [-2, -1, -5]                 ->  -1  brute  -1
+max path sum [2, -1, -2]                  ->   2  brute   2

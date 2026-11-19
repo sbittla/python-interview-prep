@@ -1,0 +1,21 @@
+one_hot =
+[[0. 0. 1.]
+ [1. 0. 0.]
+ [0. 1. 0.]
+ [0. 0. 1.]]
+loop agrees   : True
+np.eye agrees : True
+round trip    : [2 0 1 2]
+empty         : (0, 4)
+bad label     : ValueError: label out of range
+
+== categorical strings ==
+categories: ['blue' 'green' 'red']
+codes     : [2 1 2 0 1]
+decoded ok: True
+one-hot   :
+[[0. 0. 1.]
+ [0. 1. 0.]
+ [0. 0. 1.]
+ [1. 0. 0.]
+ [0. 1. 0.]]

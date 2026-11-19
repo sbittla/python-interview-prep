@@ -1,0 +1,12 @@
+membership      -> set
+fifo queue      -> collections.deque
+count items     -> collections.Counter
+group by key    -> collections.defaultdict
+repeated min    -> heapq
+sorted inserts  -> bisect.insort
+index access    -> list
+lru order       -> collections.OrderedDict
+ValueError: unknown need: 'teleport'
+set beats list for membership: True
+deque beats list for popleft: True
+bisect beats linear scan for rank: True

@@ -1,0 +1,5 @@
+TimeMapBrute  ['', 'v1', 'v1', 'v2', 'v2', 'v3', 'v3'] missing key -> ''
+TimeMap       ['', 'v1', 'v1', 'v2', 'v2', 'v3', 'v3'] missing key -> ''
+out-of-order inserts -> versions: [(1, 'b'), (3, 'C'), (5, 'a')]
+history(k, 2, 4): [(3, 'C')]
+strict set rejects old timestamp: timestamps must increase; use set_any_order

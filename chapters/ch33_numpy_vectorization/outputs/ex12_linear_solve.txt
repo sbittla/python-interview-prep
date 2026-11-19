@@ -1,0 +1,23 @@
+x = [0.8 1.4]  residual ||Ax-b|| < 1e-12: True
+inv(A) @ b agrees: True
+gauss_solve agrees: True
+det(A) = 5.0
+
+== norms ==
+L2: 5.0  L1: 7.0  Linf: 4.0
+Frobenius of A: 3.873
+
+== singular / ill-conditioned ==
+solve_system: ValueError: matrix is singular or ill-conditioned
+gauss_solve: ValueError: matrix is singular
+Hilbert(8) cond > 1e9: True
+
+== least squares line fit ==
+fit: y = 2.4758 x + -1.0415
+normal equation agrees: True
+
+== random 50x50 system ==
+gauss == np.linalg.solve: True
+
+== matmul vs dot on batches ==
+P @ Q shape: (4, 2, 5)  np.dot(P, Q) shape: (4, 2, 4, 5)

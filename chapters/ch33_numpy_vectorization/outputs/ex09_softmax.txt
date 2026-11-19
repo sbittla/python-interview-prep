@@ -1,0 +1,21 @@
+softmax([1,2,3])      : [0.09   0.2447 0.6652]
+sums to 1             : True
+shift invariance      : True
+naive on [1000..1002] : [nan nan nan]
+stable on [1000..1002]: [0.09   0.2447 0.6652]
+
+== batch: per-row max matters ==
+global-max version:
+[[0.2689 0.7311]
+ [   nan    nan]]
+per-row version   :
+[[0.2689 0.7311]
+ [0.2689 0.7311]]
+axis=0 columns sum: [1. 1.]
+
+== temperature ==
+T=0.1   -> [1. 0. 0.]
+T=0.5   -> [0.8638 0.1169 0.0193]
+T=1.0   -> [0.659  0.2424 0.0986]
+T=2.0   -> [0.5017 0.3043 0.194 ]
+T=100.0 -> [0.3366 0.3332 0.3302]

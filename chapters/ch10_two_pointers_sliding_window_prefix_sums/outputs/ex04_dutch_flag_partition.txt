@@ -1,0 +1,6 @@
+nums=[2, 0, 2, 1, 1, 0]         pivot=1 -> [0, 0, 1, 1, 2, 2]         (lt, gt)=(2, 4)  advance-after-swap(wrong)=[0, 0, 1, 1, 2, 2]
+nums=[1, 2, 0]                  pivot=1 -> [0, 1, 2]                  (lt, gt)=(1, 2)  advance-after-swap(wrong)=[1, 0, 2]
+nums=[5]                        pivot=9 -> [5]                        (lt, gt)=(1, 1)  advance-after-swap(wrong)=[5]
+nums=[]                         pivot=0 -> []                         (lt, gt)=(0, 0)  advance-after-swap(wrong)=[]
+nums=[3, 3, 3]                  pivot=3 -> [3, 3, 3]                  (lt, gt)=(0, 3)  advance-after-swap(wrong)=[3, 3, 3]
+nums=[9, -1, 4, 4, 7, 0, 4, 12] pivot=4 -> [-1, 0, 4, 4, 4, 7, 12, 9] (lt, gt)=(2, 5)  advance-after-swap(wrong)=[-1, 0, 4, 4, 4, 12, 7, 9]

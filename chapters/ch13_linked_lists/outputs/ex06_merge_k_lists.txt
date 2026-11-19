@@ -1,0 +1,8 @@
+heap      : [1, 1, 2, 3, 4, 4, 5, 6]
+one_by_one: [1, 1, 2, 3, 4, 4, 5, 6]
+divide    : [1, 1, 2, 3, 4, 4, 5, 6]
+brute     : [1, 1, 2, 3, 4, 4, 5, 6]
+empty     : [] []
+stable    : True
+(val, node) tuples -> TypeError
+20 random lists ok: True 274 nodes

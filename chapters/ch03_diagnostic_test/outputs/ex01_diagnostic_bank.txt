@@ -1,0 +1,28 @@
+Answer key, Q1-16 (produced by executing each snippet):
+  Q1  core     -4 2
+  Q2  core     2 4
+  Q3  core     [2, 1] [1, 2]
+  Q4  core     False True
+  Q5  core     {'a': 1, 'b': 7}
+  Q6  core     [('a', 3), ('n', 2)]
+  Q7  core     ['a', 'bb', 'dd', 'ccc']
+  Q8  core     0 [1, 2, 3] 4
+  Q9  gotchas  [1, 2]
+  Q10 gotchas  [[1, 0], [1, 0]]
+  Q11 gotchas  [2, 2, 2]
+  Q12 gotchas  2 True False
+  Q13 gotchas  5 0
+  Q14 gotchas  TypeError (1, [2, 3])
+  Q15 gotchas  UnboundLocalError
+  Q16 gotchas  [1, 2, 3, 4] True [1, 2, 3, 4, 5]
+Answer key, Q17-28:
+  Q17=C  Q18=A  Q19=C  Q20=A  Q21=D  Q22=B  Q23=E  Q24=B  Q25=F  Q26=B  Q27=E  Q28=C
+
+Sample sheet:
+  core        7/8
+  gotchas     4/8
+  complexity  9/12
+  coding      6/8
+  total      26/36
+  missed: [2, 9, 11, 13, 14, 19, 27, 28, 30]
+Bad coding points -> Q29: coding points must be 0-4, got 5

@@ -1,0 +1,6 @@
+[1, 4, 3, 2, 5, 2]   x=3 -> 1 -> 2 -> 2 -> 4 -> 3 -> 5 -> None
+[2, 1]               x=2 -> 1 -> 2 -> None
+[5, 6]               x=1 -> 5 -> 6 -> None
+[1, 2]               x=9 -> 1 -> 2 -> None
+[]                   x=0 -> None
+forgot rest_tail.next = None -> more than 100 nodes: cycle?

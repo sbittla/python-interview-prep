@@ -1,0 +1,14 @@
+Projected reviews if every review is solved:
+  failed  on 2026-11-18: ['2026-11-19', '2026-11-20', '2026-11-23', '2026-11-30', '2026-12-21']
+  solved  on 2026-11-18: ['2026-11-19', '2026-11-22', '2026-11-29', '2026-12-20']
+
+Seeded 9 rows; due on 2026-11-19: 9 items
+Reviewed on 11-19 (Q11, Q30 still wrong) and 11-20 (all right). Next due:
+  2026-11-21: ['diag-Q11', 'diag-Q30']
+  2026-11-23: ['diag-Q02', 'diag-Q09', 'diag-Q13', 'diag-Q14', 'diag-Q19', 'diag-Q27', 'diag-Q28']
+
+CSV round trip equal: True; 27 rows. First lines:
+  date,problem,pattern,result,minutes
+  2026-11-18,diag-Q02,core,failed,1
+  2026-11-18,diag-Q09,gotchas,failed,1
+Bad result -> unknown result 'meh'

@@ -1,0 +1,14 @@
+features('Cat'): ['w:cat', 'c:#ca', 'c:cat', 'c:at#']
+stable_hash('w:cat') = 1935231421  (same every run)
+embed dim=16: [0.0, 0.229, 0.459, -0.229, -0.459, -0.229, -0.229, 0.0, 0.0, 0.0, -0.229, 0.0, 0.0, 0.459, 0.229, -0.229]
+norm: 1.0000  empty text norm: 0.0
+
+cosine to text[0] (dim=256):
+   1.000  the engineer repairs the laptop
+   0.547  an engineer repaired my laptops
+   0.491  the farmer feeds the goat
+   0.000  stock prices fell sharply today
+collision rate, 200 words into dim=  64: 0.980
+collision rate, 200 words into dim= 256: 0.360
+collision rate, 200 words into dim=1024: 0.000
+collision rate, 200 words into dim=4096: 0.000

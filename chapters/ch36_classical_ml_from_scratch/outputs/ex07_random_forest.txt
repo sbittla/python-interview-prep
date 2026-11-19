@@ -1,0 +1,7 @@
+mean distinct fraction in a bootstrap: 0.6300 (theory 1-1/e = 0.6321)
+single deep tree: train acc=0.9725 test acc=0.7350
+bagging (25 trees, all 5 features): test acc=0.8550 oob acc=0.7925
+random forest B= 1 max_features=2: test acc=0.7700 oob acc=0.7450
+random forest B= 5 max_features=2: test acc=0.7750 oob acc=0.6954
+random forest B=25 max_features=2: test acc=0.8300 oob acc=0.7550
+random forest B=75 max_features=2: test acc=0.8450 oob acc=0.8050

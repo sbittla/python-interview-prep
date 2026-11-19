@@ -1,0 +1,22 @@
+input grid:
+  11000
+  11010
+  00100
+  00011
+  10011
+labelled islands:
+  AA000
+  AA0B0
+  00C00
+  000DD
+  E00DD
+islands = 5 | brute = 5 | recursive = 5
+[]                       -> 0
+['0']                    -> 0
+['1']                    -> 1
+['101', '010', '101']    -> 5
+['111', '101', '111']    -> 1
+recursive on 300x300 land: RecursionError
+iterative on 300x300 land: 1
+flood_fill from (1,1) with 2: [[2, 2, 2], [2, 2, 0], [2, 0, 1]]
+flood_fill same colour      : [[1, 1, 1], [1, 1, 0], [1, 0, 1]]

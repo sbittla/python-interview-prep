@@ -1,0 +1,5 @@
+BuggyPoint.__hash__ is None: True
+buggy: TypeError - unhashable type: 'BuggyPoint'
+fixed unique: 2
+fixed equal hashes: True
+fixed membership: True

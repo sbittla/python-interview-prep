@@ -1,0 +1,29 @@
+command   | output         | open txns | data
+SET a 10  |                |     0     | {'a': '10'}
+SET b 10  |                |     0     | {'a': '10', 'b': '10'}
+COUNT 10  | 2              |     0     | {'a': '10', 'b': '10'}
+BEGIN     |                |     1     | {'a': '10', 'b': '10'}
+SET a 20  |                |     1     | {'a': '20', 'b': '10'}
+DELETE b  |                |     1     | {'a': '20'}
+COUNT 10  | 0              |     1     | {'a': '20'}
+BEGIN     |                |     2     | {'a': '20'}
+SET a 30  |                |     2     | {'a': '30'}
+GET a     | 30             |     2     | {'a': '30'}
+ROLLBACK  |                |     1     | {'a': '20'}
+GET a     | 20             |     1     | {'a': '20'}
+GET b     | NULL           |     1     | {'a': '20'}
+COMMIT    |                |     0     | {'a': '20'}
+ROLLBACK  | NO TRANSACTION |     0     | {'a': '20'}
+GET a     | 20             |     0     | {'a': '20'}
+COUNT 20  | 1              |     0     | {'a': '20'}
+BEGIN     |                |     1     | {'a': '20'}
+SET c 5   |                |     1     | {'a': '20', 'c': '5'}
+BEGIN     |                |     2     | {'a': '20', 'c': '5'}
+SET c 6   |                |     2     | {'a': '20', 'c': '6'}
+COMMIT    |                |     1     | {'a': '20', 'c': '6'}
+ROLLBACK  |                |     0     | {'a': '20'}
+GET c     | NULL           |     0     | {'a': '20'}
+FROB x    | ERROR: FROB    |     0     | {'a': '20'}
+END       | (stop)
+snapshot DB gives the same outputs: True
+COUNT index after script: {'20': 1}

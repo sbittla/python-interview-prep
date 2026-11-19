@@ -1,0 +1,7 @@
+[1, 2, 3, 4]     -> 2 -> 1 -> 4 -> 3 -> None
+[1, 2, 3, 4, 5]  -> 2 -> 1 -> 4 -> 3 -> 5 -> None
+[1]              -> 1 -> None
+[]               -> None
+nodes relinked, not copied: True
+iterative 100000 nodes ok: True
+recursive 5000 nodes -> RecursionError

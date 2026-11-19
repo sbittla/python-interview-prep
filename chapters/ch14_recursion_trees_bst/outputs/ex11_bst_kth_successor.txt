@@ -1,0 +1,15 @@
+      __5
+     /   \
+    3     6
+   / \
+  2   4
+ /
+1
+kth  : [1, 2, 3, 4, 5, 6] brute: [1, 2, 3, 4, 5, 6]
+successor( 0) = 1    brute = 1
+successor( 1) = 2    brute = 2
+successor( 4) = 5    brute = 5
+successor( 5) = 6    brute = 6
+successor( 6) = None brute = None
+successor(10) = None brute = None
+successor( 3) = 4    brute = 4

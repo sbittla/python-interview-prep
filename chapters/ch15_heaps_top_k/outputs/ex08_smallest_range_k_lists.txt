@@ -1,0 +1,9 @@
+[[4, 10, 15, 24, 26], [0, 9, 12, 20], [5, 18, 22, 30]] -> (20, 24)  agree=True
+[[1, 2, 3], [1, 2, 3], [1, 2, 3]] -> (1, 1)  agree=True
+[[1, 9], [4, 12], [7, 10, 16]] -> (9, 12)  agree=True
+[[5]] -> (5, 5)  agree=True
+[[-5, -1], [10]] -> (-1, 10)  agree=True
+brute_force on an empty list -> ValueError: need at least one list and no empty lists
+by_window   on an empty list -> ValueError: need at least one list and no empty lists
+solve       on an empty list -> ValueError: need at least one list and no empty lists
+400 random cases (duplicates, ties) agree: True

@@ -1,0 +1,21 @@
+== run_steps ==
+     (10, 2) -> ['try', 'else', 'finally', 'result=5.0']
+     (10, 0) -> ['try', 'except ZeroDivisionError', 'finally', 'result=None']
+   (10, '2') -> ['try', 'except TypeError', 'finally', 'result=None']
+
+== parse_int_or_default ==
+  '42' -> 42
+  '-7' -> -7
+ '3.5' -> -1
+    '' -> -1
+  None -> -1
+
+== exception_lineage ==
+KeyError -> LookupError -> Exception -> BaseException -> object
+ZeroDivisionError -> ArithmeticError -> Exception -> BaseException -> object
+FileNotFoundError -> OSError -> Exception -> BaseException -> object
+KeyboardInterrupt -> BaseException -> object
+
+== return_then_finally ==
+returned: from try
+log: ['try body', 'finally ran']

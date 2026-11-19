@@ -1,0 +1,13 @@
+n=5 edges=[(0, 1), (1, 2), (3, 4)]
+   components=[[0, 1, 2], [3, 4]] count=2 all_rungs_agree=True
+n=6 edges=[(0, 1), (2, 3), (3, 4), (4, 2)]
+   components=[[0, 1], [2, 3, 4], [5]] count=3 all_rungs_agree=True
+n=3 edges=[]
+   components=[[0], [1], [2]] count=3 all_rungs_agree=True
+n=1 edges=[(0, 0)]
+   components=[[0]] count=1 all_rungs_agree=True
+n=0 edges=[]
+   components=[] count=0 all_rungs_agree=True
+recursion limit: 1000
+recursive DFS on 5000-node path: RecursionError
+iterative DFS on 5000-node path: count = 1

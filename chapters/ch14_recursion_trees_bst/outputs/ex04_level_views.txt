@@ -1,0 +1,11 @@
+  _3____
+ /      \
+9        20
+        /  \
+      15    7
+level order: [[3], [9, 20], [15, 7]] | dfs: [[3], [9, 20], [15, 7]]
+zigzag     : [[3], [20, 9], [15, 7]]
+right view of [1, 2, 3, None, 5]   bfs=[1, 3, 5] dfs=[1, 3, 5]
+right view of [1, 2, 3, 4]         bfs=[1, 3, 4] dfs=[1, 3, 4]
+right view of []                   bfs=[] dfs=[]
+right view of [1, 2, None, 3]      bfs=[1, 2, 3] dfs=[1, 2, 3]

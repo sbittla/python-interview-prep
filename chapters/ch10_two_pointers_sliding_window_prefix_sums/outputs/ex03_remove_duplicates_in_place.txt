@@ -1,0 +1,7 @@
+nums=[1, 1, 1, 2, 2, 3]            k=2 -> [1, 1, 2, 2, 3]        m=5  read-side(wrong)=[1, 1, 2, 3]
+nums=[0, 0, 1, 1, 1, 1, 2, 3, 3]   k=2 -> [0, 0, 1, 1, 2, 3, 3]  m=7  read-side(wrong)=[0, 0, 1, 1, 2, 3, 3]
+nums=[0, 0, 1, 1, 1, 2]            k=1 -> [0, 1, 2]              m=3  read-side(wrong)=[0, 1, 2]
+nums=[]                            k=1 -> []                     m=0  read-side(wrong)=[]
+nums=[7]                           k=3 -> [7]                    m=1  read-side(wrong)=[7]
+nums=[2, 2, 2, 2]                  k=1 -> [2]                    m=1  read-side(wrong)=[2]
+nums=[1, 1, 2, 2, 2, 3, 3, 3]      k=1 -> [1, 2, 3]              m=3  read-side(wrong)=[1, 2, 3]

@@ -1,0 +1,7 @@
+[10, 2]            solve=210        brute=210        lexicographic=210
+[3, 30, 34, 5, 9]  solve=9534330    brute=9534330    lexicographic=9534303
+[0, 0]             solve=0          brute=0          lexicographic=0
+[3, 30, 34]        solve=34330      brute=34330      lexicographic=34303
+[121, 12]          solve=12121      brute=12121      lexicographic=12112
+[7]                solve=7          brute=7          lexicographic=7
+reduce product: 24

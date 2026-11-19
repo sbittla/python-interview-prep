@@ -1,0 +1,7 @@
+0.1 + 0.2 = 0.30000000000000004
+buggy is_settled: False
+fixed is_settled: True
+fixed is_settled (short): False
+buggy exact_total: 0.30000000000000004
+fixed exact_total: 0.30
+Decimal from float: 0.1000000000000000055511151231257827021181583404541015625

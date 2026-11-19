@@ -1,0 +1,11 @@
+tokens (24): Traceback : file a . py line 1 in main ; file b . py line 9 in helper ; ValueError : bad input
+  head   budget=9: Traceback : file a . py line 1 in
+  tail   budget=9: line 9 in helper ; ValueError : bad input
+  middle budget=9: Traceback : file a … ValueError : bad input
+  middle budget=1: ['…']  budget=0: []
+
+message costs: [14, 9, 16, 14, 15, 14]
+window=120 reserve=16 -> kept 6 msgs, 82 tokens: ['system:0', 'user:1', 'assistant:2', 'user:3', 'assistant:4', 'user:5']
+window= 60 reserve=16 -> kept 3 msgs, 43 tokens: ['system:0', 'assistant:4', 'user:5']
+window= 45 reserve=16 -> kept 2 msgs, 28 tokens: ['system:0', 'user:5']
+window=20 -> ValueError: system prompt + latest message exceed the budget

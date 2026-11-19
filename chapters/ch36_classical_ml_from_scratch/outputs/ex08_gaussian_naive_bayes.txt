@@ -1,0 +1,11 @@
+priors: [0.3292, 0.3375, 0.3333]
+class means:
+  class 0: [-0.1429, -0.01, -0.0003]
+  class 1: [1.9943, 2.148, -0.1153]
+  class 2: [-0.1351, 2.8892, 2.0853]
+train acc=0.9750 test acc=0.9333
+first 3 test probabilities: [[0.0, 0.0365, 0.9634], [0.0296, 0.9696, 0.0008], [0.3004, 0.0004, 0.6992]] rows sum to 1: True
+naive product of 400 densities per class: [5.214444420137174e-214, 3.9010781894010676e-295]
+log-space joint log-likelihoods: [[-491.7949, -678.5945]]
+no smoothing, class-0 var: [0.0, 0.25] jll: [[nan, -8.0352919734153]]
+with smoothing prediction for [1.5, 0.5]: [0]

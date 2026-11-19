@@ -1,0 +1,5 @@
+[(7, None), (13, 0), (11, 4), (10, 2), (1, 0)] -> copy [(7, None), (13, 0), (11, 4), (10, 2), (1, 0)] | original intact: True | shares nodes: False
+[(1, 1), (2, 1)] -> copy [(1, 1), (2, 1)] | original intact: True | shares nodes: False
+[(3, None), (3, 0), (3, None)] -> copy [(3, None), (3, 0), (3, None)] | original intact: True | shares nodes: False
+[(1, 0)] -> copy [(1, 0)] | original intact: True | shares nodes: False
+[] -> copy [] | original intact: True | shares nodes: False

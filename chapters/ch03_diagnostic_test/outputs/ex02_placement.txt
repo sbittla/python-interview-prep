@@ -1,0 +1,24 @@
+strong SWE: core=100% gotchas=88% complexity=92% coding=100% overall=94%
+  path=fast weak=[] track=S weeks=4 -> plan=crash-4 warning=False
+    Week 1: Patterns and hashing (Ch. 2, 8-11); skim Part I via the diagnostic + diagnostic retake
+    Week 3: DP, backtracking (Ch. 18-19) + track S highlights
+    (4 weeks in total)
+sample sheet: core=88% gotchas=50% complexity=75% coding=75% overall=72%
+  path=full weak=['gotchas'] track=L weeks=8 -> plan=standard-8 warning=False
+    Week 1: Playbook, Big-O, Python essentials, gotchas, arrays/strings/hashing (Ch. 1-9) + Repair: gotchas (Ch. 7, 23) + diagnostic retake
+    Week 6: Track part 1: Ch. 38-40
+    Week 7: Track part 2: Ch. 41-43
+    (8 weeks in total)
+career changer: core=38% gotchas=25% complexity=33% coding=0% overall=25%
+  path=foundations weak=['coding', 'gotchas', 'complexity', 'core'] track=M weeks=12 -> plan=foundations-12 warning=False
+    Week 1: Setup and Python syntax (Ch. 4-5)
+    Week 4: Basic DSA warm-up: arrays, strings, hashing (Ch. 9) + diagnostic retake
+    Week 10: Track part 1: Ch. 33-35
+    Week 11: Track part 2: Ch. 36-37
+    (12 weeks in total)
+
+Edge cases:
+  choose_plan('full', 5) -> ('crash-4', True)
+  choose_plan('foundations', 10) -> ('standard-8', True)
+  all areas exactly 75% -> fast
+  bad score -> core: 9 not in 0..8

@@ -1,0 +1,12 @@
+push 1  inbox=[1] outbox=[]
+push 2  inbox=[1, 2] outbox=[]
+push 3  inbox=[1, 2, 3] outbox=[]
+pop    -> 1  inbox=[] outbox=[3, 2]  agree=True
+push 4  inbox=[4] outbox=[3, 2]
+pop    -> 2  inbox=[4] outbox=[3]  agree=True
+pop    -> 3  inbox=[4] outbox=[]  agree=True
+peek   -> 4  inbox=[] outbox=[4]  agree=True
+pop    -> 4  inbox=[] outbox=[]  agree=True
+1000 pushes -> moves=1000 (each element moved at most once: True)
+QueueStack pops: [3, 2, 1]
+empty pop -> IndexError: queue is empty

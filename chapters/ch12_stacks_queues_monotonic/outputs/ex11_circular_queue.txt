@@ -1,0 +1,13 @@
+enqueue(1)   -> True  slots=[1, None, None] head=0 size=1
+enqueue(2)   -> True  slots=[1, 2, None] head=0 size=2
+enqueue(3)   -> True  slots=[1, 2, 3] head=0 size=3
+enqueue(4)   -> False slots=[1, 2, 3] head=0 size=3
+dequeue()    -> 1     slots=[None, 2, 3] head=1 size=2
+enqueue(4)   -> True  slots=[4, 2, 3] head=1 size=3
+rear()       -> 4     slots=[4, 2, 3] head=1 size=3
+dequeue()    -> 2     slots=[4, None, 3] head=2 size=2
+dequeue()    -> 3     slots=[4, None, None] head=0 size=1
+enqueue(5)   -> True  slots=[4, 5, None] head=0 size=2
+front()      -> 4     slots=[4, 5, None] head=0 size=2
+full=False empty=False
+deque(maxlen=3) after append(4): [2, 3, 4]  (oldest silently dropped)

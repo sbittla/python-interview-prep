@@ -1,0 +1,16 @@
+heapify [9,4,7,1,8,2,6] -> [1, 4, 2, 9, 8, 7, 6]  valid: True
+push 0                  -> [0, 1, 2, 4, 8, 7, 6, 9]
+pop                     -> 0 [1, 4, 2, 9, 8, 7, 6]
+pushpop(5)              -> 1 [2, 4, 5, 9, 8, 7, 6]
+pushpop(-1) (smaller)   -> -1 [2, 4, 5, 9, 8, 7, 6]
+replace(10)             -> 2 [4, 8, 5, 9, 10, 7, 6]
+solve [4,1,3,1]         -> [1, 1, 3, 4]
+solve strings           -> ['apple', 'fig', 'pear']
+empty pop               -> IndexError: pop from empty heap
+valid like heapq.heapify -> True  same root: True
+swaps on descending input (n = 2^h - 1):
+      n   heapify   n pushes   heapify/n
+    127       120        642   0.94
+   1023      1013       8194   0.99
+   8191      8178      90114   1.00
+all rungs agree on 200 random lists: True

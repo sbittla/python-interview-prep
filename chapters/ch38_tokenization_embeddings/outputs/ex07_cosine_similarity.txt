@@ -1,0 +1,14 @@
+cosine([1,0],[1,1]) = 0.7071
+cosine(zeros, ones) = 0.0
+
+ doc            dot     cosine
+ short-aligned    2.00   1.000
+ long-off-axis    5.50   0.774
+ tiny-aligned     0.20   1.000
+rank by dot:    ['long-off-axis', 'short-aligned', 'tiny-aligned']
+rank by cosine: ['short-aligned', 'tiny-aligned', 'long-off-axis']
+after normalising rows, dot == cosine: True
+
+pairwise shape: (50, 40)  matches loops: True
+zero row gives zeros: True  range ok: True
+|a-b| = sqrt(2-2cos) for unit vectors: False

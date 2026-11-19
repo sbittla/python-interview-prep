@@ -1,0 +1,5 @@
+A & B         : [[1, 2], [5, 5], [8, 10], [15, 23], [24, 24], [25, 25]]
+touching      : [[3, 3]]
+empty / apart : [] []
+nested        : [[2, 3], [5, 7], [9, 10]]
+agrees with brute force: True

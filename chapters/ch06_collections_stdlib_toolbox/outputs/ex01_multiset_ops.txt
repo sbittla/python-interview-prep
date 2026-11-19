@@ -1,0 +1,7 @@
+'noon'    from 'on no'  can_spell=True  brute=True  shortfall={}
+'banana'  from 'ban'    can_spell=False brute=False shortfall={'a': 2, 'n': 1}
+''        from 'abc'    can_spell=True  brute=True  shortfall={}
+'abc'     from ''       can_spell=False brute=False shortfall={'a': 1, 'b': 1, 'c': 1}
+shared_stickers('aabbc', 'abbbd') = 'abb'
+combined_need(['moon', 'mono', 'nom']) = 'mnoo'
+Counter('abca').most_common(1) = [('a', 2)]

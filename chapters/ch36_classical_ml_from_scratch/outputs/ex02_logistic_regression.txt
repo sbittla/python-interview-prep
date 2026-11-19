@@ -1,0 +1,13 @@
+sigmoid([-1000, 0, 1000]): [0.0, 0.5, 1.0]
+naive sigmoid(-1000): [0.0] | naive BCE with p=1, y=0: inf
+stable BCE with z=1000, y=0: 1000.0000
+analytic grad: [-0.2411, -0.1371, 0.0779]
+numeric  grad: [-0.2411, -0.1371, 0.0779]
+gradient check relative error < 1e-7: True
+  epoch   0 loss=0.6931
+  epoch  10 loss=0.1935
+  epoch 100 loss=0.1197
+  epoch 299 loss=0.1129
+w: [2.5978, 2.4184] b: -1.0209
+train acc=0.9467  test acc=0.8800
+P(y=1) for points [-2,-2], [0,0], [2,2]: [0.0, 0.2649, 0.9999]

@@ -1,0 +1,29 @@
+parse_duration('45s') = 45
+parse_duration('1h30m') = 5400
+parse_duration('2d 4h 5s') = 187205
+parse_duration('1d1h1m1s') = 90061
+parse_duration('90') -> ValueError: bad token at position 0: '90'
+parse_duration('1m1h') -> ValueError: unit 'h' repeated or out of order
+parse_duration('') -> ValueError: empty duration
+
+Embedded test suite:
+  PASS  test_valid_durations[seconds-only]
+  PASS  test_valid_durations[hours-minutes]
+  PASS  test_valid_durations[spaces-between-tokens]
+  PASS  test_valid_durations[zero-with-padding]
+  PASS  test_valid_durations[all-units]
+  PASS  test_invalid_input_raises_value_error[empty]
+  PASS  test_invalid_input_raises_value_error[blank]
+  PASS  test_invalid_input_raises_value_error[no-unit]
+  PASS  test_invalid_input_raises_value_error[trailing-number]
+  PASS  test_invalid_input_raises_value_error[unknown-unit]
+  PASS  test_invalid_input_raises_value_error[wrong-order]
+  PASS  test_invalid_input_raises_value_error[repeat]
+  PASS  test_non_string_raises_type_error
+  PASS  test_total_of_playlist
+  PASS  test_yield_fixture_gives_fresh_state
+  PASS  test_equivalent_spellings[one-hour-as-1h]
+  PASS  test_equivalent_spellings[one-hour-as-60m]
+  PASS  test_equivalent_spellings[one-hour-as-3600s]
+  PASS  test_equivalent_spellings[one-hour-as-0h60m]
+  19/19 passed

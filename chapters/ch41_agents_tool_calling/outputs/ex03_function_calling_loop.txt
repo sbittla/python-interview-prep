@@ -1,0 +1,18 @@
+Q: What's the weather in Oslo?
+  stop=final turns=2 tools=[('get_weather', {'city': 'Oslo'}, True)]
+  A: It is 4.0 C and sleet in Oslo.
+Q: Is it warmer in Lisbon or Cairo?
+  stop=final turns=3 tools=[('get_weather', {'city': 'Lisbon'}, True), ('get_weather', {'city': 'Cairo'}, True)]
+  A: Cairo is warmer than Lisbon by 12.0 C.
+Q: What's the weather in Atlantis?
+  stop=final turns=2 tools=[('get_weather', {'city': 'Atlantis'}, False)]
+  A: Sorry, I could not get the weather for Atlantis.
+Full transcript for the comparison question:
+    system   : You are a weather assistant. Call tools by replying with JSON {"type": "tool_call", ......
+    user     : Is it warmer in Lisbon or Cairo?
+    assistant: {"type": "tool_call", "id": "call_1", "name": "get_weather", "arguments": {"city": "Lis...
+    tool      [get_weather id=call_1]: {"ok": true, "result": {"city": "Lisbon", "conditions": "sunny", "temp_c": 19.0}}
+    assistant: {"type": "tool_call", "id": "call_2", "name": "get_weather", "arguments": {"city": "Cai...
+    tool      [get_weather id=call_2]: {"ok": true, "result": {"city": "Cairo", "conditions": "clear", "temp_c": 31.0}}
+    assistant: {"type": "final", "content": "Cairo is warmer than Lisbon by 12.0 C."}
+Stubborn model: stop=max_turns turns=3 answer=None tool calls=3

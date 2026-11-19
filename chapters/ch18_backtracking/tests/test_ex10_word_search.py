@@ -5,7 +5,7 @@ BOARD = ["ABCE", "SFCS", "ADEE"]
 
 @pytest.mark.parametrize("word, expected", [("ABCCED", True), ("SEE", True), ("ABCB", False),
                                             ("A", True), ("Z", False), ("ESCCBA", True),
-                                            ("ABCESEEDAS", True), ("SFCSECB", False)])
+                                            ("ABCESEEDAS", True), ("SFCSECB", True), ("ABCF", False)])
 def test_examples(load, word, expected):
     m = load("ex10_word_search")
     board = [list(r) for r in BOARD]

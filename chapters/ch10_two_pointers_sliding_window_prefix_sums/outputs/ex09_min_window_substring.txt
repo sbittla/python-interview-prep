@@ -1,0 +1,7 @@
+s='ADOBECODEBANC'      t='ABC'  -> 'BANC'  brute='BANC'  extend='BANC'  any-required(wrong)='BANC'
+s='a'                  t='a'    -> 'a'     brute='a'     extend='a'     any-required(wrong)='a'
+s='a'                  t='aa'   -> ''      brute=''      extend=''      any-required(wrong)=''
+s='aa'                 t='aa'   -> 'aa'    brute='aa'    extend='aa'    any-required(wrong)='aa'
+s='abc'                t=''     -> ''      brute=''      extend=''      any-required(wrong)=''
+s='bbaac'              t='aba'  -> 'baa'   brute='baa'   extend='baa'   any-required(wrong)='bba'
+s='cabwefgewcwaefgcf'  t='cae'  -> 'cwae'  brute='cwae'  extend='cwae'  any-required(wrong)='cwae'

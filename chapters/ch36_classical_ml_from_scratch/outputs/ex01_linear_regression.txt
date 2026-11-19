@@ -1,0 +1,14 @@
+true w: [2.0, -3.0, 0.5] b: 4.0
+normal equation w: [1.955, -3.0481, 0.5265] b: 3.9819
+inverse agrees with solve: True
+gradient descent w: [1.955, -3.0481, 0.5265] b: 3.9819
+  epoch   0 mse=27.5262
+  epoch  10 mse=0.6962
+  epoch  50 mse=0.2500
+  epoch 100 mse=0.2500
+  epoch 499 mse=0.2500
+max |GD - closed form| < 1e-6: True
+train mse=0.2500 r2=0.9818
+solve on duplicated column: LinAlgError: Singular matrix
+lstsq minimum-norm w: [0.9775, -3.0481, 0.5265, 0.9775]
+lr=1.5 loss at epoch 0, 10, 19: ['27.53', '9.954e+06', '8.565e+12']

@@ -72,10 +72,14 @@ def load_log(path: Path = DATA) -> list[dict]:
 
 
 def next_review(attempts: list[tuple[str, str]]) -> tuple[str | None, int]:
-    """Return (due_date or None if retired, current solved streak)."""
+    """Return (due_date or None if retired, current solved streak).
+
+    Attempts are ordered by date only (stable sort): same-day attempts keep their log order,
+    so the last one logged that day counts as the latest (same rule as Ch. 3 ex05).
+    """
     if not attempts:
         raise ValueError("no attempts")
-    attempts = sorted(attempts)
+    attempts = sorted(attempts, key=lambda a: a[0])   # by date only; stable for same-day ties
     last_day = date.fromisoformat(attempts[-1][0])
     streak = 0
     for _, result in reversed(attempts):
@@ -98,7 +102,7 @@ def schedule(rows: list[dict], today: str = TODAY) -> list[dict]:
     out = []
     for problem, attempts in by_problem.items():
         due, streak = next_review(attempts)
-        last = max(attempts)[1]
+        last = sorted(attempts, key=lambda a: a[0])[-1][1]
         if due is None:
             status = "retired"
         elif due < today:

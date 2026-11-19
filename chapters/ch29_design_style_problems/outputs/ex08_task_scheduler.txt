@@ -1,0 +1,11 @@
+tasks     n  sim  formula  schedule
+'AAABBC'  2    7        7  ABCAB_A
+'AAABBB'  2    8        8  AB_AB_AB
+'AAABBB'  0    6        6  ABABAB
+'ABCDEF'  2    6        6  ABCDEF
+'AAAA'    3   13       13  A___A___A___A
+''        5    0        0  
+cancel temp-cleanup: True  cancel again: False
+run_until(10): [(0, 'heartbeat'), (4, 'heartbeat'), (5, 'email'), (8, 'heartbeat'), (10, 'report'), (10, 'backup')]
+after cancelling heartbeat, run_until(20): [(11, 'late')]
+pending: 0

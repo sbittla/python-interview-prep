@@ -36,6 +36,8 @@ def run_solution(path: Path) -> tuple[bool, str, str]:
     stdin_file = chapter_dir / "inputs" / f"{path.stem}.txt"
     stdin = stdin_file.read_text(encoding="utf-8") if stdin_file.exists() else ""
     env = dict(os.environ, PYTHONHASHSEED="0", PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+    env.setdefault("OPENBLAS_NUM_THREADS", "4")  # many-core machines can fail OpenBLAS init
+    env.setdefault("OMP_NUM_THREADS", "4")
     try:
         proc = subprocess.run(
             [sys.executable, str(path)],
@@ -61,7 +63,7 @@ def main() -> int:
 
     total = failed = changed = 0
     for chapter_dir in chapters(args.chapter):
-        sols = sorted((chapter_dir / "solutions").glob("ex*.py"))
+        sols = sorted([*(chapter_dir / "solutions").glob("ex*.py"), *(chapter_dir / "solutions").glob("lab*.py")])
         if not sols:
             continue
         out_dir = chapter_dir / "outputs"

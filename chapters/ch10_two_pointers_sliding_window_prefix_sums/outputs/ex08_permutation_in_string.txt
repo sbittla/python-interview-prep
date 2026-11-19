@@ -1,0 +1,7 @@
+p='ab'   s='eidbaooo'    -> True  starts=[3]        brute=True  set-compare(wrong)=True
+p='ab'   s='eidboaoo'    -> False starts=[]         brute=False set-compare(wrong)=False
+p='abc'  s='cbaebabacd'  -> True  starts=[0, 6]     brute=True  set-compare(wrong)=True
+p='aab'  s='abbab'       -> False starts=[]         brute=False set-compare(wrong)=True
+p='a'    s=''            -> False starts=[]         brute=False set-compare(wrong)=False
+p='abc'  s='ab'          -> False starts=[]         brute=False set-compare(wrong)=False
+p='aa'   s='aaaa'        -> True  starts=[0, 1, 2]  brute=True  set-compare(wrong)=True

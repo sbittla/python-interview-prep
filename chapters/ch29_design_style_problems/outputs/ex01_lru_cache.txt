@@ -1,0 +1,6 @@
+LRUCacheBrute    gets=['a', -1, -1, 'A', 'd'] order=[1, 4]
+LRUCacheOrdered  gets=['a', -1, -1, 'A', 'd'] order=[1, 4]
+LRUCache         gets=['a', -1, -1, 'A', 'd'] order=[1, 4]
+capacity 1 keeps only last key: ['y'] get(x) = -1
+updating a key does not grow size: 1 value = 2
+capacity 0 -> capacity must be positive

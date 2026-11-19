@@ -1,0 +1,20 @@
+45-minute round:
+   0-5  intro             (5 min)
+   5-10 clarify+examples  (5 min)
+  10-19 brute+optimise    (9 min)
+  19-33 code              (14 min)
+  33-40 test              (7 min)
+  40-45 closing           (5 min)
+60-minute round:
+   0-5  intro             (5 min)
+   5-13 clarify+examples  (8 min)
+  13-25 brute+optimise    (12 min)
+  25-45 code              (20 min)
+  45-55 test              (10 min)
+  55-60 closing           (5 min)
+
+Checkpoints in a 45-minute round:
+  minute  9, still in clarify+examples : on track
+  minute 14, still in clarify+examples : 4 min behind in clarify+examples: state your assumptions aloud and move on
+  minute 24, still in brute+optimise   : 5 min behind in brute+optimise: code the best idea you have now; mention the better one
+  minute 36, still in code             : 3 min behind in code: stub helper functions, finish the main path, fill in later

@@ -1,0 +1,28 @@
+chunk([1, 2, 3, 4, 5], 2) = [[1, 2], [3, 4], [5]]
+chunk('abcdefg', 3)      = [['a', 'b', 'c'], ['d', 'e', 'f'], ['g']]
+chunk([], 3)             = []
+
+Mutation check (which test category kills each planted bug):
+  drop_last_chunk        killed by happy, edge
+  no_validation          killed by error
+  drop_partial           killed by happy, edge
+  short_input_shortcut   killed by edge
+  accepts_floats         killed by error
+  a happy-path-only suite would kill 2/5 mutants
+
+Embedded test suite:
+  PASS  test_results[even-split]
+  PASS  test_results[uneven-split]
+  PASS  test_results[string-input]
+  PASS  test_results[empty-input]
+  PASS  test_results[size-one]
+  PASS  test_results[size-equals-len]
+  PASS  test_results[size-exceeds-len]
+  PASS  test_results[tuple-input]
+  PASS  test_errors[size-zero]
+  PASS  test_errors[size-negative]
+  PASS  test_errors[size-float]
+  PASS  test_errors[size-bool]
+  PASS  test_input_not_mutated
+  PASS  test_every_mutant_is_killed
+  14/14 passed

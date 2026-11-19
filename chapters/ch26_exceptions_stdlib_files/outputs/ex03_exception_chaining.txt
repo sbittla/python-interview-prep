@@ -1,0 +1,21 @@
+input: {"host": "db", "port": 5432}
+  ok -> {'host': 'db', 'port': 5432}
+input: {"host": "db", "port": 5432
+  ConfigError: config is not valid JSON
+    caused by JSONDecodeError: Expecting ',' delimiter: line 1 column 28 (char 27)
+  __cause__ set: True, suppress_context: True
+input: {"port": 8080}
+  ConfigError: missing key: host
+    caused by KeyError: 'host'
+  __cause__ set: True, suppress_context: True
+input: {"host": "db", "port": "80"}
+  ConfigError: port must be an int in 1..65535
+  __cause__ set: False, suppress_context: True
+input: {"host": "db", "port": 70000}
+  ConfigError: port must be an int in 1..65535
+  __cause__ set: False, suppress_context: True
+
+implicit chaining:
+  RuntimeError: handler failed
+    during handling of KeyError: 'missing'
+  __cause__ is None: True

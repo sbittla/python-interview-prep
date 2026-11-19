@@ -1,0 +1,35 @@
+loaded 5 orders, 1 bad row(s)
+  line 5: quantity: invalid literal for int() with base 10: 'two'
+first order: {'order_id': 1001, 'item': 'Widget, large', 'unit_price': Decimal('19.99'), 'order_date': datetime.date(2026, 1, 5)}
+types: {'order_id': 'int', 'customer': 'str', 'item': 'str', 'quantity': 'int', 'unit_price': 'Decimal', 'order_date': 'date'}
+
+revenue_by_customer:
+  Acme Corp    158.97
+  Globex        84.98
+  Umbrella      15.50
+float pitfall: 0.1 + 0.2 == 0.3 -> False | Decimal -> True
+
+JSON report:
+{
+  "bad_rows": [
+    [
+      5,
+      "quantity: invalid literal for int() with base 10: 'two'"
+    ]
+  ],
+  "generated_for": "2026-01-31",
+  "revenue": {
+    "Acme Corp": "158.97",
+    "Globex": "84.98",
+    "Umbrella": "15.50"
+  },
+  "top_customer": "Acme Corp"
+}
+
+round-trip: revenue values are now str and tuples became list
+
+revenue.csv:
+customer,revenue
+Acme Corp,158.97
+Globex,84.98
+Umbrella,15.50

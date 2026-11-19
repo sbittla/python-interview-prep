@@ -1,0 +1,17 @@
+== parse_model_output
+  ok   Final(content='Paris is the capital of France.')
+  ok   ToolCall(id='call_7', name='get_weather', arguments={'city': 'Oslo'})
+  ok   Final(content='The answer is 42.')
+  ERR  tool_call.name must be a non-empty string
+  ERR  tool_call.arguments must be an object
+  ERR  invalid JSON (Unterminated string starting at, char 29)
+  ERR  unknown type: 'dance'
+== ScriptedLLM
+  reply 1: Final(content='one')
+  reply 2: Final(content='two')
+  prompts recorded: [1, 2]
+  reply 3: RuntimeError: script exhausted after 2 responses
+== RuleBasedLLM
+  "What's the weather in lisbon?"  -> ToolCall(id='c1', name='get_weather', arguments={'city': 'Lisbon'})
+  'hello bot'                      -> Final(content='Hi there!')
+  'What is love?'                  -> Final(content='I am not sure.')

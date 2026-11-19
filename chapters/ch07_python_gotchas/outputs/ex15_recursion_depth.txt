@@ -1,0 +1,5 @@
+default recursion limit: 1000
+buggy on 500 nodes: 500
+buggy on 10000 nodes: RecursionError
+fixed on 10000 nodes: 10000
+fixed on empty list: 0

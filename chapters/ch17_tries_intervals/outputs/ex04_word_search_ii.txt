@@ -1,0 +1,5 @@
+found: ['eat', 'oat', 'oath']
+brute: ['eat', 'oat', 'oath']
+board restored: True
+all-'a' grid, same answer: True | pruning makes fewer calls: True
+edge: 1x1 grid: ['a']

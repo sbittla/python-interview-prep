@@ -1,0 +1,15 @@
+naive softmax: [[nan, nan, 0.0]]
+stable softmax: [[0.5, 0.5, 0.0]]
+shift invariance: True
+  epoch   0 loss=1.0986
+  epoch  10 loss=0.0943
+  epoch  50 loss=0.0492
+  epoch 199 loss=0.0332
+initial loss equals log(3): True
+test cross-entropy=0.1406
+train acc=0.9944  test acc=0.9500
+confusion matrix (rows=true, cols=pred):
+   [17, 0, 1]
+   [0, 24, 1]
+   [0, 1, 16]
+2-class softmax p1 == sigmoid(z1-z0): True

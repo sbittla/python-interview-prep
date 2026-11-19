@@ -1,0 +1,7 @@
+Case #1: 6 3
+Case #2: -5 -5
+Case #3: 0 -
+Case #4: 25 10
+line-based reader agrees: True
+wrapped case, bulk reader: Case #1: 10 4
+wrapped case, line reader: ValueError: case 1: expected 4 numbers on one line, got 1

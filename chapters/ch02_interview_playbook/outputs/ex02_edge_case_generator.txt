@@ -1,0 +1,15 @@
+12 one-at-a-time cases (product would be 32)
+  nums=empty           {'nums': [], 'k': 2}  ref -> 0
+  nums=single          {'nums': [7], 'k': 2}  ref -> 0
+  nums=two_equal       {'nums': [2, 2], 'k': 2}  ref -> 0
+  nums=all_equal       {'nums': [5, 5, 5, 5], 'k': 2}  ref -> 0
+  nums=negatives       {'nums': [-4, -1, -7], 'k': 2}  ref -> 3
+  nums=ascending       {'nums': [1, 2, 3, 4], 'k': 2}  ref -> 2
+  nums=descending      {'nums': [4, 3, 2, 1], 'k': 2}  ref -> 0
+  nums=has_zero        {'nums': [0, 3, 0], 'k': 2}  ref -> 3
+  k=zero               {'nums': [3, 1, 4, 1, 5], 'k': 0}  ref -> 0
+  k=one                {'nums': [3, 1, 4, 1, 5], 'k': 1}  ref -> 4
+  k=negative           {'nums': [3, 1, 4, 1, 5], 'k': -3}  ref -> 0
+  k=large              {'nums': [3, 1, 4, 1, 5], 'k': 1000000000}  ref -> 4
+
+max_gap_buggy fails on: ['nums=empty', 'nums=ascending', 'k=zero', 'k=negative']

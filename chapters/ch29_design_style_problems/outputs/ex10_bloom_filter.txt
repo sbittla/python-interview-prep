@@ -1,0 +1,15 @@
+sized for n=1000, p=1%: m=9586 bits (1.17 KiB), k=7
+false negatives: 0
+false positives: 200 / 20000 = 0.0100
+theoretical rate: 0.0100   bits set: 0.520
+
+over-filling the same filter to 3000 items:
+false positives: 0.4288   theoretical: 0.4360
+
+k trade-off at m=9586, n=1000 (theory):
+  k=1  -> 0.0991
+  k=3  -> 0.0194
+  k=5  -> 0.0111
+  k=7  -> 0.0100
+  k=10 -> 0.0130
+  k=15 -> 0.0296

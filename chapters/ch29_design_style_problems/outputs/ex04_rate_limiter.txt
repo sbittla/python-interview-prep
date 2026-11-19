@@ -1,0 +1,10 @@
+request times: [9.5, 9.6, 9.7, 10.0, 10.1, 10.2, 19.6, 25.0]
+fixed window                 11111101
+sliding log                  11100011
+sliding counter              11101011
+token bucket (cap 3, 0.3/s)  11100011
+alice x3: [True, True, False]  bob: True
+retry_after(alice) at t=30: 30.0
+alice at t=60: True
+token bucket burst of 10 at t=0 -> allowed 5
+then 10 requests every 0.5s -> allowed 5 (rate 1/s)

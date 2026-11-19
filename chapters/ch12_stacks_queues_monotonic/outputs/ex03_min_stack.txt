@@ -1,0 +1,13 @@
+push 5         min= 5  agree=True
+push 2         min= 2  agree=True
+push 7         min= 2  agree=True
+push 2         min= 2  agree=True
+min      -> 2  min= 2  agree=True
+pop      -> 2  min= 2  agree=True
+min      -> 2  min= 2  agree=True
+pop      -> 7  min= 2  agree=True
+pop      -> 2  min= 5  agree=True
+min      -> 5  min= 5  agree=True
+push -1        min=-1  agree=True
+min      -> -1 min=-1  agree=True
+empty get_min -> IndexError: min of empty stack

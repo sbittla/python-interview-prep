@@ -1,0 +1,8 @@
+first_unique(['ann', 'bob', 'ann', 'cy', 'bob']) = 'cy'
+first_unique([]) = None
+first_unique(['a', 'a']) = None
+first_unique(['solo']) = 'solo'
+
+score first_unique             4/4
+score brute_force              4/4
+score tempting_least_frequent  3/4

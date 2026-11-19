@@ -1,0 +1,22 @@
+== levels: INFO logger hides DEBUG ==
+WARNING:orders:skipping negative item -1
+ERROR:orders:cannot invert item 0
+  ! ZeroDivisionError: division by zero
+result: 0.75
+
+== same name, DEBUG level, called twice (no duplicates) ==
+handlers attached: 1
+DEBUG:orders:processing 5
+
+== hierarchy: app.db propagates to app ==
+child has own handlers: False
+effective level of child: DEBUG
+INFO:app.db:connected to primary
+DEBUG:app.db:pool size 5
+
+== handler level filters independently ==
+ERROR:audit:shown
+
+== lazy formatting: argument object is never formatted when disabled ==
+__str__ calls with %-style: 0
+__str__ calls with f-string: 1

@@ -1,0 +1,99 @@
+"""
+Exercise 03 — Recent-Items Windows with deque and OrderedDict  [Tier: ★ Core]
+Chapter 06 · Pattern: deque sliding window, OrderedDict recency · Target time: 20 min
+
+Problem
+-------
+Implement three small "recent things" helpers.
+
+1. `HitCounter(window)` — `hit(t)` records an event at integer second t
+   (calls arrive with non-decreasing t); `count(t)` returns the number of hits
+   in the half-open interval (t - window, t].
+2. `RecentlyViewed(capacity)` — `view(item)` records that an item was opened;
+   `items()` returns at most `capacity` DISTINCT items, most recent first.
+3. `moving_average(values, k)` — list of the averages of each full window of
+   k consecutive values (length len(values) - k + 1; empty if k > len(values)).
+
+Examples
+--------
+>>> hc = HitCounter(300); hc.hit(1); hc.hit(2); hc.hit(300); hc.count(300), hc.count(301)
+(3, 2)
+>>> rv = RecentlyViewed(2); rv.view("a"); rv.view("b"); rv.view("a"); rv.items()
+['a', 'b']
+>>> moving_average([1, 2, 3, 4], 2)
+[1.5, 2.5, 3.5]
+
+Constraints
+-----------
+- Up to 10**5 operations; each should be amortised O(1). k >= 1.
+
+Hints
+-----
+- Expire from the left while `hits[0] <= t - window`.
+- `deque(maxlen=k)` silently drops from the opposite end when full, so read
+  `window[0]` BEFORE appending.
+
+Follow-ups
+----------
+- Many hits per second: store (t, count) pairs to bound memory.
+- RecentlyViewed plus O(1) lookup and eviction is an LRU cache (→ Ch 29).
+"""
+from __future__ import annotations
+
+from collections import OrderedDict, deque
+
+
+class HitCounter:
+    def __init__(self, window: int) -> None:
+        raise NotImplementedError("TODO")
+
+    def _expire(self, t: int) -> None:
+        raise NotImplementedError("TODO")
+
+    def hit(self, t: int) -> None:
+        raise NotImplementedError("TODO")
+
+    def count(self, t: int) -> int:
+        raise NotImplementedError("TODO")
+
+
+class RecentlyViewed:
+    def __init__(self, capacity: int) -> None:
+        raise NotImplementedError("TODO")
+
+    def view(self, item: str) -> None:
+        raise NotImplementedError("TODO")
+
+    def items(self) -> list[str]:
+        raise NotImplementedError("TODO")
+
+
+def brute_force_moving_average(values: list[float], k: int) -> list[float]:
+    raise NotImplementedError("TODO")
+
+
+def moving_average(values: list[float], k: int) -> list[float]:
+    raise NotImplementedError("TODO")
+
+
+def main() -> None:
+    hc = HitCounter(300)
+    for t in (1, 2, 3, 300):
+        hc.hit(t)
+    print("count(300) =", hc.count(300), "| count(301) =", hc.count(301),
+          "| count(700) =", hc.count(700))
+    rv = RecentlyViewed(3)
+    for item in ["home", "cart", "shoes", "home", "socks"]:
+        rv.view(item)
+    print("recently viewed:", rv.items())
+    vals = [3, 1, 4, 1, 5, 9, 2, 6]
+    print("moving_average k=3:", moving_average(vals, 3))
+    print("matches brute force:", moving_average(vals, 3) == brute_force_moving_average(vals, 3))
+    print("k > len:", moving_average([1, 2], 3))
+    d = deque([1, 2, 3], maxlen=3)
+    d.append(4)
+    print("deque(maxlen=3) after append(4):", list(d))
+
+
+if __name__ == "__main__":
+    main()

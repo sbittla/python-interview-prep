@@ -1,0 +1,9 @@
+index['brown'] = [1, 3]
+vocabulary size = 11
+'quick'      all=[1, 2] any=[1, 2] brute_ok=True
+'red hen'    all=[2, 4] any=[2, 4] brute_ok=True
+'brown fox'  all=[1] any=[1, 3, 4] brute_ok=True
+'fox hen'    all=[4] any=[1, 2, 4] brute_ok=True
+'zebra'      all=[] any=[] brute_ok=True
+''           all=[] any=[] brute_ok=True
+vocabulary size after queries = 11

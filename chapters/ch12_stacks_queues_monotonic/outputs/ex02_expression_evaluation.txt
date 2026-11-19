@@ -1,0 +1,19 @@
+eval_rpn(2 1 + 3 *) = 9
+eval_rpn(4 13 5 / +) = 6
+eval_rpn(-7 2 /) = -3
+python -7 // 2 = -4   trunc_div(-7, 2) = -3
+2 + 3 * (4 - 1)        rpn: 2 3 4 1 - * +              =   11  agree=True
+-(7) / 2               rpn: 0 7 2 / -                  =   -3  agree=True
+1 - 2 - 3              rpn: 1 2 - 3 -                  =   -4  agree=True
+2*(3+4)*5              rpn: 2 3 4 + * 5 *              =   70  agree=True
+(1+(4+5+2)-3)+(6+8)    rpn: 1 4 5 + 2 + + 3 - 6 8 + +  =   23  agree=True
+14 / 3 * 3             rpn: 14 3 / 3 *                 =   12  agree=True
+-(2+3)*2               rpn: 0 2 3 + 2 * -              =  -10  agree=True
+eval_rpn(['1', '+']) -> ValueError: not enough operands for '+'
+eval_rpn(['1', '2']) -> ValueError: malformed expression
+calculate('2*-3') -> ValueError: unexpected operator '-'
+calculate('1 2') -> ValueError: missing operator between operands
+calculate('3 +') -> ValueError: expression ends without an operand
+calculate('()') -> ValueError: expression ends without an operand
+calculate('(1+2') -> ValueError: unmatched '('
+calculate('1+2)') -> ValueError: unmatched ')'

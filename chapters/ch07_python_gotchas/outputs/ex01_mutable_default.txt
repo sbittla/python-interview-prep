@@ -1,0 +1,7 @@
+buggy call 1: ['python']
+buggy call 2: ['python', 'sql']
+buggy defaults now: (['python', 'sql'],)
+fixed call 1: ['python']
+fixed call 2: ['sql']
+fixed defaults: (None,)
+explicit list: ['a', 'x']

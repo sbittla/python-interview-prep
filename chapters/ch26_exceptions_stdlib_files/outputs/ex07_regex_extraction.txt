@@ -1,0 +1,24 @@
+== parse_line ==
+{'date': '2026-01-05', 'time': '09:15:02', 'level': 'INFO', 'component': 'auth', 'message': 'user=alice@example.com login ok ip=10.0.0.12'}
+{'date': '2026-01-05', 'time': '09:15:09', 'level': 'WARN', 'component': 'auth', 'message': 'user=bob@example.org failed password ip=10.0.0.15'}
+{'date': '2026-01-05', 'time': '09:16:44', 'level': 'ERROR', 'component': 'db', 'message': 'query timeout after 3000ms request_id=REQ-48213'}
+None
+
+== level_counts == {'ERROR': 2, 'INFO': 3, 'WARN': 2}
+== emails == ['alice@example.com', 'bob@example.org', 'carol.smith@example.co.uk']
+== durations_ms == [3000, 12, 87, 1450]
+== errors, masked ==
+  query timeout after 3000ms request_id=REQ-***13
+  POST /orders 500 87ms request_id=REQ-***15
+
+== greedy vs lazy ==
+greedy <b>.*</b> : ['<b>x</b><b>y</b>']
+lazy   <b>.*?</b>: ['<b>x</b>', '<b>y</b>']
+
+== match vs search vs fullmatch ==
+match(r'\d+')    : None
+search(r'\d+')   : 42
+fullmatch(r'\d+'): 42
+
+== split with a pattern ==
+['a', 'b', 'c ', 'd']

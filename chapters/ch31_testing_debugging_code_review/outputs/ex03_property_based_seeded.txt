@@ -1,0 +1,32 @@
+rle_encode('aaabcc') = a3b1c2
+rle_decode('a12b1')  = aaaaaaaaaaaab
+sample generated inputs (seed 3): ['cc', 'ccccc', '', 'bbaaaacccc']
+
+property roundtrip  seeds [0, 1, 2, 3, 4]: 0 counterexamples
+property canonical  seeds [0, 1, 2, 3, 4]: 0 counterexamples
+property size_bound seeds [0, 1, 2, 3, 4]: 0 counterexamples
+
+hand-picked example 'aaabcc' passes the buggy decoder: True
+seed 0: counterexample of length 48: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+shrunk to 'aaaaaaaaaa' (length 10)
+  encode -> 'a10'; buggy decode -> IndexError: string index out of range
+
+Embedded test suite:
+  PASS  test_properties_hold[roundtrip-0]
+  PASS  test_properties_hold[roundtrip-1]
+  PASS  test_properties_hold[roundtrip-2]
+  PASS  test_properties_hold[roundtrip-3]
+  PASS  test_properties_hold[roundtrip-4]
+  PASS  test_properties_hold[canonical-0]
+  PASS  test_properties_hold[canonical-1]
+  PASS  test_properties_hold[canonical-2]
+  PASS  test_properties_hold[canonical-3]
+  PASS  test_properties_hold[canonical-4]
+  PASS  test_properties_hold[size_bound-0]
+  PASS  test_properties_hold[size_bound-1]
+  PASS  test_properties_hold[size_bound-2]
+  PASS  test_properties_hold[size_bound-3]
+  PASS  test_properties_hold[size_bound-4]
+  PASS  test_examples_still_matter
+  PASS  test_buggy_decoder_is_caught_and_shrunk
+  17/17 passed

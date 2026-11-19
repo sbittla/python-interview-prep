@@ -1,0 +1,12 @@
+price 100 -> span 1   stack [(100, 1)]
+price  80 -> span 1   stack [(100, 1), (80, 1)]
+price  60 -> span 1   stack [(100, 1), (80, 1), (60, 1)]
+price  70 -> span 2   stack [(100, 1), (80, 1), (70, 2)]
+price  60 -> span 1   stack [(100, 1), (80, 1), (70, 2), (60, 1)]
+price  75 -> span 4   stack [(100, 1), (80, 1), (75, 4)]
+price  85 -> span 6   stack [(100, 1), (85, 6)]
+[100, 80, 60, 70, 60, 75, 85]      -> [1, 1, 1, 2, 1, 4, 6]  agree=True
+[1, 2, 3, 4]                       -> [1, 2, 3, 4]  agree=True
+[4, 3, 2, 1]                       -> [1, 1, 1, 1]  agree=True
+[5, 5, 5]                          -> [1, 2, 3]  agree=True
+[7]                                -> [1]  agree=True

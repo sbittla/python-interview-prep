@@ -1,0 +1,17 @@
+alerts: ['Pune']
+notifier.send calls: [call('oncall@example.com', 'Heat alert: Pune at 38.0C')]
+with an outage: ['Lima: unavailable', 'Cairo']
+get_temp was called with: [call('Lima'), call('Cairo')]
+bare Mock accepted a typo; recorded calls: [call.sned('typo goes unnoticed')]
+fetch_temperature with patched urlopen: 27.25
+urlopen called with: call('https://weather.example.com/current?city=Rio', timeout=5)
+
+Embedded test suite:
+  PASS  test_alert_sent_only_for_hot_cities
+  PASS  test_outage_is_reported_and_job_continues
+  PASS  test_no_alerts_means_no_notifications
+  PASS  test_spec_catches_typos
+  PASS  test_autospec_checks_call_signature
+  PASS  test_fetch_temperature_patches_urlopen_where_used
+  PASS  test_fetch_temperature_propagates_network_errors
+  7/7 passed

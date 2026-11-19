@@ -1,0 +1,7 @@
+s='abcabcbb'  -> 3 'abc'    brute=3  jump=3  jump-without-max(wrong)=3
+s='bbbbb'     -> 1 'b'      brute=1  jump=1  jump-without-max(wrong)=1
+s='pwwkew'    -> 3 'wke'    brute=3  jump=3  jump-without-max(wrong)=3
+s=''          -> 0 ''       brute=0  jump=0  jump-without-max(wrong)=0
+s='abba'      -> 2 'ab'     brute=2  jump=2  jump-without-max(wrong)=3
+s='dvdf'      -> 3 'vdf'    brute=3  jump=3  jump-without-max(wrong)=3
+s='tmmzuxt'   -> 5 'mzuxt'  brute=5  jump=5  jump-without-max(wrong)=6

@@ -1,0 +1,13 @@
+Signature: count_pairs(nums: list[int], target: int)
+1. [size] How large can the input get? (sets the target complexity)
+2. [output] What should I return when there is no valid answer?
+3. [mutation] May I modify the input in place, or must it stay unchanged?
+4. [empty] Can nums be empty or have one element?
+5. [duplicates] Can nums contain duplicates? Do they count separately?
+6. [range] Can values in nums be negative or zero?
+7. [sortedness] Is nums sorted? Does output order matter?
+8. [range] Can target be zero or negative? What is its maximum?
+
+Candidate asked about ['duplicates', 'size']
+Missed categories: ['empty', 'mutation', 'output', 'range', 'sortedness']
+Unknown tag -> ValueError: unknown type tag: 'tuple'

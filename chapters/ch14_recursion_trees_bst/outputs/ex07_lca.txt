@@ -1,0 +1,24 @@
+    ______3__
+   /         \
+  5__         1
+ /   \       / \
+6     2     0   8
+     / \
+    7   4
+lca(5, 1) = 3  parent-map = 3
+lca(5, 4) = 5  parent-map = 5
+lca(6, 4) = 5  parent-map = 5
+lca(7, 8) = 3  parent-map = 3
+lca(3, 0) = 3  parent-map = 3
+    ______6__
+   /         \
+  2__         8
+ /   \       / \
+0     4     7   9
+     / \
+    3   5
+lca_bst(2, 8) = 6
+lca_bst(2, 4) = 2
+lca_bst(3, 5) = 4
+lca_bst(0, 5) = 2
+lca_bst(7, 9) = 8

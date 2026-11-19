@@ -1,0 +1,8 @@
+matrix: [[1, 2, 3], [4, 5, 6]]
+row sums: [6, 15]
+col sums: [5, 7, 9]
+transpose: [[1, 4], [2, 5], [3, 6]]
+grid: ['.#..', '##.#', '....']
+'#' cells: 4
+strip() reader on CRLF text: ['.#.', '##.']
+[:-1] reader on CRLF text:   ['.#.\r', '##']

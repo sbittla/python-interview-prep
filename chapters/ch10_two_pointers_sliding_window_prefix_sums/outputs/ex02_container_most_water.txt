@@ -1,0 +1,7 @@
+heights=[1, 8, 6, 2, 5, 4, 8, 3, 7]  -> 49  brute=49  move-taller(wrong)=8
+heights=[1, 1]                       -> 1   brute=1   move-taller(wrong)=1
+heights=[4, 3, 2, 1, 4]              -> 16  brute=16  move-taller(wrong)=16
+heights=[1, 2, 1]                    -> 2   brute=2   move-taller(wrong)=2
+heights=[5]                          -> 0   brute=0   move-taller(wrong)=0
+heights=[]                           -> 0   brute=0   move-taller(wrong)=0
+heights=[2, 9, 9, 1, 1, 1]           -> 9   brute=9   move-taller(wrong)=5

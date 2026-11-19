@@ -1,0 +1,6 @@
+[7, 1, 7, 7, 2, 7]   x=7 -> 1 -> 2 -> None
+[7, 7]               x=7 -> None
+[1, 2, 3]            x=9 -> 1 -> 2 -> 3 -> None
+[]                   x=1 -> None
+same node objects kept: True
+two_loops agrees: True

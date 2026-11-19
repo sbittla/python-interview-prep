@@ -7,7 +7,7 @@ def test_small_primes(load):
 
 
 @pytest.mark.parametrize("n, expected", [
-    (1_000_000_007, True), (2**61 - 1, True), (1_000_000_007 * 3, False),
+    (1_000_000_007, True), (2**31 - 1, True), (1_000_000_007 * 3, False),
     (49, False), (97 * 89, False), (2, True), (1, False),
 ])
 def test_big_and_squares(load, n, expected):

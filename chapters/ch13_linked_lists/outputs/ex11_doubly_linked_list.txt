@@ -1,0 +1,8 @@
+start          : [('a', 1), ('b', 2), ('c', 3)] len 3
+move_to_front c: [('c', 3), ('a', 1), ('b', 2)]
+remove a       : [('c', 3), ('b', 2)]
+reversed       : [('b', 2), ('c', 3)]
+pop_back       : b -> [('c', 3)]
+pop_back       : c -> [] len 0
+pop_back empty -> IndexError: pop_back from empty DList
+reuse after empty: [('z', 26)] | b detached: True

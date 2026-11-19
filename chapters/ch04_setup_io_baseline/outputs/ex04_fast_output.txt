@@ -1,0 +1,11 @@
+1 2 3 4 5
+Case #1: YES
+Case #2: 42
+0.667
+0.00
+NO
+join output equals print-loop output: True
+no answers writes: ''
+naive f-string on -0.0001: -0.00
+0.1 + 0.2 printed raw: 0.30000000000000004  formatted: 0.30
+print(list) vs print(*list): [1, 2, 3] | 1 2 3

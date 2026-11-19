@@ -1,0 +1,11 @@
+  _3____
+ /      \
+9        20
+        /  \
+      15    7
+pre+in : [3, 9, 20, None, None, 15, 7]
+slicing: [3, 9, 20, None, None, 15, 7]
+post+in: [3, 9, 20, None, None, 15, 7]
+left chain : [1, 2, None, 3]
+right chain: [1, None, 2, None, 3]
+empty      : []

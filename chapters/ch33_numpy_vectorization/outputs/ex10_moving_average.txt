@@ -1,0 +1,17 @@
+x = [1. 2. 3. 4. 5.]
+w=2 prefix  : [1.5 2.5 3.5 4.5]
+w=3 convolve: [2. 3. 4.]
+w=5 windows : [3.]
+windows view (w=3):
+[[1. 2. 3.]
+ [2. 3. 4.]
+ [3. 4. 5.]]
+
+prefix   == loop: True
+convolve == loop: True
+windows  == loop: True
+w > n -> ValueError: window must satisfy 1 <= w <= len(x)
+
+== ewma ==
+ewma(x, 0.5): [1.     1.5    2.25   3.125  4.0625]
+ewma(x, 1.0) == x: True

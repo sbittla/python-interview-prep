@@ -1,0 +1,25 @@
+uniform   : [0.6758 0.2143 0.3095]
+normal    : [-0.9732 -1.3928  0.0672]
+integers  : [8 0 1 1 9] (high is exclusive)
+choice    : ['a' 'b' 'b' 'a']
+shuffle-free permutation: [1 3 0 2 4 5]
+
+== reproducibility ==
+same seed same numbers: True
+
+== train/test split ==
+train: [0 1 3 5 7 8 9]  test: [2 4 6]
+disjoint & complete: True
+reproducible: True
+
+== bootstrap ==
+sample mean          : 2.0989
+bootstrap mean of means: 2.0934
+bootstrap std (SE)   : 0.1548  analytic s/sqrt(n): 0.1549
+95% percentile CI    : [1.7939, 2.4134]
+loop version SE close: True
+
+== independent streams ==
+worker 0: [35  3 54 84]
+worker 1: [80 78 43  6]
+worker 2: [71 79 13 97]

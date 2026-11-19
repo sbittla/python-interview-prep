@@ -1,0 +1,22 @@
+token bucket (capacity 3, 1 token/s), one request every 0.4 s:
+  t=0.0s allow
+  t=0.4s allow
+  t=0.8s allow
+  t=1.2s allow
+  t=1.6s deny 
+  t=2.0s deny 
+  t=2.4s allow
+  t=2.8s deny 
+replayed events: [True, True, False, True]
+backoff delays (seed 7): [0.162, 0.151, 1.302, 0.29, 2.144]
+
+Embedded test suite:
+  PASS  test_burst_up_to_capacity_then_reject
+  PASS  test_refills_over_time
+  PASS  test_never_exceeds_capacity
+  PASS  test_rejects_bad_config[0-1.0]
+  PASS  test_rejects_bad_config[1-0.0]
+  PASS  test_rejects_bad_config[1--2.0]
+  PASS  test_backoff_is_reproducible_and_bounded
+  FAIL  test_patching_is_the_fallback
+  7/8 passed

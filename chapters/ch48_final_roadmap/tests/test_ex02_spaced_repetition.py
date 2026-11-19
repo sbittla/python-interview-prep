@@ -47,3 +47,12 @@ def test_pattern_weakness(load):
     table = m.pattern_weakness(m.load_log())
     assert table[0][0] == "dynamic_programming"
     assert table[0][2] == 0.0
+
+
+def test_same_day_attempts_keep_log_order(load):
+    m = load("ex02_spaced_repetition")
+    # solved, failed, solved on one day -> last logged is "solved", streak 1 (not 2)
+    log = [("2026-11-05", "solved"), ("2026-11-05", "failed"), ("2026-11-05", "solved")]
+    assert m.next_review(log) == ("2026-11-06", 1)
+    # failed logged last on the same day -> streak 0
+    assert m.next_review([("2026-11-05", "solved"), ("2026-11-05", "failed")]) == ("2026-11-06", 0)

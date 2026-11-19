@@ -1,0 +1,10 @@
+n=1000  1000 lookups: list eq-calls=625250   set eq-calls=500
+n=2000  1000 lookups: list eq-calls=1125250  set eq-calls=500
+n=4000  1000 lookups: list eq-calls=2125250  set eq-calls=500
+list cost doubles with n: True
+sum via xs[1:] n=10   copied=45     via index copied=0
+sum via xs[1:] n=100  copied=4950   via index copied=0
+sum via xs[1:] n=400  copied=79800  via index copied=0
+drain n=1000: list shifts=499500   deque shifts=0
+drain n=2000: list shifts=1999000  deque shifts=0
+deque.popleft beats list.pop(0) by >3x at n=30000: True

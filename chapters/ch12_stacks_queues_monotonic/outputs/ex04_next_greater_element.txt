@@ -1,0 +1,20 @@
+nums     [2, 1, 2, 4, 3]
+greater  [4, 2, 4, None, None]
+circular [4, 2, 4, None, 4]
+smaller  [1, None, None, 3, None]   agree=True
+nums     [5, 4, 3, 2, 1]
+greater  [None, None, None, None, None]
+circular [None, 5, 5, 5, 5]
+smaller  [4, 3, 2, 1, None]   agree=True
+nums     [1, 1, 1]
+greater  [None, None, None]
+circular [None, None, None]
+smaller  [None, None, None]   agree=True
+nums     [3, 8, -2, 7, 9, 0]
+greater  [8, 9, 7, 9, None, None]
+circular [8, 9, 7, 9, None, 3]
+smaller  [-2, -2, None, 0, 0, None]   agree=True
+nums     []
+greater  []
+circular []
+smaller  []   agree=True

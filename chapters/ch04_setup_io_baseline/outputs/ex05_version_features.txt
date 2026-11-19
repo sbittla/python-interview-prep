@@ -1,0 +1,16 @@
+feature                               3.9   3.10  3.11  3.12  3.13  3.14
+match statement (PEP 634)             -     yes   yes   yes   yes   yes
+X | Y unions at runtime (PEP 604)     -     yes   yes   yes   yes   yes
+zip(strict=True) (PEP 618)            -     yes   yes   yes   yes   yes
+ExceptionGroup / except* (PEP 654)    -     -     yes   yes   yes   yes
+tomllib module (PEP 680)              -     -     yes   yes   yes   yes
+type-parameter syntax (PEP 695)       -     -     -     yes   yes   yes
+itertools.batched                     -     -     -     yes   yes   yes
+template strings t'' (PEP 750)        -     -     -     -     -     yes
+
+3.9 baseline check: below 3.10: avoid match statement (PEP 634), X | Y unions at runtime (PEP 604), zip(strict=True) (PEP 618)
+3.12 baseline check: ok
+this interpreter meets the 3.10 baseline: True
+runtime probes agree with the table: True
+batched('abcde', 2): [('a', 'b'), ('c', 'd'), ('e',)]
+fallback agrees with batched: True

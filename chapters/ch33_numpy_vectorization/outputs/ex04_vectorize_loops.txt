@@ -1,0 +1,23 @@
+== piecewise ==
+sample in : [ 3.2189 -2.1599  5.0018  5.7623 -5.8041]
+sample out: [ 6.4377  4.6653 10.     10.     33.688 ]
+equal to loop: True
+
+== rowwise_dot ==
+first 3: [1.3853 4.4622 1.4436]
+equal to loop: True
+equal to (A*B).sum(1): True
+
+== count_sign_changes ==
+tiny example: 3
+vectorised: 8456  loop: 8456
+
+== running_max_drawdown ==
+tiny example: 4.5
+vectorised: 147.2004  loop: 147.2004
+empty: 0.0
+
+== np.vectorize is still a loop ==
+np.vectorize equal: True
+np.select faster than np.vectorize: True
+np.select faster than python loop : True

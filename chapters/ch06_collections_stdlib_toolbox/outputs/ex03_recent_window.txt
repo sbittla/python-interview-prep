@@ -1,0 +1,6 @@
+count(300) = 4 | count(301) = 3 | count(700) = 0
+recently viewed: ['socks', 'home', 'shoes']
+moving_average k=3: [2.6666666666666665, 2.0, 3.3333333333333335, 5.0, 5.333333333333333, 5.666666666666667]
+matches brute force: True
+k > len: []
+deque(maxlen=3) after append(4): [2, 3, 4]

@@ -1,0 +1,18 @@
+'f(a[i]) + {b}'   -> -1  agree=True
+'(]'              ->  1  agree=True
+  ^
+'x = (a + [b)'    -> 11  agree=True
+            ^
+'((a)'            ->  0  agree=True
+ ^
+')('              ->  0  agree=True
+ ^
+'([)]'            ->  2  agree=True
+   ^
+''                -> -1  agree=True
+'no brackets'     -> -1  agree=True
+'{[()()]}'        -> -1  agree=True
+'(()'             ->  0  agree=True
+ ^
+'a)b'             ->  1  agree=True
+  ^

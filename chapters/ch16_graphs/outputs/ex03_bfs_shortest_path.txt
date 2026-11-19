@@ -1,0 +1,9 @@
+BFS layer trace from A:
+  distance 0: ['A']
+  distance 1: ['B', 'C']
+  distance 2: ['D', 'E']
+  distance 3: ['F', 'G']
+shortest A->G: ['A', 'B', 'E', 'G']  edges=3  rungs_agree=True
+shortest C->G: ['C', 'A', 'B', 'E', 'G']  edges=4  rungs_agree=True
+shortest A->A: ['A']  edges=0  rungs_agree=True
+shortest A->Z: []  edges=-1  rungs_agree=True

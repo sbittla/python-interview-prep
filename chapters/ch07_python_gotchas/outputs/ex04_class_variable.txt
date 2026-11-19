@@ -1,0 +1,5 @@
+buggy: a.items = ['apple'] | b.items = ['apple']
+buggy: 'items' in vars(a)? False
+fixed: a.items = ['apple'] | b.items = []
+fixed: 'items' in vars(a)? True
+fixed: carts created = 2

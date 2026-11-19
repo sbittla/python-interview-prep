@@ -1,0 +1,11 @@
+grade(  0) = F  brute = F
+grade( 59) = F  brute = F
+grade( 60) = D  brute = D
+grade( 75) = C  brute = C
+grade( 89) = B  brute = B
+grade( 90) = A  brute = A
+grade(100) = A  brute = A
+scores: [50, 70, 80, 80, 95]
+rank(95) = 1 | rank(80) = 2 | rank(81) = 2 | rank(10) = 6
+count_between(70, 80) = 3 | count_between(81, 94) = 0
+bisect_left(a, 20) = 1 | bisect_right(a, 20) = 3

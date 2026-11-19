@@ -1,0 +1,18 @@
+count_prefix('car' ) -> 3
+count_prefix('ca'  ) -> 4
+count_prefix('c'   ) -> 4
+count_prefix(''    ) -> 5
+count_prefix('dogs') -> 0
+count_prefix('x'   ) -> 0
+suggestions('mouse'):
+  m      -> ['mobile', 'moneypot', 'monitor']
+  mo     -> ['mobile', 'moneypot', 'monitor']
+  mou    -> ['mouse', 'mousepad']
+  mous   -> ['mouse', 'mousepad']
+  mouse  -> ['mouse', 'mousepad']
+suggestions('mx'):
+  m      -> ['mobile', 'moneypot', 'monitor']
+  mx     -> []
+suggestions('z'):
+  z      -> []
+all rungs agree: True

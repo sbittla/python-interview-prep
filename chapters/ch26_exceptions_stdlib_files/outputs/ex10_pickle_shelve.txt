@@ -1,0 +1,16 @@
+== roundtrip ==
+{'a': [1, 2], 'b': (3, 4)}   equal: True  same object: False
+Point(x=1, y=2)              equal: True  same object: False
+{1, 2, 3}                    equal: True  same object: False
+lambda cannot be pickled: AttributeError
+
+== loading a pickle can run code ==
+   payload ran
+   loads returned 'payload ran'
+
+== restricted unpickler ==
+plain data ok: {'k': [1, 2.5, 'x']}
+blocked: global '__main__.record_call' is forbidden
+
+== shelve ==
+keys: ['ada', 'grace'] | grace: {'lang': 'cobol', 'level': 5}

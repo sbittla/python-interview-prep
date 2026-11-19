@@ -1,0 +1,29 @@
+corpus bytes: 6231  distinct pre-tokens: 143
+pretokenize sample: ['The', ' cat', ' sleeps', ',', ' quietly', '.']
+
+learned merges: 120  vocab size: 376
+first 20 merges (id: left + right -> token):
+  256:       b'h' + b'e'       -> b'he'
+  257:       b't' + b'he'      -> b'the'
+  258:       b' ' + b'the'     -> b' the'
+  259:       b'e' + b'r'       -> b'er'
+  260:       b'a' + b'r'       -> b'ar'
+  261:       b' ' + b'r'       -> b' r'
+  262:       b'a' + b't'       -> b'at'
+  263:       b' ' + b'c'       -> b' c'
+  264:       b' ' + b't'       -> b' t'
+  265:       b'i' + b'n'       -> b'in'
+  266:       b'n' + b'e'       -> b'ne'
+  267:       b' ' + b's'       -> b' s'
+  268:       b'i' + b't'       -> b'it'
+  269:       b'e' + b's'       -> b'es'
+  270:       b' ' + b'f'       -> b' f'
+  271:       b' ' + b'ne'      -> b' ne'
+  272:       b'r' + b'a'       -> b'ra'
+  273:       b' ' + b'p'       -> b' p'
+  274:       b' ' + b'b'       -> b' b'
+  275:       b' ' + b'w'       -> b' w'
+longest tokens: [b' keyboard', b' restarts', b' program', b' quickly', b' rabbit', b' router', b' after', b' bread']
+
+tokens before: 6231  after: 2717  bytes/token: 2.29
+toy 'aaab aaab' merges: [b'aa', b'ab', b'aaab']

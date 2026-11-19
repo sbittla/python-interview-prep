@@ -1,0 +1,30 @@
+== broadcast_shape vs np.broadcast_shapes ==
+        (3, 1) with (1, 4)     -> (3, 4)         numpy agrees: True
+  (8, 1, 6, 1) with (7, 1, 5)  -> (8, 7, 6, 5)   numpy agrees: True
+          (5,) with ()         -> (5,)           numpy agrees: True
+          (0,) with (1,)       -> (0,)           numpy agrees: True
+        (2, 3) with (3,)       -> (2, 3)         numpy agrees: True
+        (2, 3) with (2,)       -> ValueError     numpy agrees: True
+
+== the classic (3,) + (3, 1) surprise ==
+[[2 3 4]
+ [3 4 5]
+ [4 5 6]]
+
+== standardize_columns ==
+[[-1.2247 -1.2247  0.    ]
+ [ 0.      0.      0.    ]
+ [ 1.2247  1.2247  0.    ]]
+column means: [0. 0. 0.]
+column stds : [1. 1. 0.]
+
+== outer_op ==
+add [[11, 21], [12, 22], [13, 23]] loop agrees: True
+multiply [[10, 20], [20, 40], [30, 60]] loop agrees: True
+maximum [[10, 20], [10, 20], [10, 20]] loop agrees: True
+times table 1..5:
+[[ 1  2  3  4  5]
+ [ 2  4  6  8 10]
+ [ 3  6  9 12 15]
+ [ 4  8 12 16 20]
+ [ 5 10 15 20 25]]

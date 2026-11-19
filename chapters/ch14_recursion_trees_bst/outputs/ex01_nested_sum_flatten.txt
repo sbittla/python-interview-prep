@@ -1,0 +1,14 @@
+call depth=1 [1, [4, [6]]]
+  call depth=2 [4, [6]]
+    call depth=3 [6]
+    return 18
+  return 26
+return 27
+[1, [4, [6]]]            sum rec=27  it=27  flat=[1, 4, 6]
+[[1, 1], 2, [1, 1]]      sum rec=10  it=10  flat=[1, 1, 2, 1, 1]
+[1, [2, [3, 4]], [], 5]  sum rec=31  it=31  flat=[1, 2, 3, 4, 5]
+[]                       sum rec=0   it=0   flat=[]
+[[[]]]                   sum rec=0   it=0   flat=[]
+[-3, [-2]]               sum rec=-7  it=-7  flat=[-3, -2]
+recursive, depth 5000 -> RecursionError
+iterative, depth 5000 -> 12502500 | flatten length 5000

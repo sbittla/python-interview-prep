@@ -1,0 +1,4 @@
+HitCounterBrute   [5, 5, 6, 6, 5, 3, 3, 2, 1, 0, 0]
+HitCounterQueue   [5, 5, 6, 6, 5, 3, 3, 2, 1, 0, 0]
+HitCounterBuckets [5, 5, 6, 6, 5, 3, 3, 2, 1, 0, 0]
+burst of 1e6 hits at t=10 -> get_hits(69) = 1000000  get_hits(70) = 0  slots used: 60

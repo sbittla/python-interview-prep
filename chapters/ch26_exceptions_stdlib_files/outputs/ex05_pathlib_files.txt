@@ -1,0 +1,34 @@
+== byte_lengths ==
+'hello'      {'chars': 5, 'utf-8': 5, 'utf-16': 12, 'latin-1': 5}
+'café'       {'chars': 4, 'utf-8': 5, 'utf-16': 10, 'latin-1': 4}
+'naïve €5'   {'chars': 8, 'utf-8': 11, 'utf-16': 18, 'latin-1': None}
+'日本'         {'chars': 2, 'utf-8': 6, 'utf-16': 6, 'latin-1': None}
+
+== build_tree ==
+   data/readme.md
+   notes/archive/2025.txt
+   notes/todo.txt
+
+== path anatomy ==
+name: todo.txt | stem: todo | suffix: .txt
+with_suffix: todo.md
+parent name: notes | exists: True
+txt files: ['2025.txt', 'todo.txt']
+
+== count_lines (streaming) ==
+todo.txt lines: 3
+
+== binary vs text ==
+raw bytes: b'caf\xe9'
+fallback decode: ('café', 'latin-1')
+replace errors: caf�
+raw bytes: b'caf\xc3\xa9'
+fallback decode: ('café', 'utf-8')
+
+== newline translation ==
+text mode : 'a\nb\n'
+newline='': 'a\r\nb\r\n'
+
+== missing file ==
+FileNotFoundError errno: 2 | is OSError: True
+temp dir removed: True

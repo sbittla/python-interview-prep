@@ -1,0 +1,5 @@
+remove 2-th from end of [1, 2, 3, 4, 5] -> [1, 2, 3, 5]
+remove 1-th from end of [1] -> []
+remove 2-th from end of [1, 2] -> [2]
+remove 1-th from end of [1, 2] -> [1]
+remove 3-th from end of [9, 8, 7] -> [8, 7]

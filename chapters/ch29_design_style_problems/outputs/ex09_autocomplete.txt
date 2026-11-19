@@ -1,0 +1,16 @@
+suggest('i'  ) -> ['i love you', 'island', 'i love coding']   dfs agrees: True
+suggest('i ' ) -> ['i love you', 'i love coding']   dfs agrees: True
+suggest('ir' ) -> ['iris', 'ironman']   dfs agrees: True
+suggest('is' ) -> ['island']   dfs agrees: True
+suggest('x'  ) -> []   dfs agrees: True
+suggest(''   ) -> ['i love you', 'island', 'i love coding']   dfs agrees: True
+
+streaming input 'i a#' then 'i a' again:
+  type('i') -> ['i love you', 'island', 'i love coding']
+  type(' ') -> ['i love you', 'i love coding']
+  type('a') -> []
+  type('#') -> []
+  type('i') -> ['i love you', 'island', 'i love coding']
+  type(' ') -> ['i love you', 'i love coding', 'i a']
+  type('a') -> ['i a']
+after 3 more 'iris' searches, suggest('i') -> ['i love you', 'iris', 'island']

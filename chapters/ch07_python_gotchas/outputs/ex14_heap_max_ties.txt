@@ -1,0 +1,5 @@
+buggy top 2: [1, 3]
+fixed top 2: [9, 7]
+negation max-heap pop: 1
+buggy run_jobs: TypeError - '<' not supported between instances of 'dict' and 'dict'
+fixed run_jobs: ['a', 'b', 'c']

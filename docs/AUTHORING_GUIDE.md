@@ -166,7 +166,7 @@ Each chapter contains, in order:
 8. **Checkpoint quiz** — 5 questions, answers in a collapsed `<details>` block.
 9. **Summary card** — one-page bullet recap.
 
-Depth target: teaching chapters ≈ 4,000–9,000 words; every code block in the manuscript must be code
+Depth target: see the per-chapter page budget in `docs/BOOK_PLAN.md` (whole book < 450 pages); every code block in the manuscript must be code
 that actually ran (copy from solutions or run snippets) and every output block must be real output.
 
 Tier tags: ★ Core, ◆ Extended, ○ Reference. Tracks: S, M, L.

@@ -1,0 +1,6 @@
+[(0, 30), (5, 10), (15, 20)] -> rooms=2 agree=True assignment=[0, 1, 1]
+[(1, 5), (5, 8)] -> rooms=1 agree=True assignment=[0, 0]
+[(7, 10), (2, 4)] -> rooms=1 agree=True assignment=[0, 0]
+[(1, 10), (2, 7), (3, 19), (8, 12), (10, 20), (11, 30)] -> rooms=4 agree=True assignment=[0, 1, 2, 1, 0, 3]
+[] -> rooms=0 agree=True assignment=[]
+300 random cases: counts agree, assignment valid and uses that many rooms: True

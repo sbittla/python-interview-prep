@@ -1,0 +1,5 @@
+buggy hits: 1 | index keys after: ['cat', 'cow', 'dog', 'emu']
+fixed hits: 1 | index keys after: ['cat', 'dog']
+buggy remaining: [('plum', 5)]
+fixed remaining: [('apple', 0), ('kiwi', -1), ('pear', -2), ('plum', 5)]
+unary + strips <= 0: [('plum', 5)]

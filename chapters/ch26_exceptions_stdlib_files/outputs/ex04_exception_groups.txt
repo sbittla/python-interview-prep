@@ -1,0 +1,13 @@
+all good : {'valid': 2, 'KeyError': [], 'ValueError': [], 'TypeError': []}
+mixed    : {'valid': 0, 'KeyError': ['record #1'], 'ValueError': ['record #2', 'record #4'], 'TypeError': ['record #3']}
+
+group message: invalid records
+  KeyError   'id' | notes=['record #1']
+  ValueError amount must be >= 0, got -1 | notes=['record #2']
+  TypeError  amount must be a number, got str | notes=['record #3']
+  ValueError amount must be >= 0, got -2 | notes=['record #4']
+split(ValueError) -> (['ValueError', 'ValueError'], ['KeyError', 'TypeError'])
+
+unhandled categories propagate:
+  handled only the ValueErrors
+  still raised: ['KeyError', 'TypeError']

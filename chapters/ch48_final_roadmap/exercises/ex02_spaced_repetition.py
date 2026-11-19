@@ -55,7 +55,11 @@ def load_log(path: Path=DATA) -> list[dict]:
     raise NotImplementedError('TODO')
 
 def next_review(attempts: list[tuple[str, str]]) -> tuple[str | None, int]:
-    """Return (due_date or None if retired, current solved streak)."""
+    """Return (due_date or None if retired, current solved streak).
+
+    Attempts are ordered by date only (stable sort): same-day attempts keep their log order,
+    so the last one logged that day counts as the latest (same rule as Ch. 3 ex05).
+    """
     raise NotImplementedError('TODO')
 
 def schedule(rows: list[dict], today: str=TODAY) -> list[dict]:

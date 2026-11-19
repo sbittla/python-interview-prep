@@ -1,0 +1,11 @@
+s01: answer=O(n)        measured=O(n)        match=True
+s02: answer=O(n)        measured=O(n)        match=True
+s03: answer=O(n^2)      measured=O(n^2)      match=True
+s04: answer=O(n^2)      measured=O(n^2)      match=True
+s05: answer=O(log n)    measured=O(log n)    match=True
+s06: answer=O(n log n)  measured=O(n log n)  match=True
+s07: answer=O(n)        measured=O(n)        match=True
+s08: answer=O(1)        measured=O(1)        match=True
+s09: answer=O(2^n)      measured=O(2^n)      match=True
+s10: answer=O(n^2)      measured=O(n^2)      match=True
+score 10/10
