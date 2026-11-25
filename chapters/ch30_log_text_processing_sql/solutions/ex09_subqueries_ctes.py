@@ -16,6 +16,8 @@ salary). Write
    NOT EXISTS; also show why `NOT IN (SELECT manager_id ...)` returns nothing here.
 4. `org_chart(conn)` -> (depth, name, path) for every employee via WITH RECURSIVE,
    starting at the employee whose manager_id IS NULL (depth 0), ordered by path.
+5. `manager_chain(conn, name)` -> [name, manager, manager's manager, ...], walking up
+   manager_id; must terminate even if the data contains a cycle.
 
 Examples
 --------
@@ -50,8 +52,9 @@ Edge cases
 ----------
 - n larger than the number of distinct salaries, duplicate salaries (DISTINCT), employee
   with NULL dept_id (excluded by both versions: `NULL = NULL` is not TRUE), a department of
-  one (never above its own average), cycles in manager_id (UNION instead of UNION ALL,
-  or a depth limit, stops infinite recursion).
+  one (never above its own average), cycles in manager_id: UNION stops a cycle only if the
+  CTE has no counter or path column; with depth/path every row is new, so add
+  `WHERE depth < N` or a path check (`manager_chain` below).
 
 Follow-ups
 ----------
@@ -135,6 +138,39 @@ def org_chart(conn: sqlite3.Connection) -> list[tuple]:
         SELECT depth, name, path FROM chart ORDER BY path""").fetchall()
 
 
+def manager_chain(conn: sqlite3.Connection, name: str) -> list[str]:
+    rows = conn.execute("""
+        WITH RECURSIVE chain(id, name, manager_id, path) AS (
+            SELECT id, name, manager_id, '/' || name || '/' FROM employees WHERE name = ?
+            UNION ALL
+            SELECT m.id, m.name, m.manager_id, c.path || m.name || '/'
+            FROM employees m JOIN chain c ON m.id = c.manager_id
+            WHERE instr(c.path, '/' || m.name || '/') = 0      -- cycle guard
+        )
+        SELECT name FROM chain ORDER BY length(path)""", (name,)).fetchall()
+    return [n for (n,) in rows]
+
+
+def cycle_demo() -> tuple[int, int]:
+    """Rows produced on a 2-node cycle by UNION with a depth column (bounded at 10 so it
+    cannot hang) vs plain UNION without one."""
+    conn = sqlite3.connect(":memory:")
+    conn.execute("CREATE TABLE e (id INTEGER, manager_id INTEGER)")
+    conn.executemany("INSERT INTO e VALUES (?, ?)", [(1, 2), (2, 1)])
+    with_depth = conn.execute("""
+        WITH RECURSIVE r(id, depth) AS (
+            SELECT 1, 0 UNION
+            SELECT e.manager_id, r.depth + 1 FROM e JOIN r ON e.id = r.id WHERE r.depth < 10
+        ) SELECT COUNT(*) FROM r""").fetchone()[0]
+    without = conn.execute("""
+        WITH RECURSIVE r(id) AS (
+            SELECT 1 UNION
+            SELECT e.manager_id FROM e JOIN r ON e.id = r.id
+        ) SELECT COUNT(*) FROM r""").fetchone()[0]
+    conn.close()
+    return with_depth, without
+
+
 def main() -> None:
     conn = make_db()
     print("above dept avg (correlated):", above_dept_avg(conn))
@@ -145,6 +181,11 @@ def main() -> None:
     print("NOT IN with a NULL:", conn.execute("SELECT 3 NOT IN (1, NULL), 3 NOT IN (1, 2)").fetchone())
     for depth, name, path in org_chart(conn):
         print("  " * depth + f"{name:<4} {path}")
+    print("chain from Ed:", manager_chain(conn, "Ed"))
+    conn.execute("UPDATE employees SET manager_id = 5 WHERE id = 1")     # Ada <- Ed: a cycle
+    print("chain with a cycle:", manager_chain(conn, "Ed"))
+    print("2-node cycle rows: UNION + depth (capped at 10) =", cycle_demo()[0],
+          "| UNION, no depth =", cycle_demo()[1])
     conn.close()
 
 

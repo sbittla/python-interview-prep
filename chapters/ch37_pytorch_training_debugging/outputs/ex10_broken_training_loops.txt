@@ -1,0 +1,9 @@
+softmax_ce loss floor log(1 + 2/e) = 0.5514
+         None: loss 1.28 -> 0.00375  acc 1.00  body moved True  eval repeatable True
+ no_zero_grad: loss 1.28 -> 1.07e+05  acc 0.97  body moved True  eval repeatable True
+   softmax_ce: loss 1.14 -> 0.557  acc 1.00  body moved True  eval repeatable True
+detached_body: loss 1.28 -> 0.0112  acc 1.00  body moved False  eval repeatable True
+      no_eval: loss 1.28 -> 0.00375  acc 1.00  body moved True  eval repeatable False
+      inplace: RuntimeError  in-place message: True
+regression fixed: true MSE 0.0000
+regression broadcast bug: true MSE 3.3598

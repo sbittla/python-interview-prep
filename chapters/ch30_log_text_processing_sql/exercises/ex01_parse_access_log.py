@@ -14,7 +14,8 @@ latency in seconds). Write
 1. `parse_line(line)` -> a `Record` (ip, ts as an aware `datetime`, method, path, status:int,
    size:int with "-" meaning 0, latency_ms:int) or `None` if the line is malformed;
 2. `iter_records(lines)` -> a generator of records that skips malformed lines and counts them
-   in a `stats` dict passed by the caller (`{"ok": n, "bad": m}`);
+   in a `stats` dict passed by the caller (`{"ok": n, "bad": m}`). Blank lines count as
+   malformed here (a log writer never emits them; contrast ex05, which skips them);
 3. `parse_split(line)` -> the same result using only `str.split`, for comparison.
 
 Examples

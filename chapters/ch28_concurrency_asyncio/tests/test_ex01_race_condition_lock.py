@@ -41,3 +41,10 @@ def test_account_edges(load):
     m = load("ex01_race_condition_lock")
     assert m.concurrent_withdrawals(m.Account(0), 3, 1) == (0, 0)
     assert m.concurrent_withdrawals(m.Account(60), 4, 30) == (2, 0)   # exact balance
+
+
+def test_locked_counter_lock_covers_read_and_write(load):
+    # The pause between read and write makes an unlocked counter lose updates almost always.
+    m = load("ex01_race_condition_lock")
+    counter = m.LockedCounter(pause=lambda: time.sleep(0.001))
+    assert m.run_counter(counter, 4, 25) == 100

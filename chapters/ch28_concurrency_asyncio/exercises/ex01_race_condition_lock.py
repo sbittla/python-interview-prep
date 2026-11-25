@@ -10,7 +10,8 @@ one update is lost. `if balance >= x: balance -= x` (check-then-act) has the sam
 1. `lost_update_demo(n_threads)` — make the bad interleaving happen on purpose: each thread
    reads the shared value, waits at a `threading.Barrier(n_threads)` (so every read happens
    before any write), then writes value + 1. Return the final value.
-2. `LockedCounter` — `increment()` and `value`; increments never get lost.
+2. `LockedCounter(pause)` — `increment()` and `value`; increments never get lost. `increment`
+   reads the value, calls `pause()` (a test hook that widens the race window), then writes.
 3. `run_counter(counter, n_threads, per_thread)` — each thread calls `counter.increment()`
    `per_thread` times; join all threads and return `counter.value`.
 4. `run_sharded(n_threads, per_thread)` — same total with no shared lock: each thread counts
@@ -58,7 +59,7 @@ def lost_update_demo(n_threads: int) -> int:
 
 
 class LockedCounter:
-    def __init__(self) -> None:
+    def __init__(self, pause: Callable[[], None] = lambda: None) -> None:
         raise NotImplementedError("TODO")
 
     def increment(self) -> None:

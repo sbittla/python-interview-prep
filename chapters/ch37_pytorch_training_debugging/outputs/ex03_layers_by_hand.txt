@@ -1,0 +1,12 @@
+linear matches F.linear: True
+conv stride=1 pad=0: shape (2, 4, 4, 4) loops ok: True  unfold ok: True
+conv stride=1 pad=1: shape (2, 4, 6, 6) loops ok: True  unfold ok: True
+conv stride=2 pad=1: shape (2, 4, 3, 3) loops ok: True  unfold ok: True
+batch_norm train matches: True
+running buffers match: True True
+batch_norm eval matches: True
+batch of 1 in training mode -> ValueError
+layer_norm matches: True
+dropout keep rate ~0.75: 0.75  survivors scaled to: 1.3333  mean ~1: 1.0
+dropout eval is identity: True
+embedding matches: True  shape: (2, 2, 4)

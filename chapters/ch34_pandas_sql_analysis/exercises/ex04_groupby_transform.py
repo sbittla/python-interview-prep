@@ -116,8 +116,9 @@ def main() -> None:
         sql_sum, sql_share = sql_country_summary(conn), sql_user_share(conn)
     print("SQL summary matches:", sql_sum.equals(summary))
     print("SQL share matches  :", sql_share.equals(share))
-    print("agg rows:", len(summary), "| transform rows == input rows:",
-          len(share) == len(share.groupby("country")["revenue"].transform("sum")))
+    totals = share.groupby("country")["revenue"].transform("sum")
+    print("agg -> one row per group:", len(summary), "| transform -> one value per input row:",
+          len(totals), "of", len(share))
 
 
 if __name__ == "__main__":

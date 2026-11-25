@@ -1,4 +1,12 @@
-budget 180: reserve 45, used 130, slack 5
+must   (115 min): parse + validate CSV 40, per-category totals 20, CLI with argparse 25, unit tests for core 30
+should ( 30 min): JSON output 15, month filter 15
+could  ( 70 min): multi-currency 60, --strict flag 10
+budget 170: reserve 42, build 128, musts 115, slack 3
+  added beyond musts: ['--strict flag']
+  deferred: ['JSON output', 'month filter', 'multi-currency']
+budget 180: reserve 45, build 135, musts 115, slack 5
+  added beyond musts: ['JSON output']
+  deferred: ['month filter', 'multi-currency', '--strict flag']
 ## Scope
 
 - [x] parse + validate CSV
@@ -12,6 +20,5 @@ Not done (next steps):
 - [ ] multi-currency (~60 min)
 - [ ] --strict flag (~10 min)
 
-budget 170: in ['--strict flag'], deferred ['JSON output', 'month filter', 'multi-currency']
 budget 120: must tasks need 115 min, build budget is 90 min
 empty task list: Plan(in_scope=[], deferred=[], reserve=15, used=0, slack=45)

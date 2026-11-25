@@ -7,8 +7,7 @@
 - Choose threads, processes or asyncio for a workload, and say why in one sentence.
 - Find read-modify-write and check-then-act races, and fix them with the smallest lock.
 - Build bounded producer–consumer pipelines with `queue.Queue`, `Condition` and `asyncio.Queue`.
-- Fan out async work with `gather`, `TaskGroup` and `Semaphore`, under timeouts and clean
-  cancellation.
+- Fan out async work with `gather`, `TaskGroup` and `Semaphore`, with timeouts.
 
 > **Recognise it**
 >
@@ -18,7 +17,6 @@
 > | "CPU-heavy", "use all cores" | `ProcessPoolExecutor` |
 > | "shared counter", "balance", "two threads update" | `Lock` around the whole read-modify-write |
 > | "producer/consumer", "bounded buffer", "at most k at a time" | bounded queue, `Semaphore(k)` |
-> | "deadline"; "print in order" | `wait_for`; `Event` hand-offs |
 
 ## 28.1 Concurrency vs parallelism
 
@@ -28,17 +26,16 @@ lets only one thread run Python bytecode at a time (→ §27.5). Threads therefo
 concurrency, and parallelism only while they wait on I/O or run C code that releases the GIL.
 The free-threaded build is opt-in (→ §27.6); choosing a model is §27.7.
 
-| Model | Switches when | Best for | Cost |
+| Model | Switches | Best for | Cost |
 |---|---|---|---|
-| `threading` | the OS preempts it; the GIL hands off | blocking I/O libraries | memory per thread; races |
-| `multiprocessing` | the OS schedules it | CPU-bound Python | start-up, pickling, no shared memory |
-| `asyncio` | only at `await` | thousands of sockets | one blocking call stalls all tasks |
+| threads | OS preemption | blocking I/O libraries | races |
+| processes | OS | CPU-bound Python | start-up, pickling |
+| asyncio | only at `await` | thousands of sockets | one blocking call stalls all |
 
 ## 28.2 `threading`: threads, locks, race conditions
 
 `count += 1` is three steps: read, add, write. If two threads both read before either one
-writes, an update is lost. A demo that prints a count produced by luck proves nothing, so this
-one forces the bad interleaving with a barrier:
+writes, an update is lost. This demo forces that interleaving with a barrier:
 
 ```python
 import threading
@@ -75,11 +72,10 @@ unsafe: 1
 safe: 40000
 ```
 
-An unlocked counter often *looks* correct on the default build. That proves nothing.
+An unlocked counter often *looks* correct on the default build.
 **Check-then-act** (`if balance >= x: balance -= x`) has the same flaw:
 one lock must cover both the check and the act. Ex01 forces an overdraft to −50. Its top rung
-is sharding: each thread counts privately and the totals are summed after `join()`, so the
-threads never contend.
+is sharding: each thread counts privately, and the totals are summed after `join()`.
 
 Pitfalls: two locks taken in opposite orders deadlock (use one global order); `Lock` is not
 reentrant (use `RLock`).
@@ -94,8 +90,9 @@ instead of filling memory. Stop the workers with one sentinel each. `q.join()` w
 Ex02's ladder: sequential, O(n·t) → one thread per item (unbounded threads) → k workers and
 a bounded queue, ≈ n·t/k for I/O in O(k + maxsize) memory.
 
-Write results to `results[index]`. Catch exceptions inside the worker loop: one that escapes
-kills the thread silently.
+Write results to `results[index]`. Catch exceptions inside the worker loop. One that escapes
+ends that worker: `threading.excepthook` prints the traceback, but the main thread is not told,
+the result slot stays empty, and a skipped `task_done()` hangs `q.join()`.
 
 ## 28.4 `multiprocessing` and `concurrent.futures` (`ThreadPoolExecutor`, `ProcessPoolExecutor`)
 
@@ -123,25 +120,30 @@ map (input order): [2762, 2371, 2260]
 ```
 
 Windows and macOS start workers with **spawn**. Linux used fork before 3.14 and uses
-forkserver from 3.14. Under spawn, every child imports your module. The worker function must
-therefore live at top level so it can be pickled by name, and the pool must be created under
-the `__main__` guard. A `ThreadPoolExecutor` returns the same answer but no speed-up, because
-of the GIL. Ex05 proves a pool is k-wide with a `Barrier(k)`, not
-with timings.
+forkserver from 3.14. Under spawn each child imports your module, so the worker must be top-level
+(pickled by name) and the pool created under the `__main__` guard. Threads give the same answer
+but no speed-up (GIL).
+
+| `multiprocessing` | Use for |
+|---|---|
+| `Process` + `Queue` / `Pipe` | long-lived workers that talk to each other |
+| `Pool` | the older pool API (`imap_unordered`, `initializer`) |
+| `shared_memory`, `Array` / `Value` | buffers or arrays shared without pickling |
+
+For one-shot jobs prefer `ProcessPoolExecutor`: the thread-pool interface, and exceptions arrive
+via futures.
 
 ## 28.5 asyncio fundamentals: event loop, coroutines, `await`
 
 Calling an `async def` function returns a **coroutine object**. It does nothing until it is
 awaited or wrapped in a Task. The **event loop** runs one task until it awaits something that
-is not ready (a timer, a socket, a lock), then switches to another ready task. Switches happen
-only at `await`, so code between two awaits is never interleaved, and a single-threaded
-asyncio counter needs no lock. A blocking call freezes every task (§28.9).
+is not ready, then switches to another ready task. Switches happen only at `await`, so a
+single-threaded asyncio counter needs no lock. A blocking call freezes every task (§28.9).
 
 `asyncio.run(main())` creates a **new** loop and runs `main` to completion. It then cancels
 the leftover tasks, finalises async generators, shuts down the default executor (3.9+) and
 closes the loop. It raises `RuntimeError` inside an already-running loop, so in Jupyter write
-`await main()` instead. Wrong-but-tempting: `fetch()` without `await` only builds a
-coroutine object.
+`await main()` instead. Wrong-but-tempting: calling `fetch()` without `await`.
 
 ## 28.6 Tasks, `gather`, `TaskGroup`, `as_completed`
 
@@ -161,8 +163,6 @@ async def main() -> None:
     print("gather:", await asyncio.gather(*(fetch(n, d) for n, d in jobs)))
     print("as_completed:", [await c for c in asyncio.as_completed(
         [fetch(n, d) for n, d in jobs])])
-    print("return_exceptions:", await asyncio.gather(
-        fetch("users", 0.01), fetch("bad", 0.01), return_exceptions=True))
 
 
 asyncio.run(main())
@@ -171,12 +171,16 @@ asyncio.run(main())
 ```text
 gather: ['users', 'orders', 'prices']
 as_completed: ['orders', 'prices', 'users']
-return_exceptions: ['users', ConnectionError('bad')]
 ```
 
-The `as_completed` order is fixed. The loop pops expired timers from a heap in deadline order,
-so the order holds even when the loop runs late. Sequential awaits cost the *sum* of the
-delays; `gather` costs the *max*. On ex06's virtual clock that is 0.6 s against 0.3 s.
+The `as_completed` order here is stable only because the delays differ by 10 ms, which is far
+more than the skew in when the tasks start. The loop then pops the expired timers in deadline
+order. Equal delays would complete in an unspecified order. Sequential awaits cost the *sum* of the
+delays; `gather` costs the *max*: 0.6 s against 0.3 s in ex06. The async exercises use
+`run_virtual`, a `SelectorEventLoop` subclass whose `time()` jumps to the next timer whenever
+every task sleeps, so the sleeps cost no real time and the timings are exact. Don't use it with
+threads or real I/O.
+→ repo: `chapters/ch28_concurrency_asyncio/solutions/vclock.py`.
 
 | Tool | Result order | When one task fails |
 |---|---|---|
@@ -199,19 +203,32 @@ a reference to every task: the loop holds only weak references.
 
 `asyncio.wait_for(aw, s)` cancels `aw` when time runs out. On 3.11+, `async with
 asyncio.timeout(s)` puts one deadline over a whole block; on 3.10 use `wait_for`. Before 3.11,
-`asyncio.TimeoutError` was not the builtin `TimeoutError`, so portable code catches
-`asyncio.TimeoutError`.
+`asyncio.TimeoutError` was not the builtin `TimeoutError`, so catch the former.
 
 `task.cancel()` only *requests* cancellation: `CancelledError` is raised at the task's next
 `await`. It is a `BaseException` (since 3.8), so `except Exception` does not catch it. Clean up
 in `finally` and **re-raise**; swallowing it breaks TaskGroup, timeouts and shutdown.
-`asyncio.shield(aw)` keeps an inner operation running when the outer task is cancelled. Ex07's
-output (excerpt):
+Ex07's output (excerpt):
 
 ```text
 TaskGroup raised ExceptionGroup: ['broken failed'] | log: ['quick finished', 'slow cancelled']
 plain gather log: ['quick finished', 'caller saw: broken failed', 'slow finished']
 ```
+
+**Ladder (ex07).**
+1. Poll the clock between steps. This misses an await that never returns.
+2. `wait_for` cancels the stuck awaitable for you.
+3. Use a scoped `asyncio.timeout` plus a `TaskGroup` (both 3.11+). One deadline then covers a
+   whole block, and no task outlives it.
+
+**Edge cases:**
+- A task cancelled before its first step never runs its body, so no `finally` runs.
+- Clean-up that itself awaits can be cancelled again, either by a second cancel or by an outer
+  deadline. Keep it short, or `shield` it.
+- A swallowed `CancelledError` defeats the timeout: `wait_for` returns the swallowed value
+  instead of raising `TimeoutError`.
+
+→ repo: `chapters/ch28_concurrency_asyncio/solutions/ex07_timeouts_cancellation.py`.
 
 Ex11 adds retries. Each attempt gets its own `wait_for`, and the waits between attempts use
 capped exponential backoff with full jitter, `uniform(0, min(cap, base·2^(k−1)))`, drawn from
@@ -222,11 +239,9 @@ an injected `random.Random`. Only `ConnectionError` and timeouts are retried.
 **Worked problem (ex08): fetch n URLs, at most k in flight, results in input order.**
 
 - *Rung 1, sequential:* O(Σd) wall time.
-- *Rung 2, `gather` all n:* max(d) wall time, but n requests at once. The server throttles you,
-  and sockets and memory grow with n.
-- *Rung 3, a semaphore inside each task:* at most k in flight. For equal durations d the wall
-  time is ⌈n/k⌉·d, using O(n) task objects. A variant with k workers pulling from a queue keeps
-  only O(k) tasks alive, which matters for huge n.
+- *Rung 2, `gather` all n:* max(d), but n requests at once, so the server throttles you.
+- *Rung 3, a semaphore in each task:* at most k in flight, ⌈n/k⌉·d for equal d, with O(n)
+  tasks. A k-worker queue variant keeps O(k) tasks alive for huge n.
 
 ```python
 import asyncio
@@ -289,26 +304,23 @@ cannot run); via `to_thread` it does:
 ```text
 direct blocking call (saw event, ticks during): (False, 0)
 asyncio.to_thread                              : (True, 3)
-loop.run_in_executor(None, ...)                : (True, 3)
-CPU work in a process pool: True
 ```
 
 → repo: `chapters/ch28_concurrency_asyncio/solutions/ex09_blocking_to_thread.py`.
-`asyncio.to_thread` (3.9+) runs the call in the default thread pool, which holds
-`min(32, os.cpu_count() + 4)` threads. Before 3.9, use `loop.run_in_executor(None, f, *args)`.
-CPU-bound Python still contends for the GIL, so pass a `ProcessPoolExecutor` to
-`run_in_executor` instead (ex09). Better still, use an async-native library. In code review,
-`time.sleep` inside a coroutine is a red flag.
+`asyncio.to_thread` (3.9+) runs the call in the default `ThreadPoolExecutor`, which uses up
+to `min(32, cpus + 4)` threads: `os.cpu_count()` before 3.13 and `os.process_cpu_count()`
+from 3.13. Before 3.9, use `loop.run_in_executor(None, f, *args)`.
+For CPU-bound Python (the GIL), pass a `ProcessPoolExecutor` to `run_in_executor` (ex09).
+Red flag in review: `time.sleep` in a coroutine.
 
 ## 28.10 Async producer–consumer with `asyncio.Queue`
 
 **Worked problem (ex10): a stream of jobs, k async workers, bounded memory.**
 
 - *Rung 1, one loop:* n·(arrival + work).
-- *Rung 2, one task per job:* fast, but with an endless stream the pending tasks grow without
-  limit.
-- *Rung 3, `asyncio.Queue(maxsize)` and k workers:* elapsed ≈ max(n·arrival, n·work/k) plus a
-  tail, in O(maxsize + k) memory. `await q.put` blocks while the queue is full.
+- *Rung 2, one task per job:* fast, but an endless stream grows the pending tasks without limit.
+- *Rung 3, `Queue(maxsize)` and k workers:* ≈ max(n·arrival, n·work/k) plus a tail, in
+  O(maxsize + k) memory. `await q.put` blocks while the queue is full.
 
 ```python
 import asyncio
@@ -359,16 +371,16 @@ and 1.2 virtual seconds with 1, 2 and 4 workers; at four, arrivals are the limit
 
 ## 28.11 Common concurrency interview problems (print in order, bounded buffer)
 
-**Print in order (ex03).** Three threads start in any order but must print first, second,
-third. Use one `Event` per hand-off: `second` waits on `done_first`, then sets `done_second`.
+**Print in order (ex03).** Threads started in any order must print first, second,
+third. Use one `Event` per hand-off.
 Repeated turns (ping-pong, zero-even-odd) use one `Semaphore(0)` per thread; whoever moves
 first starts at 1. Each step is O(1). Sleeping only makes the race rarer.
 
 **Worked problem (ex04): a bounded blocking buffer without `queue.Queue`.**
 
-- *Rung 1, lock plus polling sleep:* burns CPU and adds up to one sleep of latency per item.
-- *Rung 2, one `Condition` with `notify_all`:* correct, but a put also wakes the waiting
-  producers (a thundering herd).
+- *Rung 1, lock plus polling sleep:* burns CPU and adds latency.
+- *Rung 2, one `Condition` with `notify_all`:* correct, but it wakes every waiter (a thundering
+  herd).
 - *Rung 3, two conditions sharing one lock:* `put` notifies only `not_empty`, `get` only
   `not_full`. Each operation is O(1) and wakes exactly one thread.
 
@@ -442,8 +454,7 @@ spurious wake-ups happen; `wait_for` loops for you); `notify` without the lock r
 | 10 | Async producer–consumer pipeline | ★ | `asyncio.Queue` |
 | 11 | Retry with timeout and backoff | ◆ | full jitter |
 
-Index: `chapters/ch28_concurrency_asyncio/README.md`. The async exercises use a
-virtual-clock loop.
+Index: `chapters/ch28_concurrency_asyncio/README.md`.
 
 ## Checkpoint quiz
 
@@ -458,10 +469,8 @@ virtual-clock loop.
 <details><summary>Answers</summary>
 
 1. About none, because of the GIL. Use a `ProcessPoolExecutor`.
-2. The others keep running. `TaskGroup` (3.11+) cancels them, waits for them, then raises an
-   `ExceptionGroup`.
-3. The whole loop freezes. Fix it with `await asyncio.to_thread(requests.get, url)` or an async
-   HTTP client.
+2. They keep running. `TaskGroup` (3.11+) cancels them and raises an `ExceptionGroup`.
+3. The loop freezes. Use `await asyncio.to_thread(requests.get, url)` or an async client.
 4. The slot may be taken before you wake, and spurious wake-ups happen.
 5. A path that skips `task_done()`, or workers parked in `get()` that were never cancelled or
    sent a sentinel.
@@ -469,16 +478,12 @@ virtual-clock loop.
 
 ## Summary card
 
-- I/O with blocking libraries → threads; many sockets → asyncio; CPU-bound → processes
-  (GIL, → §27.5).
-- Lock the whole invariant, take locks in one global order, and shard hot counters.
-- Use bounded queues for backpressure. Stop workers with a sentinel each, or `join()` then
-  cancel. Put `task_done()` in `finally`.
-- `map` gives input order and `as_completed` gives completion order, so re-key the results.
-  Under spawn, use top-level functions and a `__main__` guard.
-- Tasks switch only at `await`; `asyncio.run` makes and closes a fresh loop.
-- `TaskGroup` and `asyncio.timeout` are 3.11+. On 3.10, use `wait_for` and
-  `wait(FIRST_EXCEPTION)` plus cancel.
-- Re-raise `CancelledError`. Cap fan-out with `Semaphore(k)`. Move blocking calls to
-  `to_thread`.
-- Tests: force interleavings (`Barrier`, `Event`) and use a virtual clock.
+- Blocking I/O → threads; many sockets → asyncio; CPU → processes (→ §27.5).
+- Lock the whole invariant, in one global order.
+- Bounded queues give backpressure. Stop workers with a sentinel each, or `join()` + cancel.
+- Re-key `as_completed` results. Under spawn: top-level functions and a `__main__` guard.
+- `TaskGroup` and `asyncio.timeout` are 3.11+. On 3.10: `wait_for`, and
+  `wait(FIRST_EXCEPTION)` + cancel.
+- Re-raise `CancelledError`, cap fan-out with `Semaphore(k)`, and use `to_thread` for blocking
+  calls.
+- Tests: force interleavings and use a virtual clock.

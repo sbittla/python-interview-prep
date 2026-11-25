@@ -1,0 +1,11 @@
+shape trace: [('body.0', (5, 8)), ('body.1', (5, 8)), ('head', (5, 1))]
+first non-finite (clean input): None
+first non-finite (inf weight in head): head
+broadcast (6,1)-(6,) -> (6, 6) | mse_loss warned: True | equals correct loss: False
+checked_mse: shape mismatch: pred (6, 1) vs target (6,)
+checked_mse after squeeze(1) ok: True
+naive CE on large logits: nan  stable: 0.0000  F.cross_entropy: 0.0000
+stable == F.cross_entropy on small logits: True
+diverges: lr=0.4 False  lr=0.9 False  lr=1.1 True
+anomaly mode names the op: True
+view on transposed tensor -> RuntimeError; reshape gives (6,)

@@ -154,8 +154,8 @@ def main() -> None:
 
     logits, y = torch.tensor([[1000.0, 0.0], [0.0, 1000.0]]), torch.tensor([0, 1])
     print("naive CE on large logits:", naive_cross_entropy(logits, y).item(),
-          " stable:", stable_cross_entropy(logits, y).item(),
-          " F.cross_entropy:", F.cross_entropy(logits, y).item())
+          f" stable: {stable_cross_entropy(logits, y).item() + 0.0:.4f}",   # + 0.0 turns -0.0 into 0.0
+          f" F.cross_entropy: {F.cross_entropy(logits, y).item():.4f}")
     small = torch.randn(4, 3)
     yy = torch.tensor([0, 2, 1, 0])
     print("stable == F.cross_entropy on small logits:",
@@ -164,7 +164,8 @@ def main() -> None:
 
     x = torch.tensor([0.0, 4.0], requires_grad=True)
     try:
-        with torch.autograd.set_detect_anomaly(True):
+        with torch.autograd.set_detect_anomaly(True), warnings.catch_warnings():
+            warnings.simplefilter("ignore")           # anomaly mode also warns a forward traceback
             (torch.sqrt(x) * 0).sum().backward()      # d sqrt at 0 is inf; inf * 0 = nan
     except RuntimeError as e:
         print("anomaly mode names the op:", "SqrtBackward0" in str(e))

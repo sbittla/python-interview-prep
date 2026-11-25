@@ -1,0 +1,7 @@
+same seed, two straight runs identical: True
+resume with model+optimizer+RNG identical: True
+resume without optimizer state identical: False
+resume without RNG state identical: False
+checkpoint keys: ['epoch', 'model', 'optimizer', 'torch_rng']  epoch: 3
+Adam moments stored: 198 = 2 x params: True
+weights_only=True refuses a NumPy array: UnpicklingError

@@ -27,5 +27,10 @@ $ expense_report transactions.csv --strict   -> exit 1
 $ expense_report missing.csv   -> exit 1
   [stderr] error: no such file: missing.csv
 
+$ expense_report transactions.csv --month 2024-3   -> exit 2
+  [stderr] usage: expense_report [-h] [--month MONTH] [--format {text,json}] [--strict]
+  [stderr]                       path
+  [stderr] expense_report: error: argument --month: expected YYYY-MM, got '2024-3'
+
 header only: [] [] -> no transactions
 wrong header: ["line 1: unknown header ['when', 'what', 'how much'], expected ['date', 'category', 'amount', 'note']"]

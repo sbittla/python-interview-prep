@@ -3,15 +3,15 @@
 **Tier:** ★ Core · **Tracks:** S, M, L · **Study time:** 6–8 hours · **Prerequisites:** §6.7, §6.8,
 §23.4, §26.5, §26.6
 
-Regex syntax (→ §26.6), `csv`/`json` (→ §26.5), `datetime` (→ §26.7) and generators (→ §23.4)
-are taught elsewhere; this chapter applies them. Analytical SQL with pandas: §34.9.
+Applies regex (→ §26.6), `csv`/`json` (→ §26.5), `datetime` (→ §26.7) and generators (→ §23.4).
+Pandas analytics: §34.9.
 
 **Learning objectives**
 
 - Parse messy text line by line, counting rejects.
-- Aggregate with counts, top-K and sliding windows, with a stated tie rule.
-- Sort or count data larger than memory (runs + k-way merge, hash partitions).
-- Write GROUP BY, join, CTE and window SQL; run it safely via `sqlite3`.
+- Aggregate (counts, top-K, sliding windows) with a stated tie rule.
+- Sort or count data larger than memory.
+- Write GROUP BY, join, CTE and window SQL.
 
 > **Recognise it**
 >
@@ -19,7 +19,6 @@ are taught elsewhere; this chapter applies them. Analytical SQL with pandas: §3
 > |---|---|
 > | "top 10 endpoints" | `Counter` + `heapq.nsmallest` with a tie key |
 > | "more than N requests in any minute" | sort + two-pointer window, not buckets |
-> | "some lines are corrupt" | narrow `except`, reasons, error budget |
 > | "100 GB file, 1 GB RAM" | sorted runs + `heapq.merge`, or hash partitions |
 > | "top per group", "running total" | window functions in a CTE |
 > | "rows with no match" | `LEFT JOIN ... IS NULL` or `NOT EXISTS` |
@@ -27,8 +26,10 @@ are taught elsewhere; this chapter applies them. Analytical SQL with pandas: §3
 ## 30.1 Parsing log files: regex, splitting, streaming large files
 
 Ladder: (1) `line.split()`: O(L), but fields are found by position, so a missing field shifts the
-rest and any token passes as an IP; (2) an anchored regex with named groups validates every
-field; (3) compile once, `fullmatch`, and yield from a generator: memory stays O(one line).
+rest and any token passes as an IP; (2) an anchored regex with named groups validates the shape
+of every field (values such as IP octets ≤ 255 need a second check); (3) compile once,
+`fullmatch`, yield from a generator. Why move up: rung 3 rejects bad lines instead of
+mis-assigning fields, in O(1) memory.
 
 ```python
 import re
@@ -57,34 +58,32 @@ def iter_records(lines, stats):
 
 lines = ['203.0.113.5 - - [12/Mar/2025:10:00:35 +0000] "GET /health HTTP/1.1" 500 549 0.044\n',
          '192.0.2.10 - - [12/Mar/2025:10:06:01 +0000] "GET /health HTTP/1.1" 2OO 12 0.010\n',
-         '203.0.113.9 - - [31/Foo/2025:10:07:00 +0000] "GET /login HTTP/1.1" 200 15 0.020\n',
-         "garbage line from a crashed writer\n"]
+         '203.0.113.9 - - [31/Foo/2025:10:07:00 +0000] "GET /login HTTP/1.1" 200 15 0.020\n']
 stats = {"ok": 0, "bad": 0}
 print(list(iter_records(lines, stats)), stats)
 ```
 
 ```text
-[('203.0.113.5', 1741773635, '/health', 500)] {'ok': 1, 'bad': 3}
+[('203.0.113.5', 1741773635, '/health', 500)] {'ok': 1, 'bad': 2}
 ```
 
 The regex catches shape errors (`2OO` uses the letter O); `strptime` catches values (`Foo`).
 `%b` uses the LC_TIME locale's month names ("C", i.e. English, unless the program calls
-`locale.setlocale`); `%z` makes the datetime aware. Report the reject count. `.gz` files:
-`gzip.open(path, "rt")`. Pipelines: §23.8. → repo: `chapters/ch30_log_text_processing_sql/solutions/ex01_parse_access_log.py`
+`locale.setlocale`); `%z` makes the datetime aware. Pipelines: §23.8. → repo: `chapters/ch30_log_text_processing_sql/solutions/ex01_parse_access_log.py`
 
 ## 30.2 Aggregations: counts, top-K, time-window grouping
 
-**Top-K.** A `Counter` pass, O(n), then `heapq.nsmallest(k, counts.items(), key=lambda pc:
-(-pc[1], pc[0]))`, O(u log k) for u keys, versus O(u log u) to sort all (→ §6.8).
+**Top-K.** `Counter`, O(n), then `heapq.nsmallest(k, counts.items(), key=lambda pc:
+(-pc[1], pc[0]))`, O(u log k) for u keys (→ §6.8).
 `Counter.most_common` breaks ties by first-seen order: on `/b /a /b /a` it returns `/b`, the
 explicit key `/a`. Percentile: nearest rank, sorted index `ceil(0.95 * n) - 1` (ex02).
 
 **Worked problem (ex03): burst detection.** *Given (ip, ts) hits in any order, report every IP
 with more than `limit` requests within some `w`-second window.*
 
-- *Rung 1:* for each event, count events in [t, t + w): O(n²).
-- *Rung 2, tumbling buckets:* `Counter(ts // 60)`: O(n), but it answers a different question. A
-  burst that straddles a boundary splits, and each half can stay under the limit.
+- *Rung 1:* per event, count events in [t, t + w): O(n²).
+- *Rung 2, tumbling buckets:* `Counter(ts // 60)`: O(n), but a burst straddling a boundary
+  splits, and each half can stay under the limit.
 - *Rung 3, sort + two pointers:* some optimal window starts at an event. Sort, then move `left`
   while the window is w or more wide: O(n log n) sort plus an O(n) scan. Run it per IP
   (`defaultdict(list)` first): still O(n log n). Why move up: exact, almost as fast as rung 2.
@@ -117,9 +116,9 @@ edges: 0 1 3
 ```
 
 Edge cases: empty input; events exactly w apart (half-open, so separate); equal timestamps;
-unsorted input (merged server logs); `limit` equal to the peak (not flagged). Wrong-but-tempting:
-assuming sorted input; buckets for "any 60 seconds". Follow-ups: live events → a deque per IP, the
-sliding-log rate limiter (→ §29.5); millions of IPs → fixed-window counters; SQL → `COUNT(*) OVER
+unsorted input; `limit` equal to the peak (not flagged). Wrong-but-tempting:
+buckets for "any 60 seconds". Follow-ups: live events → a deque per IP, the
+sliding-log rate limiter (→ §29.5); SQL → `COUNT(*) OVER
 (PARTITION BY ip ORDER BY ts RANGE BETWEEN CURRENT ROW AND 59 FOLLOWING)` (SQLite 3.28+).
 Window mechanics: §10.5.
 → repo: `chapters/ch30_log_text_processing_sql/solutions/ex03_burst_detection.py`
@@ -135,7 +134,7 @@ CSV in, grouped nested JSON out (or the reverse). Three planted bugs:
 | output order varies | `json.dumps(..., sort_keys=True)`; sort lists |
 
 Empty cells arrive as `""`; map them to `None` deliberately. Flattening JSON to dotted keys is a
-DFS, O(total nodes); the CSV header is the sorted key union, `DictWriter(restval="")` fills gaps.
+DFS, O(total nodes).
 → repo: `chapters/ch30_log_text_processing_sql/solutions/ex04_csv_json_transform.py`
 
 ## 30.4 Handling malformed input robustly
@@ -143,21 +142,24 @@ DFS, O(total nodes); the CSV header is the sorted key union, `DictWriter(restval
 Ladder: (1) no handling: the first bad line kills the job; (2) `except Exception: continue`:
 hides your own bugs and reports nothing; (3) catch only data errors (`UnicodeDecodeError`,
 `json.JSONDecodeError`), validate fields explicitly, record `(line_no, reason)`, and raise past an
-error budget: 60 % bad means "wrong file". Decode bytes per line, so one bad byte costs one line.
+error budget: 60 % bad means "wrong file". Why move up: only rung 3 survives bad input and
+reports it. Decode bytes per line, so one bad byte costs one line.
 
 Checklist (ex05 tests each): truncated JSON; a list, not an object; missing key; `"80"` for 80;
 `true` for an int (`isinstance(True, int)` is True); negatives; invalid UTF-8; blank lines; extra
-keys (allowed); empty input. Quarantine bad lines for replay. Exceptions: §26.1.
+keys (allowed); empty input. Exceptions: §26.1.
 → repo: `chapters/ch30_log_text_processing_sql/solutions/ex05_robust_ingest.py`
 
 ## 30.5 Processing files that don't fit in memory (chunking, generators, external sort)
 
-**Stream** when small state suffices (sums, a size-k heap); **hash-partition** keys into P
-files when per-key state is too big; **external sort** for global order.
+**Stream** when small state suffices (sums, a size-k heap). **Hash-partition** keys into P
+files when per-key state is too big, then count each file alone: two O(N) passes, memory = the
+largest partition's distinct keys, P below the open-file limit. **External sort** for global
+order.
 
 **Worked problem (ex06): external sort.** *Sort N integers in a file, holding at most M at once.*
 
-- *Rung 1:* `sorted(...)`: O(N log N) time, O(N) memory: fails.
+- *Rung 1:* `sorted(...)`: O(N) memory: fails.
 - *Rung 2:* sort runs of M, then merge pairs as in merge sort (→ §11.6): O(N log N), O(M) memory,
   but 1 + ⌈log₂ k⌉ passes over the disk, k = ⌈N/M⌉.
 - *Rung 3:* sort runs of M, then one k-way heap merge: O(N log M + N log k) = O(N log N), two
@@ -166,7 +168,6 @@ files when per-key state is too big; **external sort** for global order.
 ```python
 import heapq
 import itertools
-import random
 import tempfile
 from pathlib import Path
 
@@ -196,8 +197,7 @@ def external_sort(src, dst, chunk, tmpdir):
     return len(runs)
 
 
-rng = random.Random(30)
-nums = [rng.randint(-1000, 1000) for _ in range(10_007)]
+nums = [(i * 7919) % 2001 - 1000 for i in range(10_007)]     # scrambled -1000..1000
 with tempfile.TemporaryDirectory() as d:
     tmp = Path(d)
     src, dst = tmp / "in.txt", tmp / "out.txt"
@@ -215,7 +215,7 @@ chunk=2500: runs=5, sorted correctly: True
 
 Edge cases: empty file (0 runs), N < M, N a multiple of M, duplicates, negatives.
 Wrong-but-tempting: `sorted(heapq.merge(...))` (O(N) memory); merging lines as strings
-(`"10" < "9"`). Follow-ups: k above the open-file limit → merge F at a time, ⌈log_F k⌉ passes;
+(`"10" < "9"`). Follow-ups: k above the file limit → merge F at a time, ⌈log_F k⌉ passes;
 partition with a stable hash (`zlib.crc32`; `str` `hash()` is salted per process).
 → repo: `chapters/ch30_log_text_processing_sql/solutions/ex06_external_sort.py`
 
@@ -266,13 +266,12 @@ bound: 0 | f-string: 6
 | `NULL = NULL` | NULL, never true; use `IS NULL` |
 | `COUNT(col)` | skips NULLs, as do `SUM`/`AVG`; `COUNT(*)` does not |
 | `ROUND(154.5)` | `155.0`, half away from zero; Python's `round` gives 154 (→ §7.9) |
-| `SUM(status >= 500)` | comparisons are 0/1 in SQLite; portable: `SUM(CASE WHEN ...)` |
+| `SUM(status >= 500)` | counts matches (comparisons are 0/1); portable: `SUM(CASE WHEN … THEN 1 END)` |
 
 ## 30.7 Joins: inner, left, self-joins
 
 INNER keeps matches; LEFT keeps every left row, NULL-padding the right. A self-join aliases one
-table twice (`employees e JOIN employees m ON e.manager_id = m.id`: who out-earns their
-manager?). Anti-join: LEFT JOIN + `IS NULL`. One schema for §30.7–§30.8:
+table twice (`employees e JOIN employees m ON e.manager_id = m.id`). Anti-join: LEFT JOIN + `IS NULL`. One schema for §30.7–§30.8:
 
 ```python
 import sqlite3
@@ -317,8 +316,9 @@ NOT IN: [] | NOT EXISTS: [('Ben',), ('Cy',), ('Ed',), ('Flo',)]
 Ed -> Di -> Ada
 ```
 
-Lines 1–4: `COUNT(*)` counts the padded row (empty Legal shows 1); a
-right-table filter in WHERE drops padded rows, making it an INNER JOIN, so put it in ON. SQLite
+In the `COUNT(*)` row the padded row counts, so empty Legal shows 1. In the `WHERE e.salary` row
+the filter drops padded rows (Legal vanishes), making it an INNER JOIN; the `AND` (ON) row keeps
+Legal. SQLite
 joins by nested loops, probing an inner-table index when it has (or builds) one. A Python hash
 join is O(n + m + output) (ex08). RIGHT/FULL OUTER JOIN need SQLite 3.39+. → repo: `chapters/ch30_log_text_processing_sql/solutions/ex08_sql_joins.py`
 
@@ -328,10 +328,11 @@ join is O(n + m + output) (ex08). RIGHT/FULL OUTER JOIN need SQLite 3.39+. → r
   returns NULL, not zero rows, when there is no n-th salary.
 - **Correlated subquery** (`salary > (SELECT AVG(salary) ... WHERE x.dept_id = e.dept_id)`):
   logically per row, O(n²) without an index. A CTE that groups once and joins back is one pass.
-- **`NOT IN` trap:** `manager_id` holds a NULL, so `id NOT IN (...)` is never TRUE (line 5 above);
+- **`NOT IN` trap:** `manager_id` holds a NULL, so `id NOT IN (...)` is never TRUE (the `NOT IN:` row above);
   `NOT EXISTS` is correct.
 - **`WITH RECURSIVE`:** anchor `UNION ALL` step, where the step joins the CTE back to the table.
-  Cyclic data recurses forever under UNION ALL; use UNION or a depth limit.
+  Cyclic data recurses forever. UNION stops a cycle only if the CTE has no counter or path
+  column; otherwise add `WHERE depth < N` or a path check (`instr(path, '/' || name || '/') = 0`). ex09 tests it.
 
 → repo: `chapters/ch30_log_text_processing_sql/solutions/ex09_subqueries_ctes.py`
 
@@ -344,11 +345,12 @@ them**. Windows run after WHERE, so filter in an outer query or CTE. SQLite 3.25
 **Worked problem (ex10): top-N per group.** *Return each region's two largest sales, ties broken by
 id.*
 
-- *Rung 1, Python:* sort by (region, −amount, id), `groupby`, take n: O(r log r); every row
-  leaves the database.
+- *Rung 1, Python:* sort by (region, −amount, id), `groupby`, take n: O(r log r), all rows
+  exported.
 - *Rung 2, SQL without windows:* keep a row if fewer than n rows of its region beat it (correlated
   `COUNT(*)`): O(r²) without an index.
-- *Rung 3:* `ROW_NUMBER()` in a CTE: one partitioned sort, O(r log r), n a parameter.
+- *Rung 3:* `ROW_NUMBER()` in a CTE: O(r log r). Why move up: one sort, explicit ties, and n is
+  a parameter.
 
 ```python
 import sqlite3
@@ -385,38 +387,40 @@ ROWS frame:    [120, 200, 240, 360, 420]
 ```
 
 On ties (east has two 120s), ROW_NUMBER gives 1, 2; RANK 1, 1, 3; DENSE_RANK 1, 1, 2 (ex10);
-say which "top 2" means. Lines 2–3: with ORDER BY and no frame, the default is `RANGE BETWEEN
+say which "top 2" means. The `default RANGE` row: with ORDER BY and no frame, the default is `RANGE BETWEEN
 UNBOUNDED PRECEDING AND CURRENT ROW`, which includes *peers* (equal `day`), so both 03-02 sales
 show 240. Use ROWS and a unique ORDER BY. Edge cases: groups smaller than n, n = 0, ties at the
-cut. Follow-ups: top N with ties → `RANK() <= n`; moving
-average → `ROWS BETWEEN 2 PRECEDING AND CURRENT ROW`; day-over-day → `LAG`.
+cut. Follow-up: top N with ties → `RANK() <= n`.
 → repo: `chapters/ch30_log_text_processing_sql/solutions/ex10_window_functions.py`
 
 ## 30.10 Using `sqlite3` from Python
 
 - **Bind parameters** (`?`, `:name`): the f-string query matched all 6 rows, the bound one 0.
   Placeholders cannot name tables or columns; whitelist those.
-- `with conn:` commits, or rolls back on an exception (the 999 batch left 6 rows). It does
-  **not** close; call `conn.close()` or use `contextlib.closing`.
-- `conn.row_factory = sqlite3.Row` gives rows by column name.
+- `with conn:` commits, or rolls back on error (the 999 batch left 6 rows); it does **not**
+  close (`conn.close()`, `contextlib.closing`).
 
 → repo: `chapters/ch30_log_text_processing_sql/solutions/ex07_sqlite_log_queries.py`
 
 ## 30.11 Timed practical exercises
 
-Protocol: clarify format, order, boundaries → read five real lines → parse, counting rejects →
-aggregate → cross-check two methods on random data → state complexity and the 100× breaking point.
+Protocol: clarify → read five real lines → parse, counting rejects → aggregate → cross-check on
+random data → state complexity.
 
-Classic: **sessionisation** (ex11), where a session ends when the user's next event is over 30
-minutes later. Python: sort by (user, ts), scan, O(n log n). SQL ("gaps and islands"):
-`CASE WHEN ts - LAG(ts) OVER w <= 1800 THEN 0 ELSE 1 END` flags starts (a NULL `LAG` falls to ELSE),
-then `SUM(flag) OVER (... ROWS UNBOUNDED PRECEDING)` numbers sessions; GROUP BY user, number.
+Classic: **sessionisation** (ex11): a session ends when the user's next event is over 30 minutes
+later. Split 30 minutes 5/10/10/5: clarify, Python (sort by (user, ts), scan, O(n log n)), SQL,
+cross-check. SQL ("gaps and islands") with `w = (PARTITION BY user ORDER BY ts, rowid)`, unique
+so ties order identically in both windows: `CASE WHEN ts - LAG(ts) OVER w <= 1800
+THEN 0 ELSE 1 END` flags starts (a NULL `LAG` falls to ELSE); `SUM(flag) OVER (w ROWS UNBOUNDED
+PRECEDING)` numbers sessions; GROUP BY user, number. Edge cases: a gap of exactly 1800 and of
+1801, equal timestamps, interleaved users, a single event.
+→ repo: `chapters/ch30_log_text_processing_sql/solutions/ex11_sessionize.py`
 
 ## Interviewer's view
 
-- **Rewarded:** clarifying format, order and ties; streaming; counting rejects; a cross-check.
+- **Rewarded:** clarifying format and ties; streaming; counting rejects; a cross-check.
 - **Penalised:** `split(",")` on CSV; float money; bare `except`; buckets for "any window";
-  `NOT IN` on a nullable column; LEFT JOIN filters in WHERE; ORDER BY without a tie-breaker.
+  `NOT IN` on nullable columns; ORDER BY without a tie-breaker.
 
 ## Exercises
 
@@ -440,14 +444,14 @@ Index and data files: `chapters/ch30_log_text_processing_sql/README.md`.
 
 1. Why can per-minute buckets miss 10 requests in 20 seconds with a limit of 6?
 2. 50 GB of integers, 1 GB of RAM: how many runs and passes?
-3. `LEFT JOIN e ... WHERE e.salary > 100` drops empty departments. Why? Fix?
+3. `LEFT JOIN e ... WHERE e.salary > 100` drops empty departments. Why?
 4. `WHERE id NOT IN (SELECT parent_id FROM t)` returns nothing. Why?
-5. Two same-day sales share one running total. Why?
+5. Two same-day sales share a running total. Why?
 
 <details><summary>Answers</summary>
 
 1. A burst across a minute boundary splits (5 + 5); neither bucket exceeds 6.
-2. About 50 runs; one 50-way merge; two passes.
+2. At least 50: as Python ints, 1 GB holds far fewer numbers than 1 GB on disk; one merge; two passes.
 3. Padded rows have NULL salary and `NULL > 100` is not TRUE. Move the condition into ON.
 4. `parent_id` contains NULL, so `id <> NULL` is NULL for every row. Use NOT EXISTS.
 5. The default RANGE frame includes ORDER BY peers. Use a ROWS frame and a unique ORDER BY.
@@ -457,7 +461,7 @@ Index and data files: `chapters/ch30_log_text_processing_sql/README.md`.
 
 - Stream lines; compiled regex + `fullmatch`; validate values; count rejects.
 - Top-K: `Counter` + `nsmallest` with `(-count, key)`. "Any window": sort + two pointers.
-- `csv` with `newline=""`; cents/`Decimal`. Bad input: narrow `except`, reasons, budget.
-- Too big for RAM: stream, hash-partition, or external sort (two passes).
+- `csv` with `newline=""`; cents. Bad input: narrow `except`, reasons, budget.
+- Too big for RAM: stream, hash-partition, or external sort.
 - FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY. LEFT JOIN filters in ON; no `NOT IN` on NULLs.
 - Windows: filter via a CTE; ROWS frames; SQLite 3.25+. Bind `?`; `with conn:` = transaction.

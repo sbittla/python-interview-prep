@@ -1,0 +1,9 @@
+poly_grad([0, 1, -2]) = [2.0, 5.0, 14.0]
+autograd == closed form: True
+caller's w untouched: True
+accumulated_grads(3.0, 3) = [6.0, 12.0, 18.0]
+leaf a.grad: [8.0, 16.0]  retained b.grad: [4.0, 8.0]
+under no_grad requires_grad: False  detach shares storage: True
+second backward raises RuntimeError: True
+broadcast (3,1) + (4,) -> (3, 4)
+pick_device('cpu') -> cpu | pick_device('cuda') in {cpu, cuda}: True

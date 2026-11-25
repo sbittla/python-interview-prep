@@ -30,7 +30,9 @@ Hints
 -----
 - Put `(index, item)` pairs on the queue so each worker knows where its answer goes.
 - A sentinel object (`_STOP = object()`) per worker ends a `while True: q.get()` loop.
-- Catch exceptions *inside* the worker loop; an escaped exception silently ends the thread.
+- Catch exceptions *inside* the worker loop. An escaped exception ends that worker: the
+  traceback is printed (`threading.excepthook`) but the main thread is not told, its result
+  slot stays empty, and with `task_done()`/`join()` the `join()` would hang.
 
 Follow-ups
 ----------

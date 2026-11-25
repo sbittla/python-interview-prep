@@ -6,7 +6,8 @@ Problem
 -------
 1. ``numeric_grad(f, x, eps=1e-6)``: central differences, (f(x + eps e_i) - f(x - eps e_i)) / 2eps
    for every element i of ``x`` (any shape); ``f`` returns a scalar tensor.
-2. ``rel_error(a, b)``: max |a - b| / max(|a| + |b|, 1e-12), element-wise, as a float.
+2. ``rel_error(a, b)``: ||a - b|| / max(||a|| + ||b||, 1e-12) with L2 norms, as a float.
+   (Element-wise ratios blow up where the true gradient is ~0, e.g. swish at x = -11.)
 3. ``Swish`` — a custom ``torch.autograd.Function`` for f(x) = x * sigmoid(x) with a
    hand-written ``backward``: f'(x) = s + x s (1 - s), s = sigmoid(x).
    ``BuggySwish`` (provided) forgets the x s (1 - s) term.
@@ -64,7 +65,7 @@ def numeric_grad(f, x: torch.Tensor, eps: float = 1e-6) -> torch.Tensor:
 
 
 def rel_error(a: torch.Tensor, b: torch.Tensor) -> float:
-    return ((a - b).abs() / (a.abs() + b.abs()).clamp_min(1e-12)).max().item()
+    return ((a - b).norm() / (a.norm() + b.norm()).clamp_min(1e-12)).item()
 
 
 class Swish(torch.autograd.Function):

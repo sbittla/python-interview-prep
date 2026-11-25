@@ -42,3 +42,14 @@ def test_random_three_ways(load):
     for _ in range(60):
         ev = [(rng.choice("xy"), rng.randint(0, 9000)) for _ in range(rng.randint(0, 20))]
         assert m.sessions(ev) == m.sessions_sql(m.make_db(ev)) == m.brute_sessions(ev)
+
+
+def test_sql_with_many_tied_timestamps(load):
+    m = load("ex11_sessionize")
+    rng = random.Random(111)
+    for _ in range(100):
+        # few distinct timestamps, many repeats, gaps around the 1800 s boundary
+        ev = [(rng.choice("xy"), rng.choice([0, 0, 1800, 1801, 1801, 3700, 3700]))
+              for _ in range(rng.randint(1, 25))]
+        rng.shuffle(ev)
+        assert m.sessions_sql(m.make_db(ev)) == m.sessions(ev)

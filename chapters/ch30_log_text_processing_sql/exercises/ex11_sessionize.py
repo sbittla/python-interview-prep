@@ -25,7 +25,8 @@ Hints
 -----
 - Decide out loud whether exactly `gap` seconds continues the session (here: yes, it
   must be MORE than gap to split). Tests pin the boundary.
-- In the SQL version the running SUM needs a ROWS frame when timestamps repeat (→ ex10).
+- With repeated timestamps, make ORDER BY unique (ts, rowid) before using a ROWS frame:
+  otherwise the two windows may order tied rows differently and split them (→ ex10).
 
 Edge cases
 ----------

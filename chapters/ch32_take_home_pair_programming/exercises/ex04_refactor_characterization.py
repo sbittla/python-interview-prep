@@ -11,9 +11,10 @@ touch it. Your pair asks you to make it readable without changing behaviour.
    "raises <ExceptionName>" if it raises. This is the golden master.
 2. compare(old, new, cases) -> list of (case, old_outcome, new_outcome) for
    every case where they differ, in the order of `cases`. [] means "same".
-3. default_grid() -> every combination of the boundary weights below with all
-   zones (including an unknown one), express in (False, True), member in
-   (False, True): 13 * 4 * 2 * 2 = 208 cases.
+3. default_grid() -> every combination of WEIGHTS (your boundary weights in
+   grams: at least one <= 0, one billed as 1 kg, one billed as 10 kg and one
+   as 11 kg), all ZONES (including an unknown one), express in (False, True)
+   and member in (False, True). The reference uses 13 weights: 208 cases.
 4. shipping_cost(grams, zone, express, member) -> the clean, table-driven
    version. compare(legacy, clean, default_grid()) must be [].
 
@@ -40,7 +41,7 @@ Hints
 -----
 - record: try fn(*case); on Exception store f"raises {type(exc).__name__}".
 - WEIGHTS: read every literal in the legacy code (0, 1000 g per kg, 10 kg) and
-  take each boundary and its neighbours, plus a few values in between: 13 values.
+  take each boundary and its neighbours (±1 g), plus a few values in between.
 - default_grid: itertools.product(WEIGHTS, ZONES, (False, True), (False, True)).
 - Refactor: put the per-zone numbers in a table (e.g. a small frozen dataclass
   per zone); decide how the unknown-zone and express rules fit into it.

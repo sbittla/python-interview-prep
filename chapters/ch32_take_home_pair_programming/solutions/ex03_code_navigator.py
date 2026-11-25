@@ -174,11 +174,11 @@ def main() -> None:
     print("definitions:")
     for qual, places in sorted(idx.definitions.items()):
         print(f"  {qual:<20} " + ", ".join(f"{mod}:{line}" for mod, line in places))
+    print("entry_points =", entry_points(idx))
     for name in ("unit_price", "is_vip", "total"):
         print(f"callers_of({name!r}) = {callers_of(idx, name)}")
     print("callees_of('Invoice.total') =", callees_of(idx, "Invoice.total"))
     print("callees_of('<module>') =", callees_of(idx, "<module>"))
-    print("entry_points =", entry_points(idx))
     dup = build_index({"a": "def run():\n    pass\n", "b": "\n\ndef run():\n    pass\n"})
     print("same name in two modules:", dup.definitions)
     empty = build_index({})

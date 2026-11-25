@@ -14,7 +14,8 @@ latency in seconds). Write
 1. `parse_line(line)` -> a `Record` (ip, ts as an aware `datetime`, method, path, status:int,
    size:int with "-" meaning 0, latency_ms:int) or `None` if the line is malformed;
 2. `iter_records(lines)` -> a generator of records that skips malformed lines and counts them
-   in a `stats` dict passed by the caller (`{"ok": n, "bad": m}`);
+   in a `stats` dict passed by the caller (`{"ok": n, "bad": m}`). Blank lines count as
+   malformed here (a log writer never emits them; contrast ex05, which skips them);
 3. `parse_split(line)` -> the same result using only `str.split`, for comparison.
 
 Examples
@@ -36,7 +37,8 @@ Approach ladder
    quotes and the timestamp is two; indexing by position accepts any token in any slot
    (e.g. "unknown" as the IP) and shifts every field when one is missing or a path
    contains a space. Fine for a 2-minute answer, fragile in production.
-2. `re.match(pattern, line)` each time — anchored, validates every field; the `re` module
+2. `re.match(pattern, line)` each time — anchored, validates the shape of every field
+   (values like IP octets <= 255 need a second check); the `re` module
    caches compiled patterns, so the cost is a cache lookup per call.
 3. Compile once, `fullmatch` with named groups, wrap in a generator: O(L) per line,
    O(1) extra memory beyond one line, and `match.group("status")` documents itself.

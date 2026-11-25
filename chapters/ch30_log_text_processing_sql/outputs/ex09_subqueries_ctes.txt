@@ -11,3 +11,6 @@ Ada  Ada
     Ed   Ada/Di/Ed
     Gil  Ada/Di/Gil
   Flo  Ada/Flo
+chain from Ed: ['Ed', 'Di', 'Ada']
+chain with a cycle: ['Ed', 'Di', 'Ada']
+2-node cycle rows: UNION + depth (capped at 10) = 11 | UNION, no depth = 2

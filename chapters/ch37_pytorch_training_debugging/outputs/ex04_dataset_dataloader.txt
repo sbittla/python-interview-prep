@@ -1,0 +1,9 @@
+len(ds): 10  ds[5]: [6, 6] 5
+padded: [[1, 0, 0, 0], [2, 2, 0, 0], [3, 3, 3, 0], [4, 4, 4, 4]]
+lengths: [1, 2, 3, 4]  real tokens: 10  labels: [0, 1, 2, 3]
+same seed same orders: True
+epoch 1 != epoch 2: True  each epoch a permutation: True
+different seed differs: True
+drop_last=False: batches=3  formula=3
+drop_last=True: batches=2  formula=2
+default collate on ragged sequences -> RuntimeError

@@ -23,14 +23,16 @@ Concurrency cap: ~6 agents (hit the 5-hour usage limit at ~11).
 | 24 | PASS 9.8 | v1 9.0 → v2 9.8 (last IntEnum sentence fixed by orchestrator) |
 | 25 | PASS 9.9 | v1 9.0 (class-decorator claim) → v2 9.9 |
 | 27 | PASS 9.9 | v1 9.0 → v2 9.9 (+ lock assert tightened by orchestrator) |
-| 28 | review | r28 |
-| 30 | review | r30 |
-| 32 | fixing | r32 v1 8.65 (edge-case bugs ex01–03, stub leak) |
-| 34 | writing | w34 (session 2) |
-| 35 | writing | w35 (session 2) |
+| 28 | PASS 9.8 | v1 9.0 → v2 9.8 (+2 table/wording fixes by orchestrator) |
+| 30 | PASS 9.8 | v1 9.0 → v2 9.8 (+ SUM-trap row by orchestrator) |
+| 32 | PASS 9.7 | v1 8.65 → v2 9.7 (+4 final fixes) |
+| 34 | fixing | r34 v1 9.0 (NaN != claim, "M" alias version) |
+| 35 | fixing | r35 v1 9.4 (feature eng. gap, NDCG variants, test gaps) |
 | 37 | writing | w37 (session 2) |
+| 39 | writing | w39 (session 2) |
+| 40 | writing | w40 (session 2) |
 
-Queue (new chapters): 39 40 43 44 46 47
+Queue (new chapters): 43 44 46 47
 Queue (ch45 bank code): A 001–024 · B 025–048 · C 057–078 · D 079–098 · E 099–120 · F 121–150 · G lab01–30 · then ch45 manuscript
 Queue (complete existing chapters + manuscript): 01 05 07 09 11 16 18 20 23 26 29 31 33 36 38 41 42 48
 Last: front matter + appendices A–H, full-book check, BOOK.md build.

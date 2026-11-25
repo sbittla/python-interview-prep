@@ -3,11 +3,23 @@ import pytest
 M = "ex04_refactor_characterization"
 
 
-def test_grid_shape(load):
+def kg(grams):
+    return -(-grams // 1000)
+
+
+def test_grid_covers_the_boundaries(load):
     m = load(M)
     grid = m.default_grid()
-    assert len(grid) == 208 and len(set(grid)) == 208
-    assert (0, "mars", True, False) in grid
+    weights = {g for g, _, _, _ in grid}
+    zones = {z for _, z, _, _ in grid}
+    assert len(grid) == len(set(grid)) == len(weights) * len(zones) * 4   # full product
+    assert any(g <= 0 for g in weights)                    # the "return 0" branch
+    assert any(kg(g) == 1 for g in weights if g > 0)       # first kg (member cost == 2000)
+    assert any(kg(g) == 10 for g in weights)               # 10 kg ...
+    assert any(kg(g) == 11 for g in weights)               # ... and just over (eu surcharge)
+    assert {"domestic", "eu", "intl"} < zones              # plus at least one unknown zone
+    assert {(e, mem) for _, _, e, mem in grid} == {(False, False), (False, True),
+                                                    (True, False), (True, True)}
 
 
 def test_record_captures_exceptions(load):
@@ -28,6 +40,10 @@ def test_compare_reports_in_case_order(load):
 def test_clean_matches_legacy_everywhere(load):
     m = load(M)
     assert m.compare(m.shipping_cost_legacy, m.shipping_cost, m.default_grid()) == []
+    dense = [(g, z, e, mem) for g in [-5, 0, *range(1, 30001, 499), 10000, 10001]
+             for z in ("domestic", "eu", "intl", "moon") for e in (False, True)
+             for mem in (False, True)]                     # independent of your grid
+    assert m.compare(m.shipping_cost_legacy, m.shipping_cost, dense) == []
 
 
 @pytest.mark.parametrize("case, expected", [
@@ -50,12 +66,14 @@ def test_known_values(load, case, expected):
 def test_tempting_refactor_is_caught(load):
     m = load(M)
     diffs = m.compare(m.shipping_cost_legacy, m.shipping_cost_tempting, m.default_grid())
-    assert len(diffs) == 38                     # 32 non-positive weights + 6 cost==2000 cases
-    assert ((1000, "intl", False, True), 2000, 1500) in diffs
-    assert ((0, "eu", False, False), 0, "raises ValueError") in diffs
+    assert any(c[0] <= 0 and old == 0 and new == "raises ValueError" for c, old, new in diffs)
+    assert any(kg(c[0]) == 1 and c[1] != "domestic" and c[1] != "eu" and c[3]
+               and (old, new) == (2000, 1500) for c, old, new in diffs)   # cost exactly 2000
+    assert all(c[0] <= 0 or (old, new) == (2000, 1500) for c, old, new in diffs)
 
 
 def test_weak_grid_hides_the_boundary_bug(load):
     m = load(M)
-    weak = [c for c in m.default_grid() if c[0] not in (-1, 0, 1, 999, 1000)]
+    weak = [c for c in m.default_grid() if c[0] > 1000]   # no 0 g, no 1-kg weights
+    assert weak
     assert m.compare(m.shipping_cost_legacy, m.shipping_cost_tempting, weak) == []

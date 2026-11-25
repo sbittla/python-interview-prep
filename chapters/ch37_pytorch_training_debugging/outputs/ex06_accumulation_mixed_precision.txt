@@ -1,0 +1,11 @@
+micro=1: accumulated == full batch: True
+micro=3: accumulated == full batch: True
+micro=4: accumulated == full batch: True
+forgot to divide by micro=4: grad norm ratio = 4.00
+fp16 max: 65504.0  bf16 max ~ 3.39e+38
+fp16_roundtrip(1e-08, scale=1) -> 0
+fp16_roundtrip(1e-08, scale=65536) -> 1e-08
+fp16_roundtrip(0.001, scale=1) -> 0.001
+fp16_roundtrip(0.001, scale=1.34218e+08) -> inf
+scaler trace: ok:step:1024 ok:step:1024 ok:step:2048 inf:skip:1024 ok:step:1024 inf:skip:512 ok:step:512
+autocast cpu bf16 -> linear out: torch.bfloat16  weight: torch.float32  loss: torch.float32

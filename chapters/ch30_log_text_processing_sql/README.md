@@ -17,7 +17,8 @@ Manuscript: `manuscript/ch30_log_text_processing_sql.md`. Standard library only 
 | ex10 | Top-N per group, ranks, running totals | ★ Core | `ROW_NUMBER`, `RANK`, `SUM() OVER`, `LAG` | 30.9 |
 | ex11 | Timed practical: sessionise events in Python and SQL | ◆ Extended | gaps and islands | 30.11 |
 
-Data files (`data/`): `access.log` (44 lines, 5 malformed), `orders.csv` (quoted fields),
+Data files (`data/`): `access.log` (44 lines, 5 malformed; ex01 counts its blank line as
+malformed, while ex05 skips blank lines), `orders.csv` (quoted fields),
 `payments.jsonl` (17 lines: 1 blank, 7 bad incl. one invalid UTF-8 byte). Timestamps are fixed (March 2025).
 
 ## How to run

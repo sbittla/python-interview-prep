@@ -31,3 +31,19 @@ def test_org_chart(load):
     assert (2, "Ed", "Ada/Di/Ed") in chart and (1, "Flo", "Ada/Flo") in chart
     assert len(chart) == 7 and [p for _, _, p in chart] == sorted(p for _, _, p in chart)
     assert max(d for d, _, _ in chart) == 2
+
+
+def test_manager_chain_terminates_on_cycle(load):
+    m = load("ex09_subqueries_ctes")
+    conn = m.make_db()
+    assert m.manager_chain(conn, "Ed") == ["Ed", "Di", "Ada"]
+    assert m.manager_chain(conn, "Ada") == ["Ada"]
+    assert m.manager_chain(conn, "Nobody") == []
+    conn.execute("UPDATE employees SET manager_id = 5 WHERE id = 1")    # Ada -> Ed: cycle
+    assert m.manager_chain(conn, "Ed") == ["Ed", "Di", "Ada"]
+    assert m.manager_chain(conn, "Di") == ["Di", "Ada", "Ed"]
+
+
+def test_union_does_not_stop_cycle_with_depth_column(load):
+    # bounded at depth 10 in the query, so this can never hang
+    assert load("ex09_subqueries_ctes").cycle_demo() == (11, 2)

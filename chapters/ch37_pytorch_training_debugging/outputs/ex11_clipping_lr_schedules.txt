@@ -1,0 +1,8 @@
+pre-clip norm 4.0032 matches torch: True
+clipped grads match torch: True
+post-clip norm: 1.0000
+warmup+cosine: [0.05, 0.1, 0.0854, 0.05, 0.0146, 0.0]
+LambdaLR matches: True
+scheduler-before-optimizer warns: True
+spike, no clipping: clean MSE 7.94
+spike, clip_grad_norm_(1.0): clean MSE 0.00223

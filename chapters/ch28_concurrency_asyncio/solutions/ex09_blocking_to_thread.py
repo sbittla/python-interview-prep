@@ -46,8 +46,9 @@ Hints
 
 Follow-ups
 ----------
-- Default executor size: `min(32, os.cpu_count() + 4)` threads; pass your own executor for
-  more control.
+- Default executor: a `ThreadPoolExecutor` of up to `min(32, cpus + 4)` threads, where cpus is
+  `os.cpu_count()` before 3.13 and `os.process_cpu_count()` from 3.13; pass your own
+  executor for more control.
 - Debug mode (`PYTHONASYNCIODEBUG=1` or `asyncio.run(..., debug=True)`) logs callbacks slower
   than 100 ms.
 """

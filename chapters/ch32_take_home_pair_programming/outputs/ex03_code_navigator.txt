@@ -7,10 +7,11 @@ definitions:
   legacy_rate          pricing:19
   render               billing:17
   unit_price           pricing:5
+entry_points = ['legacy_rate']
 callers_of('unit_price') = ['Invoice.subtotal', 'legacy_rate']
 callers_of('is_vip') = ['apply_discount']
 callers_of('total') = ['render']
 callees_of('Invoice.total') = ['apply_discount', 'subtotal']
 callees_of('<module>') = ['Invoice', 'print', 'render']
-entry_points = ['legacy_rate']
+same name in two modules: {'run': [('a', 1), ('b', 3)]}
 empty codebase: {} [] []

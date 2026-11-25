@@ -112,10 +112,10 @@ def show_plan(tasks: list[Task], budget: int) -> Plan:
 
 def main() -> None:
     show_tasks(TASKS)
+    show_plan(TASKS, 170)
     p = show_plan(TASKS, 180)
     print(readme_scope(p))
     print()
-    show_plan(TASKS, 170)
     try:
         plan(TASKS, 120)
     except ScopeError as exc:

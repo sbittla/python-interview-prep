@@ -38,7 +38,8 @@ Concurrency output is byte-identical on every run:
 - The async exercises ex06–ex08 and ex10–ex11 run on **`vclock.run_virtual`**, a helper in
   `solutions/` (copied into `exercises/`). It runs an event loop whose clock jumps to the next
   timer instead of sleeping, so `asyncio.sleep`, `wait_for`, `asyncio.timeout` and `loop.time()`
-  give exact timings in no real time. Do not use it with threads or real I/O.
+  give exact timings in no real time. If every task waits and no timer is pending, it raises
+  `RuntimeError` (deadlock guard) instead of hanging. Do not use it with threads or real I/O.
 - ex09 needs real threads, so it uses `asyncio.run`. Its outputs come from `threading.Event`
   hand-offs, not from timing.
 

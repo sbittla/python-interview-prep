@@ -27,7 +27,7 @@ Approach ladder
    nearest predecessor: O(n^2).
 2. Sort by (user, ts), then one scan: a row starts a session when the user changes or
    ts - previous_ts > gap. O(n log n) time, O(n) space for the sort.
-3. Same idea in SQL: `LAG(ts) OVER (PARTITION BY user ORDER BY ts)` marks starts with a
+3. Same idea in SQL: `LAG(ts) OVER (PARTITION BY user ORDER BY ts, rowid)` marks starts with a
    0/1 flag, `SUM(flag) OVER (... ROWS UNBOUNDED PRECEDING)` numbers the sessions (a
    running total of starts), then GROUP BY (user, session_no). Why: the classic
    "gaps and islands" pattern, and the database does the sort.
@@ -36,7 +36,8 @@ Hints
 -----
 - Decide out loud whether exactly `gap` seconds continues the session (here: yes, it
   must be MORE than gap to split). Tests pin the boundary.
-- In the SQL version the running SUM needs a ROWS frame when timestamps repeat (→ ex10).
+- With repeated timestamps, make ORDER BY unique (ts, rowid) before using a ROWS frame:
+  otherwise the two windows may order tied rows differently and split them (→ ex10).
 
 Edge cases
 ----------
@@ -94,13 +95,13 @@ def sessions(events: list[Event], gap: int = 1800) -> list[tuple]:
 def sessions_sql(conn: sqlite3.Connection, gap: int = 1800) -> list[tuple]:
     return conn.execute("""
         WITH flagged AS (
-            SELECT user, ts,
-                   CASE WHEN ts - LAG(ts) OVER (PARTITION BY user ORDER BY ts) <= ?
+            SELECT user, ts, rowid AS rid,
+                   CASE WHEN ts - LAG(ts) OVER (PARTITION BY user ORDER BY ts, rowid) <= ?
                         THEN 0 ELSE 1 END AS is_start
             FROM events
         ), numbered AS (
             SELECT user, ts,
-                   SUM(is_start) OVER (PARTITION BY user ORDER BY ts
+                   SUM(is_start) OVER (PARTITION BY user ORDER BY ts, rid
                                        ROWS UNBOUNDED PRECEDING) AS session_no
             FROM flagged
         )

@@ -16,6 +16,8 @@ salary). Write
    NOT EXISTS; also show why `NOT IN (SELECT manager_id ...)` returns nothing here.
 4. `org_chart(conn)` -> (depth, name, path) for every employee via WITH RECURSIVE,
    starting at the employee whose manager_id IS NULL (depth 0), ordered by path.
+5. `manager_chain(conn, name)` -> [name, manager, manager's manager, ...], walking up
+   manager_id; must terminate even if the data contains a cycle.
 
 Examples
 --------
@@ -40,8 +42,9 @@ Edge cases
 ----------
 - n larger than the number of distinct salaries, duplicate salaries (DISTINCT), employee
   with NULL dept_id (excluded by both versions: `NULL = NULL` is not TRUE), a department of
-  one (never above its own average), cycles in manager_id (UNION instead of UNION ALL,
-  or a depth limit, stops infinite recursion).
+  one (never above its own average), cycles in manager_id: UNION stops a cycle only if the
+  CTE has no counter or path column; with depth/path every row is new, so add
+  `WHERE depth < N` or a path check (`manager_chain` below).
 
 Follow-ups
 ----------
@@ -102,6 +105,16 @@ def org_chart(conn: sqlite3.Connection) -> list[tuple]:
     raise NotImplementedError("TODO")
 
 
+def manager_chain(conn: sqlite3.Connection, name: str) -> list[str]:
+    raise NotImplementedError("TODO")
+
+
+def cycle_demo() -> tuple[int, int]:
+    """Rows produced on a 2-node cycle by UNION with a depth column (bounded at 10 so it
+    cannot hang) vs plain UNION without one."""
+    raise NotImplementedError("TODO")
+
+
 def main() -> None:
     conn = make_db()
     print("above dept avg (correlated):", above_dept_avg(conn))
@@ -112,6 +125,11 @@ def main() -> None:
     print("NOT IN with a NULL:", conn.execute("SELECT 3 NOT IN (1, NULL), 3 NOT IN (1, 2)").fetchone())
     for depth, name, path in org_chart(conn):
         print("  " * depth + f"{name:<4} {path}")
+    print("chain from Ed:", manager_chain(conn, "Ed"))
+    conn.execute("UPDATE employees SET manager_id = 5 WHERE id = 1")     # Ada <- Ed: a cycle
+    print("chain with a cycle:", manager_chain(conn, "Ed"))
+    print("2-node cycle rows: UNION + depth (capped at 10) =", cycle_demo()[0],
+          "| UNION, no depth =", cycle_demo()[1])
     conn.close()
 
 

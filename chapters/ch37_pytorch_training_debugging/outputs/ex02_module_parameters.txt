@@ -1,0 +1,9 @@
+MLP params: 67  closed form: 67
+ListMLP params: 0  state_dict keys: []
+MLP state_dict keys: ['layers.0.weight', 'layers.0.bias', 'layers.1.weight', 'layers.1.bias']
+output shape: (5, 3)
+SGD(ListMLP.parameters()) raises ValueError: True
+trainable after freezing layer 0: 27
+buffers in state_dict: ['mean', 'std']  parameters: 0
+standardised: [[1.0, 1.0]]
+named_parameters: ['layers.0.weight', 'layers.0.bias']
