@@ -7,7 +7,8 @@ def test_examples(load):
     m = load("ex08_kmp_z_function")
     assert m.prefix_function("aabaaab") == [0, 1, 0, 1, 2, 2, 3]
     assert m.kmp_search("abababa", "aba") == [0, 2, 4]
-    assert (m.shortest_period("abcabcabc"), m.shortest_period("abcab")) == (3, 5)
+    assert (m.smallest_repeating_unit("abcabcabc"), m.smallest_repeating_unit("abcab")) == (3, 5)
+    assert len("abcab") - m.prefix_function("abcab")[-1] == 3     # shortest period, not a unit
     assert m.z_function("aabxaab") == [7, 1, 0, 0, 3, 1, 0]
 
 
@@ -48,10 +49,10 @@ def test_random_against_find_and_brute(load):
         assert m.z_function(text) == _brute_z(text)
 
 
-def test_shortest_period(load):
+def test_smallest_repeating_unit(load):
     m = load("ex08_kmp_z_function")
     rng = random.Random(11)
     for _ in range(300):
         s = "".join(rng.choice("ab") for _ in range(rng.randint(1, 12)))
         expected = next(p for p in range(1, len(s) + 1) if len(s) % p == 0 and s[:p] * (len(s) // p) == s)
-        assert m.shortest_period(s) == expected
+        assert m.smallest_repeating_unit(s) == expected

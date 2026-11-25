@@ -1,0 +1,12 @@
+rows: 39
+   ('/login', 13, 95, 0)
+   ('/static/app.js', 12, 155, 1)
+   ('/api/orders', 8, 143, 1)
+SQL == Python: True
+4xx by ip: [('198.51.100.7', 8), ('192.0.2.10', 4), ('203.0.113.9', 2)]
+safe: 0 rows | unsafe: 39 rows
+rolled back: CHECK constraint failed: status BETWEEN 100 AND 599 | rows: 39
+pitfalls: (3, 3.5, None, 1)
+ROUND(154.5) in SQLite: 155.0 | Python round(154.5): 154
+COUNT(*), COUNT(x), AVG(x): (3, 2, 2.0)
+sqlite3.Row: /login 13 | empty HAVING: []

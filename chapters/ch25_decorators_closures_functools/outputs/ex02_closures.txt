@@ -1,0 +1,8 @@
+running mean: [10.0, 15.0, 30.0, 25.0]
+list version agrees: [10.0, 15.0, 30.0, 25.0]
+captured state: {'count': 4, 'total': 100.0}
+deposit(50) -> 150 | withdraw(30) -> 120 | balance_of() -> 120
+withdraw(500) -> insufficient funds
+withdraw sees the shared cell: {'balance': 120}
+independent account: 0 | first still 120
+no captures -> __closure__ is None

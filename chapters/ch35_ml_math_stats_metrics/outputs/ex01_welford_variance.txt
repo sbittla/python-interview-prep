@@ -1,0 +1,9 @@
+population (ddof=0): (5.0, 4.0)
+sample     (ddof=1): (5.0, 4.571429)   32/7 = 4.571429
+offset 1e9, true sample variance 30:
+  naive    : 0.0
+  two-pass : 30.0
+  welford  : 30.0
+merged halves: n = 8  mean = 5.0  var(ddof=0) = 4.0
+merge with empty keeps stats: True
+one value, ddof=1 -> ValueError: need more than ddof values

@@ -31,7 +31,8 @@ DP recipe — state: best(i) = most cash from the first i houses; transition:
 best(i) = max(best(i-1), nums[i-1] + best(i-2)) (skip house i-1, or take it and skip
 its neighbour); base: best(0) = 0, best(-1) = 0; order: i ascending; answer: best(n).
 1. Plain recursion — two calls per house: O(phi^n) ~ O(1.618^n) time, O(n) stack.
-2. Memoised — n states, O(1) work each: O(n) time, O(n) space + O(n) stack.
+2. Memoised — n states, O(1) work each: O(n) time, O(n) space; recursion depth ~n:
+   hits the ~1000 limit (section 7.21) well inside the constraints; this is why we move to the table.
 3. Bottom-up table — O(n) time, O(n) space; keeps enough to reconstruct the houses.
 4. Two variables — best(i) reads only best(i-1), best(i-2): O(n) time, O(1) space,
    but the reconstruction is gone (keep the table if you must list the houses).

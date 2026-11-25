@@ -1,0 +1,11 @@
+Account(number=1001, owner='Ada', balance=1300)
+Account(number=1002, owner='Grace', balance=0)
+history a: [('open', 1000), ('deposit', 500), ('withdraw', 200)]
+history b: [('open', 0)] (separate lists: True )
+a.balance = ... -> AttributeError (read-only property)
+ValueError: insufficient funds
+ValueError: deposit must be positive
+ValueError: owner must be non-empty
+interest a: 26 | interest b: 100
+Account.interest_rate still 0.02 | 'interest_rate' in vars(b): True
+Account(number=1001, owner='Ada Lovelace', balance=1326)

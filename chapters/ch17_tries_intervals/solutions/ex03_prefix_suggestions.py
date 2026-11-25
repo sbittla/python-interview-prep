@@ -42,7 +42,8 @@ Approach ladder
 2. Improved   — sort once, then bisect per prefix and read up to three neighbours.
    O(n log n * L + m * (L log n)) — often the best interview answer: short and fast.
 3. Trie       — node counters give count_prefix in O(len(prefix)); per-node top-3 lists
-   give each suggestion list in O(1) after the walk. Build O(total chars); memory is
+   give each suggestion list in O(1) after the walk. Build: sort the products
+   (O(L * n log n) character comparisons) plus O(total chars) inserts; memory is
    higher. Why move up: the per-keystroke cost no longer depends on n, and the walk is
    incremental (one step per typed character, never restarting from the root).
 

@@ -1,0 +1,7 @@
+pipeline: HI THERE!
+compose(str, abs)(-7) = '7'
+compose()(42) = 42
+apply_n(double, 10)(1) = 1024
+dispatch: [5, -7, 20, -4, 6, "error: unknown op 'pow'"]
+same as if/elif: True
+functions are objects: ['len', 'abs', 'compose']

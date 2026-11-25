@@ -1,0 +1,8 @@
+hand case  : 0.75 0.75 0.75
+ROC points : [(0.0, 0.0), (0.0, 0.5), (0.5, 0.5), (0.5, 1.0), (1.0, 1.0)]
+ties       : 0.611111 0.611111 0.611111
+no tie fix : 0.555556 vs reversed input: 0.666667
+all equal  : 0.5
+random n=2000: pairs=0.779259 trapezoid=0.779259 rank=0.779259  agree: True
+monotone transform keeps AUC: True
+one class  -> ValueError: AUC needs at least one positive and one negative

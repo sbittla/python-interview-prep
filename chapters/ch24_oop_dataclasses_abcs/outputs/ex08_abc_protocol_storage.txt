@@ -1,0 +1,10 @@
+put_many: 2 | snapshot: {'a': '1', 'b': '2'}
+log get x: new | keys: ['x', 'y'] | missing: None
+migrate log -> mem: 2 -> {'a': '1', 'b': '2', 'x': 'new', 'y': '1'}
+TypeError at construction; abstract left: ['keys'] | mentions keys: True
+NaiveBase() constructs fine: NaiveBase (fails later)
+Storage() itself -> TypeError
+closed: 2 | conn.open: False
+isinstance(mem, Closeable): False
+Box is Sized without inheriting: True
+registered Fake isinstance Storage: True | has get: False

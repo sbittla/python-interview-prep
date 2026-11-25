@@ -1,0 +1,10 @@
+reservoir(range(10), 3) = [0, 3, 2]
+reservoir(range(2), 5)  = [0, 1]
+fisher_yates('abcde')   = eacbd
+sample_brute(range(10), 3) = [0, 9, 5]
+exact fisher_yates n=3: [1, 1, 1, 1, 1, 1]
+exact pick_pop     n=3: [1, 1, 1, 1, 1, 1]
+exact naive        n=3: [4, 5, 5, 5, 4, 4]  <- biased
+exact fisher_yates n=4: outcomes = 24  counts = {1}
+exact reservoir n=5 k=2: subsets = 10  counts = {6}
+empirical reservoir: per-item counts [9853, 10139, 9945, 10140, 9881, 10042], expected 10000, max relative deviation < 3%: True

@@ -1,0 +1,14 @@
+north around the 2-day gap (Mar 10-11 missing):
+ date store  revenue  run_total   prev  dod_pct  rows_7  days_7
+03-06 north   221.78    1355.79 217.57      1.9     NaN  225.96
+03-07 north   304.16    1659.95 221.78     37.1  237.14  237.14
+03-08 north   273.72    1933.67 304.16    -10.0  232.08  232.08
+03-09 north   187.88    2121.55 273.72    -31.4  229.85  229.85
+03-12 north   246.21    2367.76 187.88     31.0  234.38  246.75
+03-13 north   235.10    2602.86 246.21     -4.5  240.92  249.41
+03-14 north   306.46    2909.32 235.10     30.4  253.62  249.87
+rows_7 matches brute force: True
+leading NaNs in rows_7 per store: {'north': 6, 'south': 6}
+rows where rows_7 != days_7 (after the first 7): 12
+SQL window functions match: True
+final running totals: {'north': 7411.29, 'south': 5038.07}

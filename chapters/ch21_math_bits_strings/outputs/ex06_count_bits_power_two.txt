@@ -1,0 +1,17 @@
+count_bits(16) = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 1]
+naive agrees   : True
+popcount(0) shift=0 kernighan=0 bin=0 bit_count=0
+popcount(1) shift=1 kernighan=1 bin=1 bit_count=1
+popcount(11) shift=3 kernighan=3 bin=3 bit_count=3
+popcount(255) shift=8 kernighan=8 bin=8 bit_count=8
+popcount(18446744073709551617) shift=2 kernighan=2 bin=2 bit_count=2
+is_power_of_two(0) = False
+is_power_of_two(1) = True
+is_power_of_two(6) = False
+is_power_of_two(64) = True
+is_power_of_two(-8) = False
+is_power_of_two(2**100) = True
+is_power_of_two(2**100 + 2) = False
+loop agrees  : True
+x=0b101100 lowest set bit x & -x = 0b100  bit_length=6
+popcount(-1) -> ValueError: popcount of a negative int is undefined (infinite 1 bits)

@@ -1,0 +1,7 @@
+slots smaller: True
+saves at least 25%: True
+plain has __dict__: True
+slotted has __dict__: False
+slotted rejects new attribute: True
+slotted weakref-able: False
+dataclass(slots=True) has __dict__: False

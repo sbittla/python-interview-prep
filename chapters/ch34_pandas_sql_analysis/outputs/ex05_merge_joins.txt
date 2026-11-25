@@ -1,0 +1,11 @@
+users: 40 | result rows: 40 | users with 0 orders: [39, 40]
+orphan orders (anti join): [1086]
+SQL per-user matches: True
+SQL orphans: [1086]
+orders: 87 | inner join rows: 86 | left join rows: 87
+user 2 orders: 2 | rows after joining a lookup with user 2 twice: 4
+validate='many_to_one' -> MergeError: Merge keys are not unique in right dataset
+join_row_count([1,1,2],[1,1,1,3]) = 6 | brute: 6
+pandas joins NaN to NaN: 2 rows
+SQL joins NULL to NULL: 1 row(s) (only 'x')
+concat keys: ['first', 'last'] | rows: 4

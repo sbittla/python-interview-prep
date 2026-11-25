@@ -4,27 +4,27 @@ Tier ★ Core · Tracks S, M, L · Study time ≈ 5 h · Prerequisites: Ch 6 (`h
 
 **Learning objectives**
 
-- Draw a binary heap as an array, apply the index formulas, and explain why heapify is O(n).
-- Use `heapq` as a min-heap, a max-heap and a priority queue with safe tie-breakers.
-- Pick between sort, size-k heap, bucket sort and quickselect for top-K, and justify it.
-- Solve the k-way merge, two-heap median and scheduling problems with an approach ladder.
+- Draw a heap as an array, use the index formulas, and explain why heapify is O(n).
+- Use `heapq` as a min-heap, max-heap and priority queue with safe tie-breakers.
+- Choose between sort, size-k heap, buckets and quickselect for top-K.
+- Solve k-way merge, two-heap median and scheduling problems with an approach ladder.
 
 > **Recognise it**
 >
 > | Signal in the prompt | Reach for |
 > |---|---|
-> | "k largest / smallest / closest / most frequent", k ≪ n | size-k heap, O(n log k) (15.3, 15.4, 15.9) |
-> | "stream", "after each insertion", "data does not fit in memory" | heap of bounded size; never re-sort |
-> | "merge k sorted …" | heap of one head per source (15.6) |
-> | "running median", "balance two halves" | two heaps (15.7) |
-> | "next job / earliest free room / cheapest next step" | priority queue simulation (15.8) |
-> | "k-th element, one shot, O(n) expected" | quickselect (15.5, → §11.13) |
+> | "k largest / smallest / closest / most frequent", k ≪ n | size-k heap, O(n log k) (§15.3, §15.4, §15.9) |
+> | "stream", "after each insertion", "too big for memory" | bounded heap; never re-sort |
+> | "merge k sorted …" | heap of one head per source (§15.6) |
+> | "running median", "balance two halves" | two heaps (§15.7) |
+> | "next job / earliest free room" | priority-queue simulation (§15.8) |
+> | "k-th element, one shot, O(n) expected" | quickselect (§15.5, → §11.13) |
 
 ## 15.1 Heap property and array representation
 
-A **min-heap** is a complete binary tree where every parent is ≤ its children. Complete means
-every level is full except the last, which fills left to right — so the tree packs into a list
-with no pointers. For index `i` (0-based): parent `(i - 1) // 2`, children `2i + 1` and `2i + 2`.
+A **min-heap** is a complete binary tree where every parent is ≤ its children. Complete (every
+level full except the last, filled left to right) means it packs into a list with no pointers.
+For 0-based index `i`: parent `(i - 1) // 2`, children `2i + 1` and `2i + 2`.
 
 ```text
 index:  0  1  2  3  4  5  6                1(0)
@@ -34,11 +34,9 @@ value: [1, 4, 2, 9, 8, 7, 6]             /      \
                                    9(3) 8(4)  7(5) 6(6)
 ```
 
-Only the root is guaranteed to be the minimum; siblings are unordered. Two repairs keep the
-property: **sift up** (after appending, swap with the parent while smaller) and **sift down**
-(after replacing the root, swap with the *smaller* child while larger). Both walk one
-root-to-leaf path: O(log n). Push = append + sift up; pop = move the last item to the root +
-sift down. **Heapify** sifts down every internal node, from the last (`n // 2 - 1`) to the root:
+Siblings are unordered. Push = append + **sift up** (swap with the parent while smaller);
+pop = move the last item to the root + **sift down** (swap with the *smaller* child while
+larger): O(log n) each. **Heapify** sifts down every internal node, last first:
 
 ```python
 def sift_down(a: list, i: int, n: int) -> None:
@@ -65,34 +63,23 @@ print(a)
 [1, 4, 2, 9, 8, 7, 6]
 ```
 
-**Why heapify is O(n), not O(n log n).** A node at height h sifts down at most h levels, and
-there are about n / 2^(h+1) nodes at height h. Half the nodes are leaves (zero work), a quarter
-move one level, and so on: total ≤ n · Σ h/2^(h+1) = n. Building by n pushes is different: the
-*deep* nodes are the ones that may travel far, so it is O(n log n). The ex01 demo counts swaps on
-descending input, the worst case for both:
-
-```text
-      n   heapify   n pushes   heapify/n
-    127       120        642   0.94
-   1023      1013       8194   0.99
-   8191      8178      90114   1.00
-```
-
-→ repo: `chapters/ch15_heaps_top_k/solutions/ex01_min_heap.py` (full `MinHeap` with `pushpop`,
-`replace`, empty-heap errors). Heap sort itself lives in §11.8.
+**Why heapify is O(n).** About n / 2^(h+1) nodes have height h, each sifting down ≤ h levels:
+total ≤ n · Σ h/2^(h+1) = n. Pushes sift *up*; the many deep nodes may climb the full height:
+O(n log n). ex01 counts swaps on descending input: n = 8191 → heapify 8,178, pushes 90,114.
+→ repo: `chapters/ch15_heaps_top_k/solutions/ex01_min_heap.py`. Heap sort: §11.8.
 
 ## 15.2 `heapq` in practice (max-heap by negation, tuples, tie-breakers)
 
-`heapq` (API in §6.8) is a set of functions over a plain list, min-heap only, and compares items
-with `<` alone. Three habits cover almost every interview use (pitfalls in §7.20):
+`heapq` (API in §6.8) is functions over a plain list: min-heap only, comparing with `<` alone.
+Three habits cover most interview uses (pitfalls in §7.20):
 
-1. **Max-heap**: push `-x`, negate on the way out. Strings cannot be negated — wrap them (15.4).
-   Python 3.14 adds public `heappush_max`/`heappop_max` and friends; don't rely on them for 3.10+ code.
-2. **Priority + payload**: push `(priority, tie_breaker, payload)`. Tuples compare field by
-   field, so when priorities tie Python compares the *next* field. If that is a dict or a custom
-   object, you get a `TypeError` — at some later pop, not necessarily the first push.
-3. **The counter trick**: make the tie-breaker a unique, increasing `itertools.count()` value.
-   The comparison never reaches the payload, and equal priorities come out FIFO.
+1. **Max-heap**: push `-x`, negate on the way out (§15.7); wrap strings instead (§15.4). Python
+   3.14 adds public `heappush_max`/`heappop_max`; don't rely on them in 3.10+ code.
+2. **Priority + payload**: tuples compare field by field, so a priority tie compares the
+   payloads — a `TypeError` for dicts, raised by whichever push or pop first compares two
+   tied entries, often far from the line that caused it.
+3. **Counter trick**: push `(priority, next(seq), payload)`, `seq = itertools.count()`. The
+   unique tie-breaker ends the comparison before the payload; ties come out FIFO.
 
 ```python
 import heapq
@@ -111,38 +98,28 @@ seq = count()                                 # unique, increasing tie-breaker
 for pri, payload in jobs:
     heapq.heappush(heap, (pri, next(seq), payload))
 print([heapq.heappop(heap)[2]["name"] for _ in range(len(heap))])
-
-nums = [5, 1, 9, 3]
-mx = [-x for x in nums]                       # max-heap by negation
-heapq.heapify(mx)
-print(-mx[0], heapq.nlargest(2, nums), heapq.nsmallest(2, nums))
 ```
 
 ```text
 TypeError: '<' not supported between instances of 'dict' and 'dict'
 ['a', 'b', 'c']
-9 [9, 5] [1, 3]
 ```
 
-`heapreplace(h, x)` pops then pushes (the root may be bigger than x); `heappushpop(h, x)` pushes
-then pops (returns x at once if x ≤ root). Both do one sift instead of two.
+One sift instead of two: `heapreplace(h, x)` pops then pushes (may return more than x);
+`heappushpop(h, x)` pushes then pops (returns x at once if x ≤ root).
 
 ## 15.3 Kth largest / smallest element
 
-The k-th largest is the **minimum of the k largest**. So keep a *min*-heap of size k: a new
-value enters only if it beats the root, which it evicts. O(n log k) time, O(k) memory, and it
-works on a stream — the class below absorbs an initial batch and answers after every `add`:
+The k-th largest is the **minimum of the k largest**: keep a size-k *min*-heap; a new value
+enters only if it beats the root, which it evicts. O(n log k), O(k) memory, streamable:
 
 ```python
 import heapq
 
 
 class KthLargest:
-    def __init__(self, k: int, initial: list[int]) -> None:
-        self.k, self.heap = k, list(initial)
-        heapq.heapify(self.heap)                     # O(m)
-        while len(self.heap) > k:
-            heapq.heappop(self.heap)                 # keep only the k largest
+    def __init__(self, k: int) -> None:
+        self.k, self.heap = k, []
 
     def add(self, x: int) -> int | None:
         if len(self.heap) < self.k:
@@ -152,46 +129,41 @@ class KthLargest:
         return self.heap[0] if len(self.heap) == self.k else None
 
 
-t = KthLargest(3, [4, 5, 8, 2])
-print([t.add(x) for x in [3, 5, 10, 9, 4]])
+t = KthLargest(3)
+print([t.add(x) for x in [4, 5, 8, 2, 3, 5, 10, 9, 4]])
 ```
 
 ```text
-[4, 5, 5, 8, 8]
+[None, None, 4, 4, 4, 5, 5, 8, 8]
 ```
 
-Ladder: re-sort per add O(n log n) → `bisect.insort` O(n) per add (memory still grows) → size-k
-heap O(log k) per add, bounded memory. k-th *smallest* mirrors it with a max-heap of size k.
+Ladder, cost per add: re-sort, O(n log n) → `bisect.insort`, O(n), memory grows → size-k heap,
+O(log k), O(k) memory. k-th *smallest*: size-k max-heap.
+→ repo: `chapters/ch15_heaps_top_k/solutions/ex02_kth_largest_stream.py` (also seeds from a batch)
 
 ## 15.4 Top-K frequent: heap vs bucket sort vs sort trade-offs
 
 **Worked problem 1 — top-K frequent words.** Return the k most frequent words, highest count
-first, ties alphabetical. (Ch 9 ex04 does the integer version with buckets.)
+first, ties alphabetical (integer version: Ch 9 ex04).
 
-| Rung | Idea | Time | Extra space | Why move on |
+| Rung | Idea | Time | Space beyond `Counter` | Why move on |
 |---|---|---|---|---|
-| Sort | `Counter`, sort d words by `(-count, word)` | O(n + d log d) | O(d) | sorts words you will discard |
-| `nsmallest` | `heapq.nsmallest(k, c, key=lambda w: (-c[w], w))` | O(n + d log k) | O(k) | one line; best default |
-| Size-k heap | hand-rolled; root = worst kept word | O(n + d log k) | O(k) | streams; what the follow-up asks |
-| Bucket | `bucket[count]` → words, scan high to low | O(n) + sort per bucket | O(n) | ties force a sort: O(d log d) worst |
+| Sort | sort d words by `(-count, word)` | O(n + d log d) | O(d) | sorts words you discard |
+| `nsmallest` | `nsmallest(k, c, key=lambda w: (-c[w], w))` | O(n + d log k) | O(k) | one-shot: no running top-k as counts arrive |
+| Size-k heap | hand-rolled; root = worst kept word | O(n + d log k) | O(k) | streams; the usual follow-up |
+| Bucket | `bucket[count]` → words, scan high to low | O(n) + sort within buckets | O(n) | ties force a sort |
 
-The hand-rolled heap has a trap: the root must be the *worst* kept word — lowest count, and among
-equal counts the alphabetically **latest**. Counts ascend but words must descend, and you cannot
-negate a string. Wrap it:
+The hand-rolled root must be the *worst* kept word: lowest count, then alphabetically
+**latest**. Counts ascend, words descend, and strings can't be negated:
 
 ```python
 import heapq
 from collections import Counter
 
 
-class Rev:                                    # reverses string order inside the heap
-    __slots__ = ("word",)
-
-    def __init__(self, word: str) -> None:
-        self.word = word
-
-    def __lt__(self, other: "Rev") -> bool:
-        return self.word > other.word
+class Rev(str):                               # a str that sorts in reverse
+    def __lt__(self, other: str) -> bool:
+        return str.__gt__(self, other)
 
 
 def top_k_words(words: list[str], k: int) -> list[str]:
@@ -200,7 +172,7 @@ def top_k_words(words: list[str], k: int) -> list[str]:
         heapq.heappush(heap, (c, Rev(word)))
         if len(heap) > k:
             heapq.heappop(heap)
-    return [heapq.heappop(heap)[1].word for _ in range(len(heap))][::-1]
+    return [str(heapq.heappop(heap)[1]) for _ in range(len(heap))][::-1]
 
 
 words = ["to", "be", "or", "not", "to", "be"]
@@ -214,19 +186,20 @@ print(heapq.nsmallest(3, c, key=lambda w: (-c[w], w)))
 ['be', 'to', 'not']
 ```
 
-**Wrong but tempting.** `(count, word)` tuples in a size-k heap evict the alphabetically
-*smaller* word on a tie — the one you wanted. `(-count, word)` with eviction pops the *most*
-frequent word. The repo demo prints the first bug on `k=1`, `["b","b","a","a","c"]`: it keeps
-`b`. **Trade-off answer:** k ≪ d → heap; k ≈ d → sort; small integer counts and no tie rule →
-buckets. → repo: `chapters/ch15_heaps_top_k/solutions/ex03_top_k_frequent_words.py`
+**Wrong but tempting.** Plain `(count, word)` tuples evict the alphabetically *smaller* word on a
+tie — the one you wanted (repo demo: k = 1 on `["b","b","a","a","c"]` keeps `b`).
+`(-count, word)` with eviction pops the *most* frequent. **Choose:** k ≪ d → heap; k ≈ d →
+sort; small counts, no tie rule → buckets. **Edge cases:** all words tie, k = d, one
+word, k = 1 with a tie. **Follow-up:** per-shard top-k can't give the global top-k (merge full
+counts); lazy deletion when counts change.
+→ repo: `chapters/ch15_heaps_top_k/solutions/ex03_top_k_frequent_words.py`
 
 ## 15.5 Quickselect as the Top-K follow-up ◆
 
-After a heap answer the interviewer often asks, "can you beat O(n log k)?" Quickselect
-(algorithm in §11.13) partitions around a random pivot and recurses into only the side holding
-index n − k: expected O(n), worst O(n²). Afterwards `a[n-k:]` holds the k largest, unordered;
-sort just those for O(n + k log k). Use a three-way partition so all-equal input stays linear,
-and copy the input — quickselect reorders the list.
+"Can you beat O(n log k)?" Quickselect (§11.13) partitions around a random pivot and continues
+only into the side holding index n − k: O(n) expected, O(n²) worst. Then `a[n-k:]` holds the k
+largest, unordered (sort them: O(n + k log k)). Partition three ways (duplicates stay linear)
+on a copy.
 
 | | Sort | Size-k heap | Quickselect |
 |---|---|---|---|
@@ -238,16 +211,13 @@ and copy the input — quickselect reorders the list.
 
 ## 15.6 Merge K sorted lists/arrays
 
-**Worked problem 2 — merge k sorted iterators lazily.** Yield all items in order, pulling at most
-one item ahead per source, so it works on huge files and infinite generators; items may be
-non-comparable (dicts with a key), and equal keys come out in source order.
+**Worked problem 2 — merge k sorted iterators lazily.** Yield all N items in order, holding one
+item per source (huge files, infinite generators); take a `key`; equal keys keep source order.
 
-1. **Concatenate and sort** — O(N log N); reads everything, so infinite sources hang.
-2. **Merge one source at a time** — O(N·k), still eager (divide-and-conquer pairs give O(N log k),
-   also eager).
-3. **Heap of heads** — one `(key, source_index, item)` per live source; pop, yield, refill from the
-   same source. O(N log k) time, O(k) memory, lazy. `source_index` is the counter trick: it breaks
-   ties so `item` is never compared, and makes ties stable.
+1. **Concatenate and sort** — O(N log N); eager, so infinite sources hang.
+2. **Merge pairwise** — O(N·k) one by one, O(N log k) divide and conquer; still eager.
+3. **Heap of heads** — one `(key, source_index, item)` per live source; pop, yield, refill from
+   that source: O(N log k), O(k) memory, lazy. `source_index` is the counter trick.
 
 ```python
 import heapq
@@ -276,35 +246,33 @@ def merge_lazy(iterables, key=lambda x: x):
 
 print(list(merge_lazy([[1, 4, 7], [2, 5], [], [3, 6, 9]])))
 print(list(islice(merge_lazy([count(0, 3), count(0, 5), count(1, 7)]), 10)))
-logs = [[{"t": 1, "m": "boot"}, {"t": 4, "m": "ready"}], [{"t": 1, "m": "db"}]]
-print([d["m"] for d in merge_lazy(logs, key=lambda d: d["t"])])
 ```
 
 ```text
 [1, 2, 3, 4, 5, 6, 7, 9]
 [0, 0, 1, 3, 5, 6, 8, 9, 10, 12]
-['boot', 'db', 'ready']
 ```
 
-In production say "`heapq.merge(*its, key=...)` does exactly this". Edge cases: no sources,
-empty sources, duplicates across sources, a source that ends first. Follow-up: external sort
-(sort chunks to disk, k-way merge them). For linked lists see §13.5.
+→ repo: `chapters/ch15_heaps_top_k/solutions/ex04_merge_k_iterators.py`
 
-**Extension ◆ — smallest range covering k lists.** Same heap of heads plus a running *maximum*:
-each step `[heap min, max]` is a candidate; advance the list holding the minimum; stop when any
-list is exhausted. O(N log k). The tempting bug is advancing the maximum instead — the range
-can never shrink. → repo: `chapters/ch15_heaps_top_k/solutions/ex08_smallest_range_k_lists.py`
+In production, `heapq.merge(*its, key=...)` does this. Edge cases: no or empty sources,
+cross-source duplicates. Follow-up: external sort (sorted chunks on disk, k-way merged).
+Linked lists: §13.5.
+
+**Extension ◆ — smallest range covering k lists.** Heap of heads plus a running *maximum*: each
+`[heap min, max]` is a candidate; advance the minimum's list until one runs out. O(N log k).
+Advancing the maximum instead never shrinks the range.
+→ repo: `chapters/ch15_heaps_top_k/solutions/ex08_smallest_range_k_lists.py`
 
 ## 15.7 Two heaps: streaming median
 
 **Worked problem 3.** Support `add(x)` and `median()` over a stream.
 
-1. **Sort on every query** — O(n log n) per call.
-2. **`bisect.insort`** — O(n) per add (list shifting), O(1) median: O(n²) over the stream.
-3. **Two heaps** — `low`, a max-heap (negated) of the smaller half; `high`, a min-heap of the
-   larger half; `len(low)` equals `len(high)` or exceeds it by one. Route every new value through
-   `low` into `high`, so every value in low ≤ every value in high without comparing anything
-   yourself, then rebalance. O(log n) add, O(1) median.
+1. **Sort per query** — O(n log n) per call.
+2. **`bisect.insort`** — O(1) median, O(n) per add (shifting): O(n²) over the stream.
+3. **Two heaps** — `low`, negated max-heap of the smaller half; `high`, min-heap of the larger;
+   `len(low)` is `len(high)` or one more. Route each value through `low` into `high` (keeps
+   low ≤ high), then rebalance. O(log n) add, O(1) median.
 
 ```python
 import heapq
@@ -340,15 +308,17 @@ print(out)
 [5, 10.0, 5, 4.0]
 ```
 
-**Wrong but tempting:** pushing x into "whichever heap is smaller" (add 10 then 1 puts 10 in low
-and 1 in high — inverted halves); forgetting to negate when *reading* `low[0]`. Follow-up,
-sliding-window median: add lazy deletion, or use a sorted list with `bisect` (O(k) per step).
-The tests cross-check against `statistics.median`, including int-vs-float results.
+**Wrong but tempting:** pushing x into "the smaller heap" (add 10 then 1: low = [10], high = [1],
+inverted); forgetting to negate when *reading* `low[0]`. Follow-up, sliding-window median: lazy
+deletion, or `bisect` on a sorted window (O(k) per step). An odd count returns the int top, an
+even count a float mean — matching `statistics.median`. **Edge cases:** empty stream raises
+`ValueError`, duplicates, negatives, one element.
+→ repo: `chapters/ch15_heaps_top_k/solutions/ex05_streaming_median.py`
 
 ## 15.8 Scheduling with heaps: task scheduler, meeting rooms
 
-The shape: sort events by time, keep a heap of "what frees up / runs next". **Minimum meeting
-rooms** (half-open `[start, end)`): a min-heap of end times of rooms in use.
+Sort by time; heap what frees up or runs next. **Minimum meeting rooms** (half-open
+`[start, end)`): a min-heap of in-use end times.
 
 ```python
 import heapq
@@ -371,81 +341,62 @@ print(min_rooms([(0, 30), (5, 10), (15, 20)]), min_rooms([(1, 5), (5, 8)]))
 2 1
 ```
 
-Ladder: count overlaps at every start, O(n²) → heap, O(n log n). The two-pointer sweep over sorted
-starts and ends (→ §17.8) is equally fast but cannot say *which* room a meeting gets; ex07 adds
-that with a second heap of free room ids. Use `<=`, not `<`: back-to-back meetings share a room.
+Ladder: count overlaps per start, O(n²) → heap, O(n log n). `<=` reuses a room back to back.
+The start/end sweep (→ §17.8) is as fast but can't assign rooms; ex07 does:
+→ repo: `chapters/ch15_heaps_top_k/solutions/ex07_meeting_rooms.py`
 
-**CPU simulation (heap + queue).** In ex09 jobs have arrival times and durations; a free CPU runs
-the arrived job with the shortest duration. A deque of jobs sorted by arrival answers "who
-arrives next?"; a heap of `(duration, index)` answers "who runs next?". When the heap is empty,
-jump the clock to the next arrival — never tick by 1. O(n log n). The cooldown **task scheduler**
-(same letter n ticks apart) is the same heap + queue loop, taught with its counting formula in §20.6.
+**CPU simulation** runs the shortest arrived job next: arrivals deque + `(duration, index)`
+heap; on an empty heap jump the clock to the next arrival. O(n log n). The cooldown
+**task scheduler** is the same loop; formula in §20.6.
+→ repo: `chapters/ch15_heaps_top_k/solutions/ex09_cpu_scheduler.py`
 
 ## 15.9 K closest points
 
-Rank by **squared** distance (exact ints, no `sqrt`) and break ties by `(x, y)`. A size-k
-*max*-heap keeps the k best with the worst at the root; negating the whole key turns `heapq`
-into one:
+Rank by **squared** distance (exact ints, no `sqrt`), ties by `(x, y)`. To stream, hand-roll a
+size-k *max*-heap of negated keys `(-d2, -x, -y)`: worst kept at the root.
 
 ```python
 import heapq
 
-
-def k_closest(points: list[tuple[int, int]], k: int) -> list[tuple[int, int]]:
-    heap: list[tuple[int, int, int]] = []     # negated (d2, x, y): root = worst kept
-    for x, y in points:
-        item = (-(x * x + y * y), -x, -y)
-        if len(heap) < k:
-            heapq.heappush(heap, item)
-        elif item > heap[0]:
-            heapq.heapreplace(heap, item)
-    return [(-x, -y) for _, x, y in sorted(heap, reverse=True)]
-
-
-print(k_closest([(1, 3), (-2, 2), (2, -2), (3, 4), (5, 0)], 3))
+pts = [(1, 3), (-2, 2), (2, -2), (3, 4), (5, 0)]
+print(heapq.nsmallest(3, pts, key=lambda p: (p[0] ** 2 + p[1] ** 2, p)))
 ```
 
 ```text
 [(-2, 2), (2, -2), (1, 3)]
 ```
 
-Sort is O(n log n); this is O(n log k) and streams; quickselect on the key (15.5) is O(n)
-expected. A size-k *min*-heap here is the classic bug: its root is the nearest point.
+Ladder: sort, O(n log n) → size-k heap, O(n log k), streams → quickselect (§15.5), O(n)
+expected. Classic bug: a size-k *min*-heap, whose root — the nearest point — gets evicted.
+→ repo: `chapters/ch15_heaps_top_k/solutions/ex06_k_closest_points.py`
 
 ## 15.10 Practice set
 
-Work in this order; each row's file has the full ladder, follow-ups and tests.
+Order: ex01 → ex02, ex06, ex03 → ex04, ex08 → ex05, ex07, ex09 → ex10. Tests cross-check
+every rung against a sort. More: Chapter 45, problems 091–098.
 
-| Step | Do | Exercise |
-|---|---|---|
-| 1 | Build the heap by hand, check against `heapq` | ex01 |
-| 2 | Size-k heap patterns | ex02, ex06, ex03 |
-| 3 | Merge and multi-pointer heaps | ex04, then ex08 ◆ |
-| 4 | Two heaps and simulations | ex05, ex07, ex09 |
-| 5 | Defend heap vs quickselect aloud | ex10 ◆ |
+## Interviewer's view
 
-### Interviewer's view
-
-The rubric rewards: saying "min-heap of size k" (not "max-heap of everything") for k largest,
-with O(n log k); naming tie-breakers *before* the `TypeError`; knowing `heapq` is min-only and
-how to flip it; explaining when sort, bucket or quickselect beats the heap; and testing ties,
-duplicates, k = 0 and k = n. Writing sift-down from scratch is asked less often than explaining it.
+- "Min-heap of size k, O(n log k)" for k largest — not "max-heap of everything".
+- Name the tie-breaker *before* the `TypeError`; flip min-only `heapq` fluently.
+- Say when sort, buckets or quickselect win; test ties, duplicates, k = 0, k = n.
+- Explaining sift-down beats writing it from scratch.
 
 ## Exercises
 
-Code: `chapters/ch15_heaps_top_k/` (stubs in `exercises/`, run with `TARGET=exercises`).
+Code and stubs: `chapters/ch15_heaps_top_k/` (index in `README.md`).
 
 | Id | Title | Tier | Pattern |
 |---|---|---|---|
-| ex01 | Array-backed min-heap from scratch | ★ | sift up/down, O(n) heapify |
+| ex01 | Min-heap from scratch | ★ | sift up/down, heapify |
 | ex02 | K-th largest in a stream | ★ | size-k min-heap |
-| ex03 | Top-K frequent words, alphabetical ties | ★ | heap vs bucket vs sort |
-| ex04 | Merge K sorted iterators lazily | ★ | k-way merge heap |
+| ex03 | Top-K frequent words | ★ | heap vs bucket vs sort |
+| ex04 | Merge K sorted iterators lazily | ★ | k-way merge |
 | ex05 | Streaming median | ★ | two heaps |
-| ex06 | K closest points to a target | ★ | size-k max-heap |
-| ex07 | Minimum meeting rooms + room assignment | ★ | heap of end times |
-| ex08 | Smallest range covering K lists | ◆ | heap + running max |
-| ex09 | Single-CPU shortest-job-first scheduler | ★ | arrival queue + ready heap |
+| ex06 | K closest points | ★ | size-k max-heap |
+| ex07 | Meeting rooms + room assignment | ★ | heap of end times |
+| ex08 | Smallest range covering K lists | ◆ | heads + running max |
+| ex09 | Shortest-job-first CPU scheduler | ★ | queue + ready heap |
 | ex10 | Top-K: heap vs quickselect | ◆ | partition selection |
 
 ## Checkpoint quiz
@@ -459,25 +410,21 @@ Code: `chapters/ch15_heaps_top_k/` (stubs in `exercises/`, run with `TARGET=exer
 <details>
 <summary>Answers</summary>
 
-1. Parent `(5 - 1) // 2 = 2`; children 11 and 12.
-2. Sift-down cost is a node's height; most nodes are near the bottom, so the sum Σ h·n/2^(h+1)
-   is ≤ n. Pushes sift *up*, and the many deep nodes may travel the full log n.
-3. A min-heap of size k: its root is the k-th largest and the first thing to evict.
-4. On equal priorities the tuple compares the task, which may raise `TypeError`; a unique
-   counter ends the comparison and gives FIFO order among ties.
-5. Quickselect when all data is in memory, one-shot, and k is large (O(n) expected vs
-   O(n log k)). Never for streams or data that does not fit in memory.
+1. Parent 2; children 11 and 12.
+2. Sift-down costs a node's height, and most nodes are near the bottom; a push sifts *up* and
+   may climb the full log n.
+3. A min-heap of size k: its root is the k-th largest and the first to evict.
+4. Ties would compare tasks (possible `TypeError`); the unique counter decides first, FIFO.
+5. In memory, one-shot, k large: O(n) expected beats O(n log k). Never for streams.
 
 </details>
 
 ## Summary card
 
-- Array heap: parent `(i-1)//2`, children `2i+1`, `2i+2`; only the root is ordered.
-- Push/pop O(log n); peek O(1); heapify O(n); n pushes O(n log n).
+- Array heap: parent `(i-1)//2`, children `2i+1`, `2i+2`. Push/pop O(log n); heapify O(n).
 - `heapq` is min-only: negate numbers, wrap strings with a reversed `__lt__`.
-- Tuple entries: `(key, unique_counter, payload)` — never let the payload be compared.
-- k largest → min-heap size k; k smallest / k closest → max-heap size k. O(n log k), O(k).
-- Top-K choice: heap (k ≪ n, streams) · sort (k ≈ n) · buckets (small counts) · quickselect (O(n) expected, in memory).
-- Merge k sorted → heap of heads with source index, O(N log k); `heapq.merge` in production.
-- Median → two heaps, sizes equal or low +1, route through low.
-- Scheduling → sort by time + heap of "next free / next to run"; use `<=` for half-open intervals.
+- Entries `(key, unique_counter, payload)` — never compare payloads.
+- k largest → min-heap of size k; k smallest / closest → max-heap of size k. O(n log k), O(k).
+- Top-K: heap (k ≪ n, streams) · sort (k ≈ n) · buckets (small counts) · quickselect (in memory).
+- Merge k → heap of heads + source index, O(N log k). Median → two heaps. Scheduling → sort
+  by time + heap of "next free"; `<=` for half-open intervals.

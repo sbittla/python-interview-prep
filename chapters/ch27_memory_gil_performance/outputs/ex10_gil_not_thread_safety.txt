@@ -1,0 +1,9 @@
+c += 1 spans more than one instruction: True
+AAABBB     final=2  expected=2
+ABABAB     final=1  expected=2
+AABBAB     final=1  expected=2
+ABBBAA     final=1  expected=2
+ABCABCABC  final=1  expected=3
+AAAA       ValueError: thread 'A' ran more than 3 steps
+AAB        ValueError: unfinished threads: ['A', 'B']
+locked 4 x 50,000 = 200000

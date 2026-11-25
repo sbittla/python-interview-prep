@@ -34,7 +34,8 @@ Hints
 Follow-ups
 ----------
 - Without rocks the count is C(m+n-2, m-1) (`math.comb`).
-- Allow up/left moves too: cycles appear and DP no longer applies; use Dijkstra (Ch 16).
+- Allow up/left moves too: states now depend on each other in cycles, so no fill order
+  exists; min path sum becomes Dijkstra (Ch 16), counting simple paths backtracking (Ch 18).
 """
 from __future__ import annotations
 

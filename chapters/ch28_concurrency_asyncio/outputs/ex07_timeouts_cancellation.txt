@@ -1,0 +1,7 @@
+wait_for: done timeout
+asyncio.timeout (3.11+): done timeout
+cancel with cleanup: ['start', 'cleanup', 'cancelled']
+fail_fast all ok: ['a', 'b'] ['a finished', 'b finished']
+fail_fast raised: broken failed | log: ['quick finished', 'slow cancelled']
+TaskGroup raised ExceptionGroup: ['broken failed'] | log: ['quick finished', 'slow cancelled']
+plain gather log: ['quick finished', 'caller saw: broken failed', 'slow finished']

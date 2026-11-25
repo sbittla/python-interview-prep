@@ -1,0 +1,31 @@
+Decimal vs float: 0.1+0.2 -> 0.3 vs 0.30000000000000004
+
+$ expense_report transactions.csv --month 2024-03   -> exit 0
+rent           1200.00
+groceries        67.95
+eating out       31.40
+books            12.00
+transport         5.80
+TOTAL          1317.15
+  [stderr] warning: line 7: bad amount 'abc'
+  [stderr] warning: line 10: missing category
+  [stderr] warning: line 11: bad date '2024-13-01'
+
+$ expense_report transactions.csv --month 2024-02 --format json   -> exit 0
+{
+  "transport": "30.00"
+}
+  [stderr] warning: line 7: bad amount 'abc'
+  [stderr] warning: line 10: missing category
+  [stderr] warning: line 11: bad date '2024-13-01'
+
+$ expense_report transactions.csv --strict   -> exit 1
+  [stderr] warning: line 7: bad amount 'abc'
+  [stderr] warning: line 10: missing category
+  [stderr] warning: line 11: bad date '2024-13-01'
+
+$ expense_report missing.csv   -> exit 1
+  [stderr] error: no such file: missing.csv
+
+header only: [] [] -> no transactions
+wrong header: ["line 1: unknown header ['when', 'what', 'how much'], expected ['date', 'category', 'amount', 'note']"]

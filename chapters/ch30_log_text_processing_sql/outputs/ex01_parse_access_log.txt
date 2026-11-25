@@ -1,0 +1,11 @@
+parsed: {'ok': 39, 'bad': 5}
+first: 192.0.2.10 2025-03-12T10:00:22+00:00 POST /static/app.js 200 2677 110
+statuses: [200, 201, 304, 401, 404, 500]
+ips: ['192.0.2.10', '198.51.100.7', '203.0.113.5', '203.0.113.9']
+  bad line 7: ''
+  bad line 14: 'garbage line from a crashed writer'
+  bad line 21: '203.0.113.5 - - [12/Mar/2025:10:05:00 +0000] "GET '
+  bad line 28: '192.0.2.10 - - [12/Mar/2025:10:06:01 +0000] "GET /'
+  bad line 35: '203.0.113.9 - - [31/Foo/2025:10:07:00 +0000] "GET '
+split agrees on this file: True
+no IP -> regex: None | split ip: unknown

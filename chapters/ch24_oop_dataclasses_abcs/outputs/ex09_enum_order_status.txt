@@ -1,0 +1,10 @@
+trail: ['pending', 'paid', 'shipped', 'delivered'] | terminal: True
+InvalidTransition: DELIVERED -> CANCELLED not allowed
+ValueError: 'refunded' is not a valid Status
+rung 1 accepts a typo: payed
+by value: PAID | by name: paid | identity: True
+members: ['PENDING', 'PAID', 'SHIPPED', 'DELIVERED', 'CANCELLED']
+sorted orders: ['a', 'c', 'd', 'b']
+IntEnum compares with int: True True | Enum does not: False
+values: 1 2 4 | rw = 3
+can rw READ: True | can rw READ|DELETE: False | WRITE in rw: True

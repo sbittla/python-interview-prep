@@ -30,7 +30,8 @@ Approach ladder
 ---------------
 1. Brute force — run single-word search for every word: O(W * R * C * 3^L).
 2. Trie DFS    — one DFS per cell walks the grid and the trie together; shared prefixes are
-   explored once. O(R * C * 4 * 3^(L-1)) worst case, independent of W.
+   explored once. O(R * C * 4 * 3^(L-1)) worst case for the search, independent of W,
+   plus O(sum of word lengths) to build the trie.
 3. Trie DFS + pruning — remove found words and empty leaves. Same worst case, but in practice
    the trie shrinks as words are found, so the search ends early (see the call counts).
    Why move up: rung 1 re-explores the same grid paths for every word sharing a prefix.

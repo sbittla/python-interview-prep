@@ -1,0 +1,4 @@
+4 cities: (80, [0, 2, 3, 1, 0]) brute: 80 memo: 80
+asymmetric 3 cities: (3, [0, 1, 2, 0]) brute: 3
+1 city: (0, [0, 0])  2 cities: (10, [0, 1, 0])
+13 cities: cost 107, tour visits each once: True

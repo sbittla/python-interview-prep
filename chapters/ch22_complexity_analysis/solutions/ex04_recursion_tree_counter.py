@@ -38,8 +38,9 @@ Constraints
 
 Approach ladder
 ---------------
-1. "Two recursive calls, so 2^n" — right for subsets, wrong for fib (φ^n,
-   φ ≈ 1.618) and permutations (branching shrinks: n, n-1, ...).
+1. "Two recursive calls, so 2^n" — right for subsets' node count, loose for
+   fib (a valid upper bound, but the tight count is Θ(φ^n), φ ≈ 1.618), wrong
+   for permutations (branching is not constant: n, n-1, ...).
 2. Count nodes per level: level k of the permutation tree has n!/(n-k)!
    nodes; summing gives about e * n! nodes, so O(n!) nodes, not O(n^n).
 3. Time = nodes x work per node + leaves x leaf work. Copying each answer

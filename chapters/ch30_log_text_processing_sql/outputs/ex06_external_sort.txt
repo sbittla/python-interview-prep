@@ -1,0 +1,6 @@
+N=10007 chunk=  1000: runs=11  same as in-memory sort: True
+N=10007 chunk=  2500: runs= 5  same as in-memory sort: True
+N=10007 chunk= 20000: runs= 1  same as in-memory sort: True
+empty file -> runs: 0 | output: ''
+partitioned counts: {'GET /a': 234, 'GET /b': 258, 'GET /d': 265, 'POST /c': 243}
+same as Counter: True

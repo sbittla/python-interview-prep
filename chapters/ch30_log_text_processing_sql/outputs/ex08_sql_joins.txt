@@ -1,0 +1,9 @@
+inner: [('Ada', 'Eng'), ('Ben', 'Eng'), ('Cy', 'Eng'), ('Di', 'Sales'), ('Ed', 'Sales')]
+headcount (LEFT, COUNT(e.id)): [('Eng', 3), ('Legal', 0), ('Sales', 2)]
+headcount with COUNT(*): [('Eng', 3), ('Legal', 1), ('Sales', 2)]
+empty departments: ['Legal']
+filter in WHERE: [('Eng', 3), ('Sales', 1)]
+filter in ON:    [('Eng', 3), ('Legal', 0), ('Sales', 1)]
+out-earn manager: [('Cy', 210, 'Ada', 200), ('Ed', 130, 'Di', 120)]
+hash join: [('Ada', 'Eng'), ('Ben', 'Eng'), ('Cy', 'Eng'), ('Di', 'Sales'), ('Ed', 'Sales')]
+same as nested loop: True

@@ -1,0 +1,6 @@
+fib(10) calls: {'fib': 177}
+fib_memo(10) calls: {'fib_memo': 11}
+fib(20) calls: {'fib': 21891}
+fib_memo(20) calls: {'fib_memo': 21}
+build_report calls: {'build_report': 1, 'load': 1, 'pad_rows': 1}
+top allocation line: return [f"{v:>40}" for v in values]

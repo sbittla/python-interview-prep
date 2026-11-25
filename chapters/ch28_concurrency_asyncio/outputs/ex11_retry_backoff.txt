@@ -1,0 +1,7 @@
+result: payload after 4 calls
+t=0.0 attempt 1: ConnectionError
+t=0.115 attempt 2: timeout
+t=0.675 attempt 3: ConnectionError
+t=1.246 attempt 4: ok
+exhausted: gave up after 3 attempts | last: t=0.225 attempt 3: ConnectionError
+not retried: KeyError 'missing field'

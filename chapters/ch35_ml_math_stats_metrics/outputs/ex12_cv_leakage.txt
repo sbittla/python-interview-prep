@@ -1,0 +1,12 @@
+kfold(10, 3) test sizes: [4, 3, 3]
+stratified positives per fold: [1, 1, 1]
+plain kfold positives per fold: [0, 0, 3]
+  group fold test groups: ['a', 'd']  overlap with train: []
+  group fold test groups: ['b', 'c']  overlap with train: []
+  group fold test groups: ['e', 'f']  overlap with train: []
+  time split train [0, 1, 2, 3] test [4, 5]
+  time split train [0, 1, 2, 3, 4, 5] test [6, 7]
+  time split train [0, 1, 2, 3, 4, 5, 6, 7] test [8, 9]
+balanced class weights: {0: 0.625, 1: 2.5}
+random labels, select features BEFORE CV: 0.95
+random labels, select features INSIDE CV: 0.52 (chance = 0.5)

@@ -21,7 +21,9 @@ Then check the answer without trusting the theorem:
   recursion tree: level i has a^i nodes of size n/b^i.
 - ``ratio_spread(a, b, c, k)`` returns max/min of T(n)/g(n) over
   n = b^8 ... b^16, where g is the claimed bound; a value near 1 (we accept
-  < 2.5) means the bound is tight up to a constant.
+  < TIGHT = 1.3) means the bound is tight up to a constant. Keep the
+  threshold low: a missing log factor only moves the ratio about 2x over
+  this range (log n goes from 8 to 16 when b = 2).
 
 Examples
 --------
@@ -53,9 +55,13 @@ Approach ladder
 
 Follow-ups
 ----------
-- f(n) = n / log n with a = b = 2 (k = -1) falls between cases 2 and 3 of the
-  basic theorem; the extended version gives Θ(n log log n). This solver
-  rejects k < 0.
+- f(n) = n / log n with a = b = 2 (k = -1) falls between cases 1 and 2 of the
+  basic theorem: it is o(n) but not O(n^(1-ε)) for any ε > 0. The extended
+  version gives Θ(n log log n). This solver rejects k < 0.
+- Gap between cases 2 and 3: under the basic (k = 0 only) theorem,
+  2T(n/2) + n log n fits neither; the extended case 2 gives Θ(n log^2 n).
+- n not a power of b: floors and ceilings (T(⌊n/b⌋), T(⌈n/b⌉)) do not change
+  the Θ bound.
 - T(n) = T(n-1) + T(n-2) + 1 (naive Fibonacci) shrinks by subtraction, not
   division: not Master form. See ex04 for its exact call count.
 - *Closest pair of points that re-sorts the strip at every level.
@@ -142,6 +148,9 @@ def bound(a: int, b: int, c: float, k: int, n: int) -> float:
     return n ** c * lg ** k
 
 
+TIGHT = 1.3          # max/min ratio accepted as "constant"
+
+
 def ratio_spread(a: int, b: int, c: float, k: int, g=None) -> float:
     """max/min of T(n)/g(n) over n = b^8..b^16; g defaults to the claimed bound."""
     g = g or (lambda n: bound(a, b, c, k, n))
@@ -169,15 +178,17 @@ def main() -> None:
         case, theta = master(a, b, c, k)
         spread = ratio_spread(a, b, c, k)
         print(f"{name:17} T(n) = {recurrence_text(a, b, c, k):18} case {case}"
-              f"  {'Theta(' + theta + ')':16} tight: {spread < 2.5}")
+              f"  {'Theta(' + theta + ')':16} tight: {spread < TIGHT}")
     print()
     for name, a, b, c, k in [("leaf-heavy (Karatsuba)", 3, 2, 1, 0),
                              ("balanced (merge sort)", 2, 2, 1, 0),
                              ("root-heavy", 2, 2, 2, 0)]:
         costs = level_costs(a, b, c, k, 2 ** 10)
         print(f"{name:23} last level / root level = {costs[-1] / costs[0]:.3g}")
-    wrong = ratio_spread(3, 2, 1, 0, g=lambda n: n * math.log2(n))
-    print(f"Karatsuba claimed as n log n -> tight: {wrong < 2.5}")
+    for label, a, g in [("Karatsuba claimed as n log n", 3, lambda n: n * math.log2(n)),
+                        ("merge sort claimed as n", 2, lambda n: n)]:
+        wrong = ratio_spread(a, 2, 1, 0, g=g)
+        print(f"{label:28} -> tight: {wrong < TIGHT}  (spread {wrong:.2f})")
     for bad in [(2, 2, 1, -1), (1, 1, 0, 0)]:
         try:
             master(*bad)

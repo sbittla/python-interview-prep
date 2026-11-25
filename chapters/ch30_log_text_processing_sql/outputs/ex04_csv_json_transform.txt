@@ -1,0 +1,45 @@
+naive split of row 1: ['1001', 'Asha', 'IN', '"Widget', ' large"', '2', '19.99'] -> 7 fields
+float money: 0.10 * 3 = 0.30000000000000004 | cents: 30
+{
+  "Asha": {
+    "country": "IN",
+    "items": [
+      "Gizmo",
+      "Widget, large"
+    ],
+    "orders": 2,
+    "total_cents": 4028
+  },
+  "Bo": {
+    "country": "US",
+    "items": [
+      "Cable \"USB-C\"",
+      "Gadget"
+    ],
+    "orders": 2,
+    "total_cents": 1450
+  },
+  "Chen": {
+    "country": "CN",
+    "items": [
+      "Gizmo",
+      "Widget"
+    ],
+    "orders": 2,
+    "total_cents": 1300
+  },
+  "Dana": {
+    "country": null,
+    "items": [
+      "Gadget"
+    ],
+    "orders": 1,
+    "total_cents": 550
+  }
+}
+round-trips: True
+flat: [{'id': 1, 'user.name': 'Asha', 'user.tags.0': 'a', 'user.tags.1': 'b'}, {'id': 2, 'user.name': 'Bo'}]
+id,user.name,user.tags.0,user.tags.1
+1,Asha,a,b
+2,Bo,,
+empty: {} {} '\n'

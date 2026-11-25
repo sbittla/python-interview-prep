@@ -1,0 +1,5 @@
+generator vs list          same result: True  lean peak lower: True
+memoryview vs bytes slice  same result: True  lean peak lower: True
+index vs slice loop        same result: True  lean peak lower: True
+append-built list is larger than list(range): True
+resizes are rare: True

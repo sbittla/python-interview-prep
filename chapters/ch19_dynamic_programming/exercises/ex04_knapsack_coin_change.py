@@ -33,6 +33,8 @@ Constraints
 
 Hints
 -----
+- The memoised rung recurses ~amount deep and hits the ~1000 limit (section 7.21) well inside
+  the constraints; this is why the final answer is a table.
 - Draw the 0/1 table: row i depends only on row i-1. Which cells of row i-1 are still
   intact if you overwrite right to left?
 - min_coins: initialise with a sentinel larger than any answer (amount + 1), not 0.

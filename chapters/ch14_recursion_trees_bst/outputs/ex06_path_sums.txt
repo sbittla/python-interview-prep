@@ -12,3 +12,4 @@ max path sum [1, 2, 3]                    ->   6  brute   6
 max path sum [-3]                         ->  -3  brute  -3
 max path sum [-2, -1, -5]                 ->  -1  brute  -1
 max path sum [2, -1, -2]                  ->   2  brute   2
+10,000-node chain, iterative max path sum: 9998

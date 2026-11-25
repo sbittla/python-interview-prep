@@ -27,6 +27,8 @@ Constraints
 
 Hints
 -----
+- The memoised rung recurses ~m+n deep and hits the ~1000 limit (section 7.21) well inside
+  the constraints; this is why the final answer is a table.
 - Reconstruct LCS from (m, n): on a match take the character and go diagonally,
   otherwise move toward the larger neighbour.
 - For edit ops, re-derive which of the three neighbours produced D(i, j).

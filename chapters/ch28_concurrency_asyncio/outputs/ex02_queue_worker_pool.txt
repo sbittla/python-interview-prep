@@ -1,0 +1,5 @@
+results: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 'error: ValueError: unlucky', 196, 225, 256, 289, 324, 361]
+same as sequential: True
+backlog never above maxsize=3: True
+empty input: ([], 0)
+1 worker, maxsize 1: [1, 4, 9]

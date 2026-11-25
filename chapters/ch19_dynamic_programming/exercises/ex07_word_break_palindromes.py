@@ -25,6 +25,8 @@ Constraints
 
 Hints
 -----
+- The memoised rung recurses ~n deep and hits the ~1000 limit (section 7.21) well inside
+  the constraints; this is why the final answer is a table.
 - Put the words in a set and limit the inner loop to the longest word length.
 - Interval states must be filled shortest-first or i-descending; draw which cells a
   cell reads before choosing the loop order.

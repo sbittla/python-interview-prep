@@ -4,13 +4,12 @@ Tier ★ Core · Tracks S, M, L · Study time ≈ 8 h · Prerequisites: Ch 7 (§
 
 **Learning objectives**
 
-- Write a recursive function from its base case and recursive case, and convert it to a loop
-  with an explicit stack when depth can exceed Python's recursion limit.
-- Traverse a binary tree in all four orders, recursively and iteratively, and pick the right one.
+- Write recursion from base and recursive cases; convert it to an explicit stack when depth can
+  exceed Python's recursion limit.
+- Traverse a binary tree in all four orders, recursively and iteratively.
 - Solve height, diameter, balance and path problems with one template: **return info up the tree**.
-- Use the BST ordering correctly: search, insert, delete, validate with bounds, kth smallest,
-  successor.
-- Rebuild, serialize and compare trees; carry every template over to N-ary trees.
+- Search, insert, delete and validate a BST; find kth smallest and successor.
+- Rebuild and serialize trees; carry every template over to N-ary trees.
 
 > **Recognise it**
 >
@@ -24,46 +23,51 @@ Tier ★ Core · Tracks S, M, L · Study time ≈ 8 h · Prerequisites: Ch 7 (§
 > | "sorted", "kth smallest", "next larger key", "valid BST" | BST inorder = sorted order; bounds passed down (14.12, 14.13) |
 > | "rebuild", "encode", "send over the network" | traversal + null markers (14.10, 14.11) |
 
-All listings run from `chapters/ch14_recursion_trees_bst/solutions/`, where the helper module
-`treenode.py` lives: `TreeNode(val, left, right)`, `build(level_list)` (LeetCode-style level order
-with `None` holes), `to_level(root)`, `render(root)` (the ASCII drawings below) and
-`inorder_values(root)`.
+Listings run from `chapters/ch14_recursion_trees_bst/solutions/`, whose `treenode.py` provides
+`TreeNode(val, left, right)`, `build(level_list)` (level order with `None` holes), `to_level`,
+`render` (the ASCII drawings) and `inorder_values`.
 
 ## 14.1 Recursion fundamentals: base case, recursive case, call stack
 
 A recursive function answers three questions: **what is the smallest input** (base case, answered
 directly), **how does a bigger input shrink** (recursive case), and **how are the sub-answers
-combined**. Every call gets its own frame with its own local variables; the frames form the call
-stack, and each frame waits until the calls below it return. Ex01 weights every int in a nested
-list by its depth:
+combined**. Each call gets its own frame (its own locals), which waits for the calls below it.
+Ex01 weights every int in a nested list by its depth:
 
 ```python
 def trace(nested, depth=1):
     pad = "  " * (depth - 1)
     print(f"{pad}call depth={depth} {nested}")
     total = 0
-    for item in nested:                       # recursive case: a list
-        total += trace(item, depth + 1) if isinstance(item, list) else item * depth
-    print(f"{pad}return {total}")             # base case: an int, added directly
+    for item in nested:
+        if isinstance(item, list):            # recursive case: a sublist
+            total += trace(item, depth + 1)
+        else:                                 # base case: an int, weighted directly
+            total += item * depth
+    print(f"{pad}return {total}")
     return total
 
 trace([1, [4, [6]]])
 ```
 
 ```text
-TODO
+call depth=1 [1, [4, [6]]]
+  call depth=2 [4, [6]]
+    call depth=3 [6]
+    return 18
+  return 26
+return 27
 ```
 
 The indentation *is* the call stack: three frames are alive at the deepest point. Stack memory is
 O(depth), not O(n). CPython's default limit is 1,000 frames and there is no tail-call optimisation,
-so a 5,000-deep input raises `RecursionError` (→ §7.21 for `sys.setrecursionlimit` and why raising
-it is risky).
+so a 5,000-deep input raises `RecursionError` (→ §7.21).
 
 ## 14.2 Recursion → iteration with an explicit stack
 
 Anything recursion does, a loop with a list used as a stack can do: push what a frame would hold,
-pop to "return". When order matters, push **iterators**: an iterator is a paused frame that
-remembers where it stopped.
+pop to "return". Push **iterators**:
+each is a paused frame that remembers where it stopped.
 
 ```python
 def flatten(nested):
@@ -85,23 +89,18 @@ print(flatten([1, [2, [3, 4]], [], 5]), len(flatten(deep)))
 ```
 
 ```text
-TODO
+[1, 2, 3, 4, 5] 5000
 ```
 
-| Convert to a loop when | Keep recursion when |
-|---|---|
-| depth can reach the input size (chains, nested data from users) | depth is O(log n) (balanced trees, divide & conquer) |
-| the interviewer asks "what if the tree has 10⁵ nodes in a line?" | clarity matters more and constraints are small |
-
-Ex01 adds the depth-weighted sum both ways; ex03, ex05 and ex09 each ship an iterative version that
-is tested on a 30,000–100,000-node chain.
+Convert when depth can reach the input size (chains, user-supplied nesting, "what if the tree is
+10⁵ nodes in a line?"); keep recursion when depth is O(log n) or constraints are small.
 
 ## 14.3 Memoisation preview (→ DP)
 
 How many differently shaped BSTs hold keys 1..n? Choose a root r: the r − 1 smaller keys form the
 left subtree and the n − r larger keys the right, independently, so
-count(n) = Σ count(r − 1) · count(n − r). The plain recursion recomputes the same sizes over and
-over; caching by n fixes it.
+count(n) = Σ count(r − 1) · count(n − r). Plain recursion recomputes the same sizes;
+caching by n fixes it.
 
 ```python
 from functools import lru_cache
@@ -124,19 +123,18 @@ print(count_memo(10), count_memo.cache_info())
 ```
 
 ```text
-TODO
+16796 naive calls: 32805
+16796 CacheInfo(hits=98, misses=11, maxsize=None, currsize=11)
 ```
 
-Exponential calls (5 · 3ⁿ⁻² for n ≥ 2) become 11 distinct sub-problems, O(n²) total. When a
-recursion's arguments repeat, memoise; then ask whether a bottom-up table is simpler. That
-step is dynamic programming (→ §19.2). Ex02 also generates every tree, where the empty range must
+Exponential calls (5 · 3ⁿ⁻² for n ≥ 2) become 11 distinct sub-problems, O(n²) total. Repeated
+arguments → memoise; a bottom-up table is the next step: DP (→ §19.2). Ex02 also generates every tree, where the empty range must
 return `[None]`, not `[]`. → repo: `chapters/ch14_recursion_trees_bst/solutions/ex02_count_bst_shapes.py`
 
 ## 14.4 Binary tree basics and representations
 
 Each node has at most two children. **Depth** of a node = edges from the root; **height** of a tree
-= nodes on the longest root-to-leaf path (this chapter's convention; some texts count edges, so say
-which one you use). A **full** tree has 0 or 2 children everywhere; **complete** fills every level
+= nodes on the longest root-to-leaf path (some texts count edges; say which you use). A **full** tree has 0 or 2 children everywhere; **complete** fills every level
 except possibly the last, left to right; **perfect** is full with all leaves at one depth;
 **height-balanced** means sibling subtree heights differ by ≤ 1 at every node, so h = O(log n).
 
@@ -156,7 +154,12 @@ print(to_level(root), root.right.left)
 ```
 
 ```text
-TODO
+1__
+   \
+    2
+   /
+  3
+[1, None, 2, 3] TreeNode(3)
 ```
 
 ## 14.5 DFS traversals: preorder, inorder, postorder (recursive and iterative)
@@ -169,7 +172,7 @@ TODO
 | level order | by depth | "per level" questions (14.6) |
 
 Recursively each order is three lines. Iteratively, preorder is "pop, record, push right then left".
-Inorder and postorder share one walk: go left as far as possible, then look at the top of the stack.
+Inorder and postorder share one walk: go left as far as possible, then inspect the stack top.
 
 ```python
 from treenode import build
@@ -202,7 +205,7 @@ print(inorder(root), postorder(root))
 ```
 
 ```text
-TODO
+[4, 2, 5, 1, 3, 6] [4, 5, 2, 6, 3, 1]
 ```
 
 Each is O(n) time and O(h) stack. Two shortcuts: postorder = reverse of (node, **right**, left), and
@@ -236,10 +239,12 @@ print("right view:", [lv[-1] for lv in levels])
 ```
 
 ```text
-TODO
+[[1], [2, 3], [4, 5], [6]]
+zigzag: [[1], [3, 2], [4, 5], [6]]
+right view: [1, 3, 5, 6]
 ```
 
-O(n) time, O(w) queue (w = widest level, up to n/2). Right view is *not* "walk right from the root":
+O(n) time, O(w) queue (w = widest level, ≤ (n+1)/2). Right view is *not* "walk right from the root":
 here the 6 hangs on the left. A right-first DFS that records the first node at each new depth gives
 the same view in O(h) space. `list.pop(0)` instead of `deque.popleft()` turns O(n) into O(n²).
 
@@ -258,7 +263,7 @@ something about the whole tree" questions use one template:
 differ by at most 1.*
 
 ```text
-          ____1          height 4, diameter 4 (6-5-3-2-4... no: 6-4-2-3-5)
+          ____1          height 4, diameter 4 (path 6-4-2-3-5):
          /               the longest path never touches the root,
         2__              and node 1 is unbalanced (left height 3, right 0)
        /   \
@@ -269,7 +274,7 @@ differ by at most 1.*
 
 | Rung | Idea | Time / space | Why move up |
 |---|---|---|---|
-| 1 | At each node call `height()` on both children; diameter = max(hl + hr, child diameters) | O(n·h), O(n²) on a chain | heights recomputed by every ancestor |
+| 1 | At each node call `height()` on both children; diameter = max(hl + hr, child diameters) | O(n·h) time (O(n²) on a chain), O(h) stack | heights recomputed by every ancestor |
 | 2 | **Info up the tree:** return `(height, diameter, balanced)` | O(n), O(h) stack | recursion depth on chains |
 | 3 | Same combine step, explicit postorder stack + dict of results | O(n), O(n) | survives 10⁵-node chains |
 
@@ -296,12 +301,15 @@ for lst in ([1, 2, None, 3, 4, 5, None, 6], [1, 2, 3, 4, 5], [], [1, 2, None, 3]
 ```
 
 ```text
-TODO
+[1, 2, None, 3, 4, 5, None, 6] (4, False)
+[1, 2, 3, 4, 5]                (3, True)
+[]                             (0, True)
+[1, 2, None, 3]                (2, False)
 ```
 
 **Wrong-but-tempting.** (1) Diameter = `height(left) + height(right)` at the root: 3 here, not 4.
 (2) Balanced checked at the root only. (3) A module-level `best` updated inside the helper instead of
-a returned tuple: correct on the first call, stale afterwards, and untestable in parallel:
+a returned tuple is right on the first call, then stale:
 
 ```python
 from ex05_diameter_balanced import diameter_global_bug
@@ -312,17 +320,16 @@ print(diameter_global_bug(build([1, 2, None, 3, 4, 5, None, 6])),
 ```
 
 ```text
-TODO
+4 4
 ```
 
-A `nonlocal` inside a closure is acceptable (it is reset per call); a tuple is cleaner and is what
-the rubric rewards. Edge cases: empty tree (0, True), single node (0, True), chains.
+A `nonlocal` reset per call also works; the returned tuple is cleaner. Edge cases: empty tree (0, True), single node (0, True), chains.
 
 ## 14.8 Path problems: path sum, max path sum ◆
 
 **Root-to-leaf paths with sum = target.** Preorder DFS with *one* shared path list: append on entry,
-pop on exit (backtracking, → §18.1); at a leaf with remaining 0, append `path[:]`; appending `path`
-itself leaves every result pointing at one (finally empty) list. **Downward paths anywhere**: keep
+pop on exit (backtracking, → §18.1); at a leaf with remaining 0, append `path[:]` (plain `path`
+makes every result the same, finally empty, list). **Downward paths anywhere**: keep
 a `Counter` of prefix sums on the current root path; paths ending here = count of
 `running − target` (→ §10.9); O(n) instead of O(n·h).
 
@@ -359,7 +366,9 @@ for lst in ([-10, 9, 20, None, None, 15, 7], [-2, -1, -5], [2, -1, -2]):
 ```
 
 ```text
-TODO
+[-10, 9, 20, None, None, 15, 7] -> 42
+[-2, -1, -5] -> -1
+[2, -1, -2] -> 2
 ```
 
 Wrong-but-tempting: returning `bend` to the parent (a path can't fork); starting `best` at 0 (an
@@ -369,8 +378,8 @@ all-negative tree answers −1, not 0). → repo: `chapters/ch14_recursion_trees
 
 The LCA of p and q is the deepest node with both below it (a node counts as its own descendant).
 General tree: info up the tree again. Each call returns p, q, the LCA, or `None`; the first node
-that receives non-`None` from **both** sides is the answer. BST: the keys tell you where to go,
-so no recursion is needed.
+that receives non-`None` from **both** sides is the answer. BST: the keys say which way to go,
+so a loop suffices.
 
 ```python
 from ex07_lca import find
@@ -399,12 +408,12 @@ print(lca(t, find(t, 5), find(t, 4)).val, lca(t, find(t, 7), find(t, 8)).val,
 ```
 
 ```text
-TODO
+5 3 4 6
 ```
 
-General: O(n) time, O(h) stack; the parent-map rung (ancestor set of p, walk up from q) is O(n)
-space but iterative. BST: O(h) time, O(1) space. Compare nodes with `is`: values may repeat. If q
-might be absent, the early return on p is wrong; count how many targets were actually found.
+General: O(n) time, O(h) stack; the parent-map rung (ancestor set of p, walk up from q) uses O(n)
+space but survives any depth. BST: O(h) time, O(1) space. Compare nodes with `is`: values may repeat. If q
+might be absent, the early return on p is wrong; count the targets found.
 
 ## 14.10 Construct tree from traversals ◆
 
@@ -440,7 +449,11 @@ print(render(build_pre_in([3, 9, 20, 15, 7], [9, 3, 15, 20, 7])))
 ```
 
 ```text
-TODO
+  _3____
+ /      \
+9        20
+        /  \
+      15    7
 ```
 
 Postorder + inorder: take roots from the **end** of postorder and build the **right** subtree first.
@@ -474,20 +487,20 @@ print(s, "->", to_level(deserialize(s)))
 ```
 
 ```text
-TODO
+1,2,#,#,3,4,#,#,-50,#,# -> [1, 2, 3, None, None, 4, -50]
 ```
 
 O(n) both ways. Separate values with a delimiter (`1,23` vs `12,3`) and never `eval`. The repo
-version serializes iteratively and adds a level-order codec that round-trips a 100,000-node chain.
+adds an iterative serializer and a level-order codec.
 For a BST, preorder *without* markers suffices: the keys fix the shape.
 
 ## 14.12 Binary search trees: search, insert, delete, validate
 
 BST invariant: **every** key in the left subtree < node < **every** key in the right subtree.
-Search and insert walk one path: O(h), so O(log n) when balanced and O(n) after sorted inserts.
+Search and insert walk one path: O(h): log n balanced, n after sorted inserts.
 Delete: 0 children → remove; 1 → splice the child up; 2 → copy in the inorder successor
 (leftmost of the right subtree), then delete that key from the right subtree. Python has no
-built-in balanced BST; for small data a sorted list + `bisect` (→ §11.2) is the idiomatic answer.
+built-in balanced BST; for small data use a sorted list + `bisect` (→ §11.2).
 
 ### Worked problem 4 — validate a BST (ex10)
 
@@ -502,7 +515,7 @@ built-in balanced BST; for small data a sorted list + `bisect` (→ §11.2) is t
 | Rung | Idea | Time / space | Verdict |
 |---|---|---|---|
 | 0 | each node vs its direct children | O(n) | **wrong**: passes the tree above |
-| 1 | inorder must be strictly increasing | O(n), O(n) list (O(h) if you compare with the previous value as you go) | correct |
+| 1 | inorder must be strictly increasing | O(n), O(n) list (O(h) comparing on the fly) | correct |
 | 2 | pass an open interval (low, high) down; left gets (low, val), right (val, high) | O(n), O(h) stack | correct, the expected answer |
 
 ```python
@@ -521,11 +534,15 @@ for lst in ([5, 1, 6, None, None, 3, 7], [2, 1, 3], [2, 2], [-2**31, None, 2**31
 ```
 
 ```text
-TODO
+[5, 1, 6, None, None, 3, 7]    False
+[2, 1, 3]                      True
+[2, 2]                         False
+[-2147483648, None, 2147483647] True
 ```
 
-`None` bounds accept any int at the root (no `float('inf')` mixing); `<=`/`>=` reject duplicates.
-Information flows **down** here (preorder), unlike 14.7.
+`None` bounds accept any int at the root; `<=`/`>=` reject duplicates. Information flows **down**
+here (preorder), unlike 14.7. Sorted inserts build a chain, so the repo adds
+`is_valid_bst_iterative` (a stack of `(node, low, high)`) and `delete_iterative`.
 → repo: `chapters/ch14_recursion_trees_bst/solutions/ex10_bst_ops.py`
 
 ## 14.13 BST inorder properties: kth smallest, successor
@@ -562,12 +579,12 @@ print([kth_smallest(root, k) for k in (1, 3, 6)], [successor(root, x) for x in (
 ```
 
 ```text
-TODO
+[1, 3, 6] [1, 5, None]
 ```
 
 Successor is O(h) time and O(1) space; "leftmost of the right subtree" alone fails when x has no
-right subtree (successor(4) is the ancestor 5). Many kth queries with updates in between: store
-subtree sizes in each node and descend in O(h).
+right subtree (successor(4) is the ancestor 5). Many kth queries with updates: store subtree
+sizes and descend in O(h).
 
 ## 14.14 N-ary trees
 
@@ -596,27 +613,24 @@ print(max_depth(t), preorder(t))
 ```
 
 ```text
-TODO
+3 [1, 3, 5, 6, 2, 4]
 ```
 
 → repo: `chapters/ch14_recursion_trees_bst/solutions/ex12_nary_tree.py` (levels, postorder, encoding)
 
 ## 14.15 Practice set
 
-Drill order: ex03 and ex04 until the iterative loops are automatic; then ex05 → ex06 → ex07 (the
-info-up template three times); ex10 → ex11 (BST); ex08 and ex09 last. Each exercise's docstring lists
-all rungs, edge cases and follow-ups. More tree problems with a twist are in the problem bank
-(trees, 067–078, → Ch 45).
+Drill order: ex03 and ex04 until the iterative loops are automatic; ex05 → ex06 → ex07 (info up,
+three times); ex10 → ex11 (BST); ex08 and ex09 last. Recursive repo solutions state their height
+limit; the iterative twins are tested on deep chains. More trees: problem bank 067–078
+(→ Ch 45).
 
 ## Interviewer's view
 
-- **Name the template** before coding: "information flows up, so postorder returning a tuple" or
-  "bounds flow down, so preorder with parameters".
-- **State h, not just n:** "O(h) stack: log n if balanced, n on a chain", then offer the iterative
-  version.
-- **Edge cases aloud:** empty tree, one node, a chain, negative values, duplicates.
-- **Draw** a 5–7 node tree and trace your code on it before running anything.
-- Red flags: globals that aren't reset, validating a BST by children only, `list.pop(0)` as a queue.
+- **Name the template** before coding ("info flows up: postorder returning a tuple").
+- **State h, not just n** ("log n if balanced, n on a chain"), then offer the iterative version.
+- **Trace** a 5–7 node drawing aloud, covering empty, single node, chain, negatives, duplicates.
+- Red flags: stale globals, a BST checked against direct children only.
 
 ## Exercises
 
@@ -648,31 +662,28 @@ Code: `chapters/ch14_recursion_trees_bst/` (stubs in `exercises/`, run tests wit
 <details>
 <summary>Answers</summary>
 
-1. Popping sublists from a stack processes later ones first and loses left-to-right order; an
-   iterator remembers its position, exactly like a paused call frame.
-2. The node's height, diameter and balance are computed *from* its children's results: a postorder
+1. An iterator keeps its own position, like a paused call frame: no copying or reversing of
+   sublists, and the parent resumes exactly where it stopped after the child is exhausted.
+2. The node's tuple is computed *from* its children's tuples: a postorder
    dependency.
-3. A parent can extend only a straight path, so it receives one branch; a path bending here
-   can't be extended, so it only competes for the global best.
+3. A parent can extend only a straight path (one branch); a path bending here can't be extended,
+   so it only competes for the global best.
 4. `[5, 1, 6, None, None, 3, 7]`: 3 is a right descendant of 5 but smaller than it.
-5. Anything recursive on a possibly degenerate tree (recursive traversals, `info()` helpers,
-   recursive deserialize): depth 10⁵ exceeds the ~1,000 frame limit. Use the explicit-stack or BFS
-   versions (14.2); raising the limit can crash the interpreter (→ §7.21).
+5. Every recursive helper, if the tree can degenerate into a chain: depth 10⁵ exceeds the ~1,000
+   frame limit. Use explicit-stack or BFS versions (14.2), not a higher limit (→ §7.21).
 
 </details>
 
 ## Summary card
 
-- Recursion = base case + shrinking recursive case + combine. Stack cost O(depth); CPython stops
-  at ~1,000 frames (→ §7.21).
+- Recursion = base case + shrinking recursive case + combine; stack O(depth), ~1,000-frame cap.
 - Deep input → explicit stack; iterators on the stack keep order.
 - Repeated arguments → memoise (`lru_cache`), then consider a table (→ §19.2).
-- Preorder passes info **down** (depth, bounds, path); postorder returns info **up** (height,
-  diameter, balanced, gains); inorder of a BST is sorted; BFS answers "per level".
+- Preorder passes info **down** (depth, bounds, path); postorder returns info **up** as a tuple,
+  combined in O(1), no stale globals; inorder of a BST is sorted; BFS answers "per level".
 - Iterative inorder: go left, pop, record, turn right. Postorder: same walk plus `last`.
-- Info up the tree: return a tuple, combine children in O(1); no stale globals.
 - Max path sum: offer `val + max(gains)` up, record `val + left + right`, clamp gains at 0.
 - LCA: node where both sides report a find; BST: walk until the keys split, O(h), O(1).
-- Validate BST with (low, high) bounds, not with direct children.
-- Rebuild needs inorder + one of pre/post and distinct values; serialize with null markers.
+- Validate BST with (low, high) bounds, not direct children. Rebuild needs inorder + pre/post
+  and distinct values; serialize with null markers.
 - N-ary: same templates with `for child in node.children`; `max(..., default=0)`.

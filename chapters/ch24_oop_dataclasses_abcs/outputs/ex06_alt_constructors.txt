@@ -1,0 +1,9 @@
+Color(30, 144, 255) Color(255, 255, 255) Color(255, 99, 71)
+to_hex: #1e90ff | round trip: True
+blend: (128, 0, 128) | via instance: (1, 1, 1)
+AlphaColor.from_hex: AlphaColor(255, 255, 255, alpha=255) | from_name: AlphaColor(30, 144, 255, alpha=255)
+staticmethod factory on subclass -> Color
+dict subclass fromkeys -> MyDict
+ValueError: bad hex colour '#12345'
+ValueError: channel 256 out of range 0..255
+KeyError: 'chartreuse'

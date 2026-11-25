@@ -1,0 +1,8 @@
+P(sick | +)        = 10/109 = 0.0917
+count in 10,000    = 10/109
+simulate (seed 35) = 0.092
+P(sick | -)        = 10/9019   counted: 10/9019
+two positives      = 100/199 = 0.5025   odds*LR^2 agrees: True
++ then -           = 0.011
+prior 0 stays 0    = 0
+impossible result  -> ValueError: P(result) is 0: this result cannot happen

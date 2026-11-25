@@ -1,0 +1,10 @@
+plain  ['freed:a', 'collect']
+chain  ['freed:a', 'freed:b', 'freed:c', 'collect']
+weak   ['freed:a', 'freed:b', 'collect']
+self   ['collect', 'freed:a']
+pair   ['collect', 'freed:a', 'freed:b']
+collector re-enabled: True
+generations tracked: 3
+ints are GC-tracked: False
+lists are GC-tracked: True
+ValueError: unknown scenario: 'ring'

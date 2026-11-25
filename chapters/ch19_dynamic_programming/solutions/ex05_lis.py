@@ -25,7 +25,8 @@ Approach ladder
 ---------------
 1. Plain recursion — at index i, skip it or take it if it exceeds the last taken
    value: state (i, prev). O(2^n) time, O(n) stack.
-2. Memoised on (i, prev) — O(n^2) states, O(1) each: O(n^2) time and space.
+2. Memoised on (i, prev) — O(n^2) states, O(1) each: O(n^2) time and space; recursion
+   depth ~n: hits the ~1000 limit (section 7.21) well inside the constraints; this is why we move to the table.
 3. Bottom-up O(n^2) — recipe: state end(i) = LIS length ENDING at i; transition
    end(i) = 1 + max(end(j) for j < i with nums[j] < nums[i]) (or 1); base: none needed;
    order: i ascending; answer: max(end). A parent[] array rebuilds the sequence.

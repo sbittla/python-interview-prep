@@ -22,6 +22,9 @@ False
 Constraints
 -----------
 - 0 <= n <= 10**4; keys are ints. Strict ordering (no duplicates).
+- Sorted inserts build a chain of height n, so the recursive delete and
+  is_valid_bst need height <= ~900 (1,000-frame limit). Also write
+  delete_iterative and is_valid_bst_iterative, which handle any height.
 
 Hints
 -----
@@ -50,7 +53,7 @@ Follow-ups
 """
 from __future__ import annotations
 
-from treenode import TreeNode, build, inorder_values, render, to_level
+from treenode import TreeNode, build, chain, inorder_values, render, to_level
 
 
 def search(root: TreeNode | None, key: int) -> TreeNode | None:
@@ -65,12 +68,20 @@ def delete(root: TreeNode | None, key: int) -> TreeNode | None:
     raise NotImplementedError("TODO")
 
 
+def delete_iterative(root: TreeNode | None, key: int) -> TreeNode | None:
+    raise NotImplementedError("TODO")
+
+
 def is_valid_brute(root: TreeNode | None) -> bool:
     raise NotImplementedError("TODO")
 
 
 def is_valid_bst(root: TreeNode | None, low: int | None = None,
                  high: int | None = None) -> bool:
+    raise NotImplementedError("TODO")
+
+
+def is_valid_bst_iterative(root: TreeNode | None) -> bool:
     raise NotImplementedError("TODO")
 
 
@@ -100,6 +111,11 @@ def main() -> None:
           "| inorder:", inorder_values(trap))
     for lst in ([], [2, 2], [2, 1, 3], [-2**31, None, 2**31 - 1]):
         print(f"valid {lst!s:<26} bounds={is_valid_bst(build(lst))} brute={is_valid_brute(build(lst))}")
+    deep = chain(list(range(10_000)))          # what sorted inserts produce
+    for k in (0, 5_000, 9_999):
+        deep = delete_iterative(deep, k)
+    print("10,000-node chain: iterative valid =", is_valid_bst_iterative(deep),
+          "| keys left =", len(inorder_values(deep)))
 
 
 if __name__ == "__main__":

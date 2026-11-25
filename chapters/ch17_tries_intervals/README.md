@@ -12,7 +12,7 @@ Manuscript: `manuscript/ch17_tries_intervals.md`. Standard library only.
 | ex06 | Insert an interval into a sorted disjoint list | ★ | three-phase linear scan | 17.6 |
 | ex07 | Intersection of two interval lists | ★ | two pointers | 17.7 |
 | ex08 | Minimum removals for non-overlapping intervals (half-open vs closed) | ★ | sort by end, greedy keep | 17.7 |
-| ex09 | Meeting rooms: brute / heap / line sweep, busiest time, room assignment | ★ | min-heap; +1/−1 events, end-before-start ties | 17.8, 17.9 |
+| ex09 | Meeting rooms: brute / heap / two pointers / line sweep, busiest time, room assignment | ★ | min-heap; +1/−1 events, end-before-start ties | 17.8, 17.9 |
 | ex10 | The skyline | ◆ | sweep + max-heap with lazy deletion | 17.9 |
 
 Every solution implements each rung of its approach ladder (`brute_force`, intermediate rungs,

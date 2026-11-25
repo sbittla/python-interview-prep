@@ -24,6 +24,8 @@ Examples
 Constraints
 -----------
 - 1 <= n <= 10**4 for (c); 0 <= n for (a), (b). |val| <= 1000.
+- The recursive versions need tree height <= ~900 (CPython's 1,000-frame
+  limit). max_path_sum_iterative handles any shape, e.g. a 10**4-node chain.
 
 Hints
 -----
@@ -53,7 +55,7 @@ from __future__ import annotations
 
 from collections import Counter
 
-from treenode import TreeNode, build, render
+from treenode import TreeNode, build, chain, render
 
 
 def root_to_leaf_paths_brute(root: TreeNode | None, target: int) -> list[list[int]]:
@@ -80,6 +82,10 @@ def max_path_sum(root: TreeNode) -> int:
     raise NotImplementedError("TODO")
 
 
+def max_path_sum_iterative(root: TreeNode) -> int:
+    raise NotImplementedError("TODO")
+
+
 def main() -> None:
     t = build([5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1])
     print(render(t))
@@ -88,6 +94,8 @@ def main() -> None:
     for lst in ([-10, 9, 20, None, None, 15, 7], [1, 2, 3], [-3], [-2, -1, -5], [2, -1, -2]):
         r = build(lst)
         print(f"max path sum {lst!s:<28} -> {max_path_sum(r):>3}  brute {max_path_sum_brute(r):>3}")
+    deep = chain([(-1) ** i * i for i in range(10_000)])   # 0, -1, 2, -3, ...
+    print("10,000-node chain, iterative max path sum:", max_path_sum_iterative(deep))
 
 
 if __name__ == "__main__":

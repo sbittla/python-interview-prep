@@ -32,7 +32,8 @@ Sampling:
 Shuffling:
 1. Pick-and-pop — repeatedly pop a random remaining element. O(n^2) (list.pop(j) shifts).
 2. Optimal    — Fisher–Yates: for i from n-1 down to 1, swap a[i] with a[j], j uniform in
-   [0, i]. O(n) time, O(1) extra in place. ``random.shuffle`` does this.
+   [0, i]. O(n) time; O(n) for the copy here, O(1) extra if done in place like
+   ``random.shuffle``.
 Wrong-but-tempting: j uniform in [0, n) for every i. n**n equally likely choice sequences
 cannot split evenly over n! permutations when n! does not divide n**n (n >= 3) -> biased.
 

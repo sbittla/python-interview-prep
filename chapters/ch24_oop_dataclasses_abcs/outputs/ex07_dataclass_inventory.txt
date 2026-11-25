@@ -1,0 +1,13 @@
+sorted versions: ['1.9.0', '1.9.3', '1.10.0', '2.0.0'] | as strings: ['1.10', '1.9', '1.9.3', '2']
+hashable: 1
+Item(name='drill', price_cents=4999, qty=2, location=Location(aisle='B', shelf=3))
+by_location: {Location(aisle='A', shelf=1): ['bolt', 'nut'], Location(aisle='B', shelf=3): ['drill']}
+report row: {'name': 'drill', 'price_cents': 4999, 'qty': 2, 'location': {'aisle': 'B', 'shelf': 3}}
+report row: {'name': 'glue', 'price_cents': 250, 'qty': 4, 'location': None}
+carts: 1 0 | cart1 total: 500
+restocked: 150 | original: 100
+FrozenInstanceError is AttributeError: True
+slots -> no __dict__: True | Cart hashable: False
+ValueError: mutable default <class 'list'> for field tags is not allowed: use default_factory
+ValueError: name must be non-empty
+HandItem == equivalent: True

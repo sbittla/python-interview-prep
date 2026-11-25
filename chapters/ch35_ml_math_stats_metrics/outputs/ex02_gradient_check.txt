@@ -1,0 +1,10 @@
+mse      rel error: 3e-11
+logistic rel error: 2e-11
+buggy (no 1/n) rel error: 0.961 -> caught: True
+misaligned labels caught: True
+eps sweep on f(x) = exp(x) at x = 1 (true derivative e):
+  eps=1e-01  forward err=1e-01  central err=5e-03
+  eps=1e-03  forward err=1e-03  central err=5e-07
+  eps=1e-05  forward err=1e-05  central err=6e-11
+  eps=1e-08  forward err=7e-09  central err=7e-09
+  eps=1e-11  forward err=3e-05  central err=1e-05

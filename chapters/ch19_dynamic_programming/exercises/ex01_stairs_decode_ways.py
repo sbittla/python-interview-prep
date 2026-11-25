@@ -32,6 +32,8 @@ Constraints
 
 Hints
 -----
+- The memoised rung recurses ~n deep and hits the ~1000 limit (section 7.21) well inside
+  the constraints; this is why the final answer is a table.
 - Write the recursion first; the table is the recursion with the calls replaced by
   array reads.
 - Decode ways is climbing stairs with steps 1 and 2 where a step is only legal if the

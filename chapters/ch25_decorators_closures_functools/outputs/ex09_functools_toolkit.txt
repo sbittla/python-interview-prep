@@ -1,0 +1,13 @@
+partial: 5 255 | int {'base': 2}
+describe(5) -> int 5
+describe(True) -> bool True
+describe('abc') -> str of length 3
+describe([1, 'a', [False]]) -> list [int 1, str of length 1, list [bool False]]
+describe({'b': 1, 'a': 2}) -> dict with keys ['a', 'b']
+describe(2.5) -> object of type float
+describe(None) -> object of type NoneType
+registered types: ['bool', 'dict', 'int', 'list', 'object', 'str']
+sorted: [Version('0.9'), Version('1.2.0'), Version('1.2'), Version('1.9.9'), Version('1.10')]
+1.10 > 1.9.9: True | string compare says: False
+1.2 == 1.2.0: True | >= derived: True | distinct in a set: 4
+foreign type: '<' not supported between instances of 'Version' and 'str'

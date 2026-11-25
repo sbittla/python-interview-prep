@@ -1,0 +1,20 @@
+LCS table for a='ABCBDAB' (rows), b='BDCABA' (columns):
+       B  D  C  A  B  A
+    0  0  0  0  0  0  0
+A   0  0  0  0  1  1  1
+B   0  1  1  1  1  2  2
+C   0  1  1  2  2  2  2
+B   0  1  1  2  2  3  3
+D   0  1  2  2  2  3  3
+A   0  1  2  2  3  3  4
+B   0  1  2  2  3  4  4
+lcs('ABCBDAB', 'BDCABA') = 'BCBA'  rungs agree: True
+lcs('abcde', 'ace') = 'ace'  rungs agree: True
+lcs('abc', 'def') = ''  rungs agree: True
+lcs('', 'abc') = ''  rungs agree: True
+edit('horse', 'ros') = 3  rungs agree: True  replay ok: True  ops: sub:h>r del:r del:e
+edit('intention', 'execution') = 5  rungs agree: True  replay ok: True  ops: sub:i>e sub:n>x sub:t>e sub:e>c sub:n>u
+edit('kitten', 'sitting') = 3  rungs agree: True  replay ok: True  ops: sub:k>s sub:e>i ins:g
+edit('', 'abc') = 3  rungs agree: True  replay ok: True  ops: ins:a ins:b ins:c
+edit('same', 'same') = 0  rungs agree: True  replay ok: True  ops: -
+insert/delete-only distance via LCS: 4

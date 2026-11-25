@@ -1,0 +1,8 @@
+resize 10k images (pure Python)  -> processes
+same, free-threaded build        -> threads
+call 20 REST APIs                -> threads
+10k websocket clients            -> asyncio
+10k sockets, blocking-only SDK   -> threads
+sum a 1,000-item list            -> sequential
+threads overlap: True
+asyncio overlaps: True

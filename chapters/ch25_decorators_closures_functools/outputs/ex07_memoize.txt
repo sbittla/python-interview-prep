@@ -1,0 +1,10 @@
+fib(25) = 75025 | buggy = 75025 | lru_cache = 75025
+plain recursion calls: 242785
+memoize     misses=26 hits=23
+buggy       misses=26 hits=23
+lru_cache   misses=26 hits=23
+memoize fib(0) three more times -> new misses = 0
+buggy   fib(0) three more times -> new misses = 3
+kw order ignored: 6 6 entries = 1
+unhashable arg: unhashable type: 'list'
+after cache_clear: 0 0 0

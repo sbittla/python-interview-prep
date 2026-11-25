@@ -1,0 +1,8 @@
+hits: 39
+status classes: {'2xx': 19, '3xx': 3, '4xx': 14, '5xx': 3}
+top 3 paths: [('/login', 13), ('/static/app.js', 12), ('/api/orders', 8)]
+matches brute force: True
+p95 latency ms: {'/api/orders': 250, '/api/users': 393, '/health': 300, '/login': 386, '/static/app.js': 339}
+5xx (errors, total): {'/api/orders': (1, 8), '/health': (1, 4), '/static/app.js': (1, 12)}
+tie -> most_common: [('/b', 2)] | top_k_paths: [('/a', 2)]
+empty: {} [] {}

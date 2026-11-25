@@ -1,0 +1,14 @@
+binary search     T(n) = T(n/2) + 1         case 2  Theta(log n)     tight: True
+merge sort        T(n) = 2T(n/2) + n        case 2  Theta(n log n)   tight: True
+Karatsuba         T(n) = 3T(n/2) + n        case 1  Theta(n^1.585)   tight: True
+Strassen          T(n) = 7T(n/2) + n^2      case 1  Theta(n^2.807)   tight: True
+closest pair*     T(n) = 2T(n/2) + n log n  case 2  Theta(n log^2 n) tight: True
+root-heavy        T(n) = 2T(n/2) + n^2      case 3  Theta(n^2)       tight: True
+
+leaf-heavy (Karatsuba)  last level / root level = 57.7
+balanced (merge sort)   last level / root level = 1
+root-heavy              last level / root level = 0.000977
+Karatsuba claimed as n log n -> tight: False  (spread 13.14)
+merge sort claimed as n      -> tight: False  (spread 1.89)
+master(2, 2, 1, -1): ValueError: this solver handles f(n) = n^c log^k n with integer k >= 0
+master(1, 1, 0, 0): ValueError: need a >= 1, b >= 2, c >= 0

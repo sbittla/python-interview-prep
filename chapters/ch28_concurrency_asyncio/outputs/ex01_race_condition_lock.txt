@@ -1,0 +1,6 @@
+forced lost update, 4 threads -> final count: 1
+locked counter 8 x 20000: 160000
+sharded counter 8 x 20000: 160000
+unsafe: 2 x withdraw(50) from 50 -> (2, -50)
+locked: 10 x withdraw(30) from 100 -> (3, 10)
+locked never overdraws: True

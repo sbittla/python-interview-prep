@@ -1,0 +1,11 @@
+naive  lse([1000, 1000]): inf
+naive  CE  logits [800, 0], y=1: inf
+stable lse([1000, 1000]): 1000.6931471805599
+stable CE  logits [800, 0], y=1: 800.0
+lse of all -inf row: -inf
+log_softmax([0, -800]): [0.0, -800.0]
+CE: 0.285104  softmax row 0: [0.659, 0.2424, 0.0986]
+grad = (softmax - onehot)/n, max abs diff vs finite differences: 8e-11
+p == 1.0 exactly: True
+log loss from logits : 13.5806
+log loss from probs  : 11.7604 (clipped at 1e-15)

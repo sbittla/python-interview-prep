@@ -24,6 +24,8 @@ Examples
 Constraints
 -----------
 - 1 <= n <= 10**4 for (c); 0 <= n for (a), (b). |val| <= 1000.
+- The recursive versions need tree height <= ~900 (CPython's 1,000-frame
+  limit). max_path_sum_iterative handles any shape, e.g. a 10**4-node chain.
 
 Approach ladder
 ---------------
@@ -38,6 +40,7 @@ Approach ladder
     Optimal, return info up the tree: each call returns the best DOWNWARD gain
     starting at the node, max(0, child gains) + val; the best path that BENDS at
     the node is val + left_gain + right_gain. O(n) time, O(h) stack.
+    Deep trees: the same combine on an explicit postorder stack, O(n) space.
 
 Hints
 -----
@@ -67,7 +70,7 @@ from __future__ import annotations
 
 from collections import Counter
 
-from treenode import TreeNode, build, render
+from treenode import TreeNode, build, chain, render
 
 
 def root_to_leaf_paths_brute(root: TreeNode | None, target: int) -> list[list[int]]:
@@ -156,10 +159,10 @@ def max_path_sum_brute(root: TreeNode) -> int:
 
 
 def max_path_sum(root: TreeNode) -> int:
-    def gain(node: TreeNode | None) -> tuple[int, int]:
+    def gain(node: TreeNode | None) -> tuple[int, float]:
         """(best downward path starting here, best path anywhere in subtree)"""
         if node is None:
-            return 0, -10**18
+            return 0, float("-inf")
         lg, lbest = gain(node.left)
         rg, rbest = gain(node.right)
         lg, rg = max(lg, 0), max(rg, 0)       # drop negative branches
@@ -167,6 +170,24 @@ def max_path_sum(root: TreeNode) -> int:
         return node.val + max(lg, rg), max(lbest, rbest, bend)
 
     return gain(root)[1]
+
+
+def max_path_sum_iterative(root: TreeNode) -> int:
+    """Same combine step on an explicit postorder stack: any depth."""
+    gain: dict[int, int] = {}                 # id(node) -> best downward gain
+    best = float("-inf")
+    stack: list[tuple[TreeNode, bool]] = [(root, False)]
+    while stack:
+        node, children_done = stack.pop()
+        if not children_done:
+            stack.append((node, True))        # revisit after both children
+            stack += [(c, False) for c in (node.left, node.right) if c]
+            continue
+        lg = max(gain.pop(id(node.left), 0), 0)   # missing child -> 0
+        rg = max(gain.pop(id(node.right), 0), 0)
+        best = max(best, node.val + lg + rg)
+        gain[id(node)] = node.val + max(lg, rg)
+    return int(best)
 
 
 def main() -> None:
@@ -177,6 +198,8 @@ def main() -> None:
     for lst in ([-10, 9, 20, None, None, 15, 7], [1, 2, 3], [-3], [-2, -1, -5], [2, -1, -2]):
         r = build(lst)
         print(f"max path sum {lst!s:<28} -> {max_path_sum(r):>3}  brute {max_path_sum_brute(r):>3}")
+    deep = chain([(-1) ** i * i for i in range(10_000)])   # 0, -1, 2, -3, ...
+    print("10,000-node chain, iterative max path sum:", max_path_sum_iterative(deep))
 
 
 if __name__ == "__main__":

@@ -35,7 +35,8 @@ D(i-1, j-1) if the last characters match, else 1 + min(D(i-1, j) [delete],
 D(i, j-1) [insert], D(i-1, j-1) [substitute]); base: D(i, 0) = i, D(0, j) = j;
 same order; answer D(m, n).
 1. Plain recursion — two or three branches per step: O(3^(m+n)) worst case.
-2. Memoised on (i, j) — O(mn) time and space, recursion depth m+n.
+2. Memoised on (i, j) — O(mn) time and space; recursion depth ~m+n (up to 4000):
+   hits the ~1000 limit (section 7.21) well inside the constraints; this is why we move to the table.
 3. Bottom-up table — O(mn) time and space; walk it backwards to reconstruct.
 4. Two rows — each row reads only the previous one: O(mn) time, O(min(m, n)) space
    (put the shorter string on the columns). Length only; reconstruction needs the table

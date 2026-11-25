@@ -1,0 +1,8 @@
+limit=1: elapsed 3.0 s, peak in flight 1
+limit=2: elapsed 1.5 s, peak in flight 2
+limit=3: elapsed 1.0 s, peak in flight 3
+limit=6: elapsed 0.5 s, peak in flight 6
+results: ['API/A', 'API/B', 'API/C', 'API/D', 'API/E', 'API/F']
+semaphore, errors: ['X', 'error: ConnectionError', 'YYYY', 'ZZ', 'error: ConnectionError'] peak 2
+worker pool:       ['X', 'error: ConnectionError', 'YYYY', 'ZZ', 'error: ConnectionError'] peak 2
+empty input: []

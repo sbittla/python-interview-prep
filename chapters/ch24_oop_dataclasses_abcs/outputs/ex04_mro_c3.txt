@@ -1,0 +1,10 @@
+init order: ['Child', 'Left', 'Right', 'Base']
+Child.__mro__: ['Child', 'Left', 'Right', 'Base', 'object']
+diamond DFS first-visit: ['D', 'B', 'A', 'C']
+diamond C3             : ['D', 'B', 'C', 'A']
+Z last-visit: ['Z', 'K1', 'C', 'K2', 'B', 'E', 'K3', 'D', 'A', 'O']
+Z C3        : ['Z', 'K1', 'K2', 'K3', 'D', 'A', 'B', 'C', 'E', 'O']
+Z Python    : ['Z', 'K1', 'K2', 'K3', 'D', 'A', 'B', 'C', 'E', 'O']
+inconsistent, last-visit returns: ['Z', 'Y', 'X']
+ValueError: inconsistent hierarchy: cannot order ['X'], ['Y', 'X'], ['X', 'Y']
+Python agrees -> TypeError: Cannot create a consistent method resolution order (MRO) for bases X, Y

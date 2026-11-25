@@ -1,0 +1,9 @@
+decorator registry: ['plain'] <- Forgotten is missing
+meta registry: ['shout', 'upper'] | type(Upper): PluginMeta
+hook registry: ['length', 'reverse'] | type(Reverse): type
+dynamic class: LengthPlugin HookPlugin
+run meta: {'shout': 'abc!', 'upper': 'ABC'}
+run hook: {'length': 3, 'reverse': 'cba'}
+TypeError: Nameless must define a non-empty 'name'
+TypeError: Nameless must define a non-empty 'name'
+TypeError: duplicate plugin name 'upper'

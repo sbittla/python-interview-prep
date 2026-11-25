@@ -1,0 +1,7 @@
+hottest function in pipeline(3000): dedupe_slow
+dedupe_slow absent from fixed profile: True
+dedupe_fast own time < 25% of dedupe_slow's (n=12000, best of 3): True
+same result after fix: True
+result: (1500, 4495)
+set dedupe faster than list dedupe: True
+edge case n=1: (1, 0)  n=0: (0, 0)

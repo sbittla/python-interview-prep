@@ -1,7 +1,7 @@
-[[0, 30], [5, 10], [15, 20]]       rooms: brute=2 heap=2 sweep=2 | busiest=(2, 5)
-[[1, 2], [2, 3]]                   rooms: brute=1 heap=1 sweep=1 | busiest=(1, 1)
-[[1, 5], [2, 6], [4, 8], [6, 9]]   rooms: brute=3 heap=3 sweep=3 | busiest=(3, 4)
-[]                                 rooms: brute=0 heap=0 sweep=0 | busiest=(0, None)
+[[0, 30], [5, 10], [15, 20]]       rooms: brute=2 heap=2 two_ptr=2 sweep=2 | busiest=(2, 5)
+[[1, 2], [2, 3]]                   rooms: brute=1 heap=1 two_ptr=1 sweep=1 | busiest=(1, 1)
+[[1, 5], [2, 6], [4, 8], [6, 9]]   rooms: brute=3 heap=3 two_ptr=3 sweep=3 | busiest=(3, 4)
+[]                                 rooms: brute=0 heap=0 two_ptr=0 sweep=0 | busiest=(0, None)
 events for [[1, 2], [2, 3]]: [(1, 1), (2, -1), (2, 1), (3, -1)]
 wrong tie rule on [[1, 2], [2, 3]]: 2
 assign_rooms [[0, 30], [5, 10], [15, 20], [10, 15], [30, 40]] -> [0, 1, 1, 1, 0]

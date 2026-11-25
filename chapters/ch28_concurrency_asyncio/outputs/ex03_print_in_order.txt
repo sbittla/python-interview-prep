@@ -1,0 +1,8 @@
+start order [0, 1, 2] -> ['first', 'second', 'third']
+start order [2, 1, 0] -> ['first', 'second', 'third']
+start order [1, 2, 0] -> ['first', 'second', 'third']
+ping_pong(3): ['ping', 'pong', 'ping', 'pong', 'ping', 'pong']
+ping_pong(0): []
+zero_even_odd(5): 0102030405
+zero_even_odd(1): 01
+1000 rounds alternate: True

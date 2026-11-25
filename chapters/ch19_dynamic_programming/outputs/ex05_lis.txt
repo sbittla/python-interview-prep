@@ -1,0 +1,15 @@
+[10, 9, 2, 5, 3, 7, 101, 18] len=4  lis=[2, 3, 7, 18]  O(n^2)=[2, 5, 7, 101]  brute/memo=4/4
+[0, 1, 0, 3, 2, 3]           len=4  lis=[0, 1, 2, 3]  O(n^2)=[0, 1, 2, 3]  brute/memo=4/4
+[7, 7, 7]                    len=1  lis=[7]  O(n^2)=[7]  brute/memo=1/1
+[5, 4, 3]                    len=1  lis=[3]  O(n^2)=[5]  brute/memo=1/1
+[3, 1, 2, 1, 8, 5, 6]        len=4  lis=[1, 2, 5, 6]  O(n^2)=[1, 2, 5, 6]  brute/memo=4/4
+[]                           len=0  lis=[]  O(n^2)=[]  brute/memo=0/0
+  after 3: tails = [3]
+  after 1: tails = [1]
+  after 2: tails = [1, 2]
+  after 1: tails = [1, 2]
+  after 8: tails = [1, 2, 8]
+  after 5: tails = [1, 2, 5]
+  after 6: tails = [1, 2, 5, 6]
+[3, 4, 1]: tails = [1, 4] (not a subsequence!)  lis = [3, 4]
+n=20000 pseudo-random LIS length: 178

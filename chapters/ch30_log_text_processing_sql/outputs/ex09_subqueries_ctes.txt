@@ -1,0 +1,13 @@
+above dept avg (correlated): [('Ada', 200), ('Cy', 210), ('Ed', 130), ('Gil', 130)]
+above dept avg (CTE):        [('Ada', 200), ('Cy', 210), ('Ed', 130), ('Gil', 130)]
+2nd/3rd/99th highest: [200, 150, None]
+non-managers NOT EXISTS: ['Ben', 'Cy', 'Ed', 'Flo', 'Gil']
+non-managers NOT IN:     []
+NOT IN with a NULL: (None, 1)
+Ada  Ada
+  Ben  Ada/Ben
+  Cy   Ada/Cy
+  Di   Ada/Di
+    Ed   Ada/Di/Ed
+    Gil  Ada/Di/Gil
+  Flo  Ada/Flo

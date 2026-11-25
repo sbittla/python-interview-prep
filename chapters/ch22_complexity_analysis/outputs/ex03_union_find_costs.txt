@@ -1,0 +1,13 @@
+config             n=1000   n=2000   n=4000  growth x2
+naive              499500  1999000  7998000  4.00
+compress only        1997     3997     7997  2.00
+rank only            1996     3996     7996  2.00
+compress + rank      1996     3996     7996  2.00
+binomial merge, 3 rounds of finds, hops per find:
+  naive            n=1024: 5.00  n=4096: 6.00
+  compress only    n=1024: 1.33  n=4096: 1.33
+  rank only        n=1024: 5.00  n=4096: 6.00
+  compress + rank  n=1024: 1.33  n=4096: 1.33
+naive hops == n(n-1)/2 at n=4000: True
+chain height n=4000: naive=3999 rank=1
+single element: find(0)=0 union(0,0)=False hops=0

@@ -17,6 +17,8 @@ Examples
 Constraints
 -----------
 - 0 <= n <= 3000; values distinct; both lists describe the same tree.
+- The recursive builders need tree height <= ~900 (CPython's 1,000-frame
+  limit); build_pre_in_iterative handles any shape, e.g. a 3000-node chain.
 
 Approach ladder
 ---------------
@@ -30,6 +32,10 @@ Approach ladder
    order we create nodes). O(n) time, O(n) space, O(h) recursion.
 3. Postorder variant — roots come from the END of postorder, so build the RIGHT
    subtree before the left.
+4. Explicit stack (any depth) — keep the current root-to-node path on a stack;
+   each new preorder value is the left child of the top, unless the top equals
+   the next unclosed inorder value: then pop while it does, and the new value is
+   the right child of the last node popped. O(n) time, O(h) stack.
 
 Hints
 -----
@@ -84,6 +90,24 @@ def build_pre_in(preorder: list[int], inorder: list[int]) -> TreeNode | None:
     return make(0, len(inorder))
 
 
+def build_pre_in_iterative(preorder: list[int], inorder: list[int]) -> TreeNode | None:
+    if not preorder:
+        return None
+    root = TreeNode(preorder[0])
+    stack, i = [root], 0                       # inorder[i]: next node to "close"
+    for v in preorder[1:]:
+        node, parent = TreeNode(v), None
+        while stack and stack[-1].val == inorder[i]:
+            parent = stack.pop()               # its left side is finished
+            i += 1
+        if parent:
+            parent.right = node
+        else:
+            stack[-1].left = node
+        stack.append(node)
+    return root
+
+
 def build_post_in(postorder: list[int], inorder: list[int]) -> TreeNode | None:
     where = {v: i for i, v in enumerate(inorder)}
     roots = iter(reversed(postorder))          # root, right..., left...
@@ -110,6 +134,13 @@ def main() -> None:
     print("left chain :", to_level(build_pre_in([1, 2, 3], [3, 2, 1])))
     print("right chain:", to_level(build_pre_in([1, 2, 3], [1, 2, 3])))
     print("empty      :", to_level(build_pre_in([], [])))
+    print("iterative  :", to_level(build_pre_in_iterative(pre, ino)))
+    n = 3000                                   # a left chain: too deep to recurse
+    deep = build_pre_in_iterative(list(range(n)), list(range(n - 1, -1, -1)))
+    depth = 0
+    while deep:
+        depth, deep = depth + 1, deep.left
+    print("3000-node left chain, iterative build, depth:", depth)
 
 
 if __name__ == "__main__":

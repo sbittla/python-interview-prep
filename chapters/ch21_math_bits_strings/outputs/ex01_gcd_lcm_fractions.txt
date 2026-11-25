@@ -1,0 +1,17 @@
+gcd(48, 18) = 6  brute=6  math=6
+gcd(-4, 6) = 2  brute=2  math=2
+gcd(4, -6) = 2  brute=2  math=2
+gcd(0, 7) = 7  brute=7  math=7
+gcd(0, 0) = 0  brute=0  math=0
+gcd(17, 5) = 1  brute=1  math=1
+nums=[12, 18, 30] gcd=6   lcm=180 math: gcd=6 lcm=180
+nums=[4, 6, 10]   gcd=2   lcm=60  math: gcd=2 lcm=60
+nums=[7]          gcd=7   lcm=7   math: gcd=7 lcm=7
+nums=[]           gcd=0   lcm=1   math: gcd=0 lcm=1
+nums=[0, 5]       gcd=5   lcm=0   math: gcd=5 lcm=0
+nums=[-4, 6]      gcd=2   lcm=12  math: gcd=2 lcm=12
+6/-8 -> (-3, 4)  Fraction=-3/4
+-6/-8 -> (3, 4)  Fraction=3/4
+0/5 -> (0, 1)  Fraction=0/1
+10/4 -> (5, 2)  Fraction=5/2
+reduce_fraction(1, 0) -> ZeroDivisionError

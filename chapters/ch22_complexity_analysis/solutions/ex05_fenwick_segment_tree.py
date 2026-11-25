@@ -35,7 +35,8 @@ Approach ladder
 2. Prefix-sum array — query O(1), but every update rebuilds: O(n).
 3. Fenwick tree — both O(log n), n + 1 cells, ~15 lines; needs an
    invertible operation (sum, xor). Segment tree — both O(log n), 2n cells
-   (iterative version), works for any associative operation (min, max, gcd).
+   (iterative version), works for any associative operation (min, max, gcd;
+   this bottom-up query loop also assumes the operation is commutative).
 
 Follow-ups
 ----------

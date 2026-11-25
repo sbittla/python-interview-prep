@@ -1,0 +1,5 @@
+hi ann! hi bo? | calls = 2
+naive: wrapper None (*args, **kwargs)
+wraps: greet Say hello. (name: 'str', punct: 'str' = '!') -> 'str'
+original reachable: True True
+stacked: <b><i>Decorators</i></b> | equivalent: <b><i>Decorators</i></b>

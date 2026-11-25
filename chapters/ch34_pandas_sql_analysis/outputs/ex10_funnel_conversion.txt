@@ -1,0 +1,18 @@
+    step  users  step_conv  overall
+    view     40      1.000    1.000
+    cart     30      0.750    0.750
+checkout     23      0.767    0.575
+purchase     13      0.565    0.325
+unordered distinct users per event: {'view': 40, 'cart': 30, 'checkout': 23, 'purchase': 15}
+brute force agrees: True
+SQL agrees: True
+users 5 and 18 purchase BEFORE viewing:
+ user_id    ts    event
+       5 09:00 purchase
+       5 09:05     view
+       5 09:09     cart
+      18 09:00 purchase
+      18 09:05     view
+      18 09:09     cart
+cart, view, cart: ordered [1, 1] | first-time shortcut [1, 0]
+empty events -> [0, 0, 0, 0]

@@ -27,6 +27,8 @@ Constraints
 
 Hints
 -----
+- The memoised rung recurses ~n deep and hits the ~1000 limit (section 7.21) well inside
+  the constraints; this is why the final answer is a table.
 - At house i you have exactly two choices; write the max of them.
 - To reconstruct, walk the table backwards: if best(i) == best(i-1) house i-1 was
   skipped, otherwise it was taken and you jump to i-2.

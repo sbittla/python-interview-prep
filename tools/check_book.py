@@ -97,6 +97,9 @@ def check_chapter(n: int, sections: list[str]) -> tuple[float, list[str]]:
             errors.append(f"missing section headings: {', '.join(missing)}")
         if not re.search(r"^#\s+Chapter\s+%d\." % n, text, flags=re.M):
             errors.append(f"first heading must be '# Chapter {n}. <Title>'")
+        placeholders = len(re.findall(r"^```text\s*\n\s*TODO\b", text, flags=re.M))
+        if placeholders:
+            errors.append(f"{placeholders} placeholder output block(s) (```text TODO) — paste real output")
         if "<details>" not in text:
             errors.append("no <details> quiz-answer block")
         if not re.search(r"^##+ .*Summary card", text, flags=re.M | re.I):

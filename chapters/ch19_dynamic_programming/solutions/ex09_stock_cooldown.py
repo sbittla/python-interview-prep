@@ -31,7 +31,8 @@ Recipe — state: (day, holding); transition: holding -> keep or sell (sell jump
 day + 2: the cooldown); not holding -> wait or buy; base: past the last day earns 0;
 order: day descending; answer: best(0, not holding).
 1. Plain recursion — two choices per day: O(2^n) time, O(n) stack.
-2. Memoised on (day, holding) — 2n states: O(n) time, O(n) space.
+2. Memoised on (day, holding) — 2n states: O(n) time, O(n) space; recursion depth ~n:
+   hits the ~1000 limit (section 7.21) well inside the constraints; this is why we move to the table.
 3. Bottom-up table — arrays hold[i], free[i] filled right to left: O(n), O(n).
 4. Three variables (hold, sold, rest) updated left to right — each day reads only the
    previous day: O(n) time, O(1) space.

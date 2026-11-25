@@ -1,0 +1,7 @@
+split_range(10, 3): [(0, 4), (4, 7), (7, 10)]
+split_range(2, 4): [(0, 1), (1, 2), (2, 2), (2, 2)]
+primes below 60000: serial = 6057
+process pool agrees: True
+thread pool agrees: True
+fetch_all: {'alpha': 5, 'bad-host': 'error: ConnectionError', 'io': 2, 'kappa': 5, 'z': 1}
+peak tasks in flight with 4 workers: 4

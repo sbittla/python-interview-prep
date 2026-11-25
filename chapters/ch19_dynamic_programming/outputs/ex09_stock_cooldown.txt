@@ -1,0 +1,11 @@
+max_profit([1, 2, 3, 0, 2]) = 3  rungs agree: True
+max_profit([5, 4, 3]) = 0  rungs agree: True
+max_profit([1, 4]) = 3  rungs agree: True
+max_profit([2, 1, 4, 5, 2, 9, 7]) = 10  rungs agree: True
+max_profit([3]) = 0  rungs agree: True
+max_profit([]) = 0  rungs agree: True
+  day 0 price 1: hold=  -1 sold=-inf rest= 0
+  day 1 price 2: hold=  -1 sold=   1 rest= 0
+  day 2 price 3: hold=  -1 sold=   2 rest= 1
+  day 3 price 0: hold=   1 sold=  -1 rest= 2
+  day 4 price 2: hold=   1 sold=   3 rest= 2

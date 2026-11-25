@@ -1,0 +1,12 @@
+rk_search('abracadabra', 'abra') = [0, 7]
+rk_search('aaaaa', 'aaa') = [0, 1, 2]
+rk_search('abc', 'd') = []
+rk_search('abc', '') = [0, 1, 2, 3]
+tiny mod 101: matches=13 spurious hash hits=9 correct=True
+mod 2**61-1 : matches=13 correct=True
+longest_dup('banana') = 'ana'  brute='ana'  slices='ana'
+longest_dup('abcd') = ''  brute=''  slices=''
+longest_dup('aaaaa') = 'aaaa'  brute='aaaa'  slices='aaaa'
+longest_dup('abcabcab') = 'abcab'  brute='abcab'  slices='abcab'
+longest_dup('') = ''  brute=''  slices=''
+longest_dup('mississippi') = 'issi'  brute='issi'  slices='issi'

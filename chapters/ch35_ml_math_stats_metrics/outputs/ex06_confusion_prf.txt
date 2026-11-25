@@ -1,0 +1,13 @@
+labels ['bird', 'cat', 'dog']
+[[1 1 1]
+ [0 2 1]
+ [0 1 3]]
+brute force agrees: True
+macro    (0.7, 0.5833, 0.5794)
+micro    (0.6, 0.6, 0.6)
+weighted (0.69, 0.6, 0.5881)
+accuracy 0.6  == micro F1: True
+binary (0.6667, 0.6667, 0.6667)
+no predicted positives: (0.0, 0.0, 0.0)
+F0.5, F1, F2 at P=0.5 R=0.8: 0.5405 0.6154 0.7143
+accuracy paradox: accuracy 0.99  recall 0.0

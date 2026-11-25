@@ -1,0 +1,5 @@
+default switch interval is 5 ms: True
+gil enabled: True
+threads overlap sleep-bound work: True
+threads speed up CPU-bound work: False
+CPU result matches the build: True

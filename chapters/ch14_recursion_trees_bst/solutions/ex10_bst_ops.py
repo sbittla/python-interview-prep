@@ -22,6 +22,9 @@ False
 Constraints
 -----------
 - 0 <= n <= 10**4; keys are ints. Strict ordering (no duplicates).
+- Sorted inserts build a chain of height n, so the recursive delete and
+  is_valid_bst need height <= ~900 (1,000-frame limit). Also write
+  delete_iterative and is_valid_bst_iterative, which handle any height.
 
 Approach ladder
 ---------------
@@ -31,11 +34,14 @@ Search / insert: walk down one path, left if smaller, right if larger.
 Delete: find the node; 0 children -> remove it, 1 child -> splice the child up,
    2 children -> copy in the inorder SUCCESSOR (leftmost key of the right
    subtree), then delete that key from the right subtree. O(h).
+   delete_iterative: walk down keeping the parent; for 2 children, copy the
+   successor's key up and splice the successor out instead. O(h), O(1) space.
 Validate:
 1. Brute force — inorder traversal must be strictly increasing. O(n) time,
    O(n) for the list (or O(h) if you compare with the previous value on the fly).
 2. Bounds (optimal) — pass an open interval (low, high) down: the left child
    inherits (low, node.val), the right (node.val, high). O(n) time, O(h) stack.
+3. Same bounds on an explicit stack of (node, low, high): any height.
 
 Hints
 -----
@@ -64,7 +70,7 @@ Follow-ups
 """
 from __future__ import annotations
 
-from treenode import TreeNode, build, inorder_values, render, to_level
+from treenode import TreeNode, build, chain, inorder_values, render, to_level
 
 
 def search(root: TreeNode | None, key: int) -> TreeNode | None:
@@ -113,6 +119,28 @@ def delete(root: TreeNode | None, key: int) -> TreeNode | None:
     return root
 
 
+def delete_iterative(root: TreeNode | None, key: int) -> TreeNode | None:
+    parent, node = None, root
+    while node and node.val != key:
+        parent, node = node, (node.left if key < node.val else node.right)
+    if node is None:
+        return root                            # key absent
+    if node.left and node.right:               # 2 children: successor's key moves up
+        parent, succ = node, node.right
+        while succ.left:
+            parent, succ = succ, succ.left
+        node.val = succ.val
+        node = succ                            # now remove succ (no left child)
+    child = node.left or node.right            # 0 or 1 child: splice it up
+    if parent is None:
+        return child
+    if parent.left is node:
+        parent.left = child
+    else:
+        parent.right = child
+    return root
+
+
 def is_valid_brute(root: TreeNode | None) -> bool:
     vals = inorder_values(root)
     return all(a < b for a, b in zip(vals, vals[1:]))
@@ -126,6 +154,19 @@ def is_valid_bst(root: TreeNode | None, low: int | None = None,
         return False
     return (is_valid_bst(root.left, low, root.val)        # left: below this key
             and is_valid_bst(root.right, root.val, high))  # right: above it
+
+
+def is_valid_bst_iterative(root: TreeNode | None) -> bool:
+    stack: list[tuple[TreeNode, int | None, int | None]] = [(root, None, None)] if root else []
+    while stack:
+        node, low, high = stack.pop()
+        if (low is not None and node.val <= low) or (high is not None and node.val >= high):
+            return False
+        if node.left:
+            stack.append((node.left, low, node.val))
+        if node.right:
+            stack.append((node.right, node.val, high))
+    return True
 
 
 def is_valid_local_only(root: TreeNode | None) -> bool:
@@ -154,6 +195,11 @@ def main() -> None:
           "| inorder:", inorder_values(trap))
     for lst in ([], [2, 2], [2, 1, 3], [-2**31, None, 2**31 - 1]):
         print(f"valid {lst!s:<26} bounds={is_valid_bst(build(lst))} brute={is_valid_brute(build(lst))}")
+    deep = chain(list(range(10_000)))          # what sorted inserts produce
+    for k in (0, 5_000, 9_999):
+        deep = delete_iterative(deep, k)
+    print("10,000-node chain: iterative valid =", is_valid_bst_iterative(deep),
+          "| keys left =", len(inorder_values(deep)))
 
 
 if __name__ == "__main__":

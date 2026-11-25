@@ -1,0 +1,11 @@
+alias         {'same_object': True, 'equal': True, 'same_type': True}
+copy          {'same_object': False, 'equal': True, 'same_type': True}
+int vs float  {'same_object': False, 'equal': True, 'same_type': False}
+None vs None  {'same_object': True, 'equal': True, 'same_type': True}
+True vs 1     {'same_object': False, 'equal': True, 'same_type': False}
+runtime 256 identical: True
+runtime 257 identical: False
+cached range in [-10, 300]: (-5, 256)
+cached range in [1000, 1010]: None
+joined 'hello_world' is interned copy (before, after sys.intern): (False, True)
+dict with keys 1 and True: {1: 'b'}

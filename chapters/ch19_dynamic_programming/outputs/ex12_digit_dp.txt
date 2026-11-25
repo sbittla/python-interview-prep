@@ -1,0 +1,12 @@
+count_no_repeat(0) = 0  rungs agree: True
+count_no_repeat(9) = 9  rungs agree: True
+count_no_repeat(10) = 10  rungs agree: True
+count_no_repeat(11) = 10  rungs agree: True
+count_no_repeat(20) = 19  rungs agree: True
+count_no_repeat(100) = 90  rungs agree: True
+count_no_repeat(121) = 101  rungs agree: True
+count_no_repeat(1000) = 819  rungs agree: True
+count_no_repeat(4455) = 3330  rungs agree: True
+count_no_repeat(98765) = 66327  rungs agree: True
+count_range(100, 200) = 81
+count_no_repeat(10**18) = 168856464709124010  memo agrees: True

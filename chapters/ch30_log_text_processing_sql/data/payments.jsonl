@@ -1,0 +1,17 @@
+{"user": "asha", "amount": 120, "ts": 1741773600}
+{"user": "bo", "amount": 75, "ts": 1741773660}
+{"user": "chen", "amount": "80", "ts": 1741773720}
+{"user": "dana", "amount": 50
+
+{"user": "eve", "ts": 1741773840}
+{"user": "fay", "amount": true, "ts": 1741773900}
+{"user": "gus", "amount": -5, "ts": 1741773960}
+[1, 2, 3]
+{"user": "hÿi", "amount": 10, "ts": 1741774000}
+{"user": "asha", "amount": 30, "ts": 1741774020}  
+{"user": "ivy", "amount": 99, "ts": 1741774080, "note": "extra fields are fine"}
+{"user": "bo", "amount": 40, "ts": 1741774140}
+{"user": "chen", "amount": 15, "ts": 1741774200}
+{"user": "ivy", "amount": 1, "ts": 1741774260}
+{"user": "asha", "amount": 0, "ts": 1741774320}
+{"user": "jo", "amount": 60, "ts": 1741774380}

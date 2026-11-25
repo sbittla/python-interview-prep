@@ -1,0 +1,10 @@
+k=1: P@k=0.0000  R@k=0.0000  AP@k=0.0000  brute=0.0000
+k=3: P@k=0.3333  R@k=0.3333  AP@k=0.1667  brute=0.1667
+k=5: P@k=0.4000  R@k=0.6667  AP@k=0.3333  brute=0.3333
+RR per query: [0.5, 1.0, 0.0]  MRR: 0.5
+MAP@5: 0.4444
+NDCG@3 (2^g-1 gain): 0.5234  ideal ordering: 1.0000
+NDCG@3 (linear gain): 0.5025  ideal ordering: 1.0000
+sorted IDCG == brute-force max over orderings: True
+fewer than k results: P@5 of ['d1'] = 0.2
+all gains zero -> NDCG 0.0

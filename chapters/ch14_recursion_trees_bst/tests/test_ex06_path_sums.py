@@ -39,3 +39,21 @@ def test_random_against_brute(load):
         assert m.root_to_leaf_paths(root, target) == m.root_to_leaf_paths_brute(root, target)
         assert m.count_downward_paths(root, target) == m.count_downward_brute(root, target)
         assert m.max_path_sum(root) == m.max_path_sum_brute(root)
+
+
+def test_iterative_max_path_sum(load):
+    m = load("ex06_path_sums")
+    tn = load("treenode")
+    rng = random.Random(1416)
+    for _ in range(300):
+        root = tn.random_tree(rng, rng.randint(1, 30), lo=-9, hi=9)
+        assert m.max_path_sum_iterative(root) == m.max_path_sum(root)
+    assert m.max_path_sum_iterative(m.build([-3])) == -3
+
+
+def test_deep_chain_iterative_max_path_sum(load):
+    m = load("ex06_path_sums")
+    tn = load("treenode")
+    n = 10_000                                   # recursion would hit the frame limit
+    assert m.max_path_sum_iterative(tn.chain([1] * n)) == n
+    assert m.max_path_sum_iterative(tn.chain([-1] * n, "left")) == -1

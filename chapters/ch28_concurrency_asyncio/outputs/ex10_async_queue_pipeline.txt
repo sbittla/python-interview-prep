@@ -1,0 +1,6 @@
+4 items, 2 workers: ([(0, 0), (1, 1), (2, 4), (3, 9)], 1, 2.0)
+8 items, arrival 0.1 s, work 0.4 s, 1 worker(s): elapsed 3.3 s, peak queue 2
+8 items, arrival 0.1 s, work 0.4 s, 2 worker(s): elapsed 1.8 s, peak queue 2
+8 items, arrival 0.1 s, work 0.4 s, 4 worker(s): elapsed 1.2 s, peak queue 1
+with poison job 3: [(0, 0), (1, 1), (2, 4), (3, 'error'), (4, 16)]
+no items: ([], 0, 0.0)

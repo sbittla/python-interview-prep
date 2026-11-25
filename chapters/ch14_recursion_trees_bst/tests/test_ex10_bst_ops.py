@@ -74,3 +74,40 @@ def test_validate_random_trees_against_brute(load):
         else:
             root = tn.random_tree(rng, rng.randint(0, 12), lo=0, hi=20)
         assert m.is_valid_bst(root) == m.is_valid_brute(root)
+
+
+def test_iterative_versions_match_random(load):
+    m = load("ex10_bst_ops")
+    tn = load("treenode")
+    rng = random.Random(1430)
+    for _ in range(200):
+        keys = [rng.randint(0, 40) for _ in range(rng.randint(0, 30))]
+        a = b = None
+        for k in keys:
+            a, b = m.insert(a, k), m.insert(b, k)
+        for k in rng.sample(range(-1, 42), 15):
+            a, b = m.delete(a, k), m.delete_iterative(b, k)
+            assert tn.to_level(a) == tn.to_level(b)
+            assert m.is_valid_bst_iterative(b)
+    for _ in range(300):
+        root = tn.random_tree(rng, rng.randint(0, 12), lo=0, hi=20)
+        assert m.is_valid_bst_iterative(root) == m.is_valid_bst(root)
+    assert m.delete_iterative(m.build([1]), 1) is None and m.delete_iterative(None, 1) is None
+
+
+def test_deep_chain_from_sorted_inserts(load):
+    m = load("ex10_bst_ops")
+    tn = load("treenode")
+    n = 10_000                                   # sorted inserts -> height n
+    root = tn.chain(list(range(n)))
+    assert m.is_valid_bst_iterative(root)
+    for k in (0, n // 2, n - 1, 12_345):         # head, middle, tail, absent
+        root = m.delete_iterative(root, k)
+    assert tn.inorder_values(root) == [k for k in range(1, n - 1) if k != n // 2]
+    assert m.is_valid_bst_iterative(root)
+    bad = tn.chain(list(range(n)))
+    node = bad
+    while node.right:
+        node = node.right
+    node.val = 5                                 # deepest key breaks the order
+    assert m.is_valid_bst_iterative(bad) is False

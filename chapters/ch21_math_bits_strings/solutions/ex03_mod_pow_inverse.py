@@ -30,8 +30,9 @@ Approach ladder
 3. Optimal    — iterative square-and-multiply over the bits of b. O(log b) multiplications,
    O(1) extra space. Why move up: b = 10**18 needs ~60 squarings instead of 10**18 steps.
    Production: built-in ``pow(a, b, m)``.
-Inverse: extended Euclid, O(log m), works for any m with gcd(a, m) == 1. For prime p,
-Fermat gives pow(a, p - 2, p). Python 3.8+: ``pow(a, -1, m)``.
+Inverse: extended Euclid, O(log m), works for any m with gcd(a, m) == 1. For p prime and
+p not dividing a, Fermat gives pow(a, p - 2, p) (it silently returns 0 when a ≡ 0 mod p).
+Python 3.8+: ``pow(a, -1, m)``.
 
 Follow-ups
 ----------

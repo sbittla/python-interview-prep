@@ -1,0 +1,14 @@
+Money(1999, 'USD') | USD 19.99 | USD -0.05
+a + b = USD 20.00 | a - b = USD 19.98 | 3 * b = USD 0.03 | -b = USD -0.01
+sum: USD 21.00
+a > b: True | a <= a: True | sorted: [Money(1, 'USD'), Money(500, 'USD'), Money(1999, 'USD')]
+set dedupes: 2
+a == 1999: False | bool(Money(0,'USD')): False
+allocate 10.00 by [1,1,1]: [Money(334, 'USD'), Money(333, 'USD'), Money(333, 'USD')]
+allocate 0.05 by [3,7]: [Money(2, 'USD'), Money(3, 'USD')]
+TypeError: currency mismatch: USD vs EUR
+TypeError: currency mismatch: USD vs EUR
+TypeError: unsupported operand type(s) for +: 'Money' and 'int'
+float tuple rung: (0.1 + 0.2) == 0.3 -> False
+EqOnlyMoney.__hash__ is None: True
+TypeError: unhashable type: 'EqOnlyMoney'

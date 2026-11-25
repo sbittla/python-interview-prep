@@ -17,6 +17,8 @@ Examples
 Constraints
 -----------
 - 0 <= n <= 3000; values distinct; both lists describe the same tree.
+- The recursive builders need tree height <= ~900 (CPython's 1,000-frame
+  limit); build_pre_in_iterative handles any shape, e.g. a 3000-node chain.
 
 Hints
 -----
@@ -53,6 +55,10 @@ def build_pre_in(preorder: list[int], inorder: list[int]) -> TreeNode | None:
     raise NotImplementedError("TODO")
 
 
+def build_pre_in_iterative(preorder: list[int], inorder: list[int]) -> TreeNode | None:
+    raise NotImplementedError("TODO")
+
+
 def build_post_in(postorder: list[int], inorder: list[int]) -> TreeNode | None:
     raise NotImplementedError("TODO")
 
@@ -67,6 +73,13 @@ def main() -> None:
     print("left chain :", to_level(build_pre_in([1, 2, 3], [3, 2, 1])))
     print("right chain:", to_level(build_pre_in([1, 2, 3], [1, 2, 3])))
     print("empty      :", to_level(build_pre_in([], [])))
+    print("iterative  :", to_level(build_pre_in_iterative(pre, ino)))
+    n = 3000                                   # a left chain: too deep to recurse
+    deep = build_pre_in_iterative(list(range(n)), list(range(n - 1, -1, -1)))
+    depth = 0
+    while deep:
+        depth, deep = depth + 1, deep.left
+    print("3000-node left chain, iterative build, depth:", depth)
 
 
 if __name__ == "__main__":

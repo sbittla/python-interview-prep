@@ -46,7 +46,10 @@ best(n, cap).
    exactly `knapsack_unbounded`.
 min_coins — state: fewest(x); transition: 1 + min(fewest(x - c)); base fewest(0) = 0.
 Recursion O(k^amount) -> memo/table O(amount * k) time, O(amount) space (the table
-is already one-dimensional). Greedy is wrong for non-canonical coin systems (section 20.7).
+is already one-dimensional). The coin memos recurse ~amount/min(coins) deep (up to
+10^4): recursion depth ~amount hits the ~1000 limit (section 7.21) well inside the
+constraints; this is why we move to the table. (The knapsack memo is only n <= 100 deep.)
+Greedy is wrong for non-canonical coin systems (section 20.7).
 Counting ways — coins in the OUTER loop counts combinations (each multiset is built in
 one fixed coin order); amount in the outer loop counts permutations. Both O(amount * k).
 

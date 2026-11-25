@@ -9,11 +9,11 @@ Manuscript: `manuscript/ch14_recursion_trees_bst.md`. Standard library only.
 | ex03 | Preorder / inorder / postorder: recursive, iterative, unified | ★ | DFS with a stack | 14.4, 14.5 |
 | ex04 | Level order, zigzag, right-side view (BFS and DFS) | ★ | BFS by level | 14.6 |
 | ex05 | Height, diameter and balanced check in one pass (+ iterative, + global-variable bug) | ★ | return info up the tree | 14.7 |
-| ex06 | Path sums: root-to-leaf list, downward-path count, max path sum | ◆ | backtracking; prefix sums; info up | 14.8 |
+| ex06 | Path sums: root-to-leaf list, downward-path count, max path sum (+ iterative) | ◆ | backtracking; prefix sums; info up | 14.8 |
 | ex07 | Lowest common ancestor: binary tree, parent map, BST | ★ | info up; BST descent | 14.9 |
-| ex08 | Build a tree from preorder+inorder and postorder+inorder | ◆ | divide & conquer + index map | 14.10 |
+| ex08 | Build a tree from preorder+inorder (recursive + explicit stack) and postorder+inorder | ◆ | divide & conquer + index map | 14.10 |
 | ex09 | Serialize / deserialize (preorder with markers, level order) | ◆ | DFS/BFS codec | 14.11 |
-| ex10 | BST search, insert, delete, validate (bounds vs the local-only trap) | ★ | BST ordering, bounds | 14.12 |
+| ex10 | BST search, insert, delete, validate (bounds vs the local-only trap; iterative delete/validate) | ★ | BST ordering, bounds | 14.12 |
 | ex11 | Kth smallest and inorder successor in a BST | ★ | inorder = sorted | 14.13 |
 | ex12 | N-ary trees: depth, levels, traversals, left-child right-sibling encoding | ◆ | same templates, child loop | 14.14 |
 
@@ -23,7 +23,7 @@ list with `None` holes → tree), `to_level`, `render` (ASCII drawing), `inorder
 tests. Every helper is iterative, so it works on trees deeper than the recursion limit.
 
 Every test file cross-checks the optimal solution against a brute-force or recursive reference on
-seeded random trees, and the iterative versions are run on 30,000–100,000-node chains.
+seeded random trees, and the iterative versions are run on 3,000–100,000-node chains.
 
 ## Run
 

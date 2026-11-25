@@ -23,6 +23,8 @@ Examples
 Constraints
 -----------
 - 2 <= n <= 10**5; p is not q; both are present. Compare nodes by identity.
+- The recursive lca needs tree height <= ~900 (CPython's 1,000-frame limit);
+  for deeper trees use lca_parent_map (iterative, any depth).
 
 Hints
 -----
@@ -48,7 +50,7 @@ Follow-ups
 """
 from __future__ import annotations
 
-from treenode import TreeNode, build, render
+from treenode import TreeNode, build, chain, render
 
 
 def find(root: TreeNode | None, val: int) -> TreeNode | None:
@@ -83,6 +85,9 @@ def main() -> None:
     print(render(bst))
     for a, b in [(2, 8), (2, 4), (3, 5), (0, 5), (7, 9)]:
         print(f"lca_bst({a}, {b}) = {lca_bst(bst, find(bst, a), find(bst, b)).val}")
+    deep = chain(list(range(100_000)))         # too deep for the recursive lca
+    print("100,000-node chain, parent-map lca(50000, 99999):",
+          lca_parent_map(deep, find(deep, 50_000), find(deep, 99_999)).val)
 
 
 if __name__ == "__main__":

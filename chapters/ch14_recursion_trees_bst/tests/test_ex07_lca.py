@@ -41,3 +41,13 @@ def test_bst_random(load):
         a, b = rng.sample(tn.inorder_values(root), 2)
         p, q = m.find(root, a), m.find(root, b)
         assert m.lca_bst(root, p, q) is m.lca(root, p, q)
+
+
+def test_deep_chain_parent_map_and_bst(load):
+    m = load("ex07_lca")
+    tn = load("treenode")
+    n = 100_000                                  # far beyond the recursion limit
+    deep = tn.chain(list(range(n)))              # also a valid BST (right chain)
+    p, q = m.find(deep, 50_000), m.find(deep, n - 1)
+    assert m.lca_parent_map(deep, p, q) is p
+    assert m.lca_bst(deep, p, q) is p

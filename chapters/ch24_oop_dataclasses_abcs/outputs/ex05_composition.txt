@@ -1,0 +1,6 @@
+inheritance : len 5 added 1 <- extend/insert/+= bypassed
+composition : AuditedList([0, 1, 2, 3, 4], added=5) | len 5
+after pop   : AuditedList([0, 1, 2, 3], added=5) | comp[0] = 0 | list(comp) = [0, 1, 2, 3]
+stack pop: c | peek: b | len: 2 | has insert: False
+empty stack is falsy: True
+IndexError: empty stack

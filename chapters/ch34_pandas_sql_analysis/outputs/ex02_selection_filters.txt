@@ -1,0 +1,13 @@
+paid, amount >= 100, Q1 2026:
+   order_id  user_id  amount
+0      1015        7  119.42
+1      1008        4  118.01
+2      1005        2  111.04
+3      1036       16  109.41
+4      1083       38  104.47
+SQL matches pandas: True
+brute force matches: True
+nothing qualifies: 0 rows
+after sorting: loc[0] -> order 1070 (first file row), iloc[0] -> order 1015 (biggest)
+risk rows: 5 | input untouched: True
+chained assignment changed data: False | warning: ['ChainedAssignmentError']

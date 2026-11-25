@@ -1,0 +1,8 @@
+mse 0.375  rmse 0.6124  mae 0.5  r2 0.9486
+mean 11.6  median 2.0
+best constant under MSE: 11.6  under MAE: 2.0
+r2 predicting the mean : 0.0
+r2 worse than the mean : -3.0
+r2 constant target     : 1.0 0.0
+mape                   : 0.1
+mape with y=0 -> ValueError: MAPE is undefined when a true value is 0

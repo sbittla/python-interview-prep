@@ -1,0 +1,11 @@
+copies after n appends (start capacity 1)
+     n   double   add_10  add_100  copies/n (double)
+    10       15        1        1  1.50
+   100      127      460        1  1.27
+  1000     1023    49600     4510  1.02
+ 10000    16383  4996000   495100  1.64
+doubling copies < 2n for n=1..2000: True
+add_10: doubling n multiplies copies by 4.00 (quadratic -> ~4)
+worst single append at n=1025 copies 1024 elements; resizes=11
+accounting, charge 2/append: min balance over 10^5 appends = -65534
+accounting, charge 3/append: min balance over 10^5 appends = 0

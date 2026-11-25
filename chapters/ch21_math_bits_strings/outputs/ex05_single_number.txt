@@ -1,0 +1,13 @@
+I  [4, 1, 2, 1, 2]    xor=4    counter=4
+I  [-7, 3, 3]         xor=-7   counter=-7
+I  [0]                xor=0    counter=0
+II [2, 2, 3, 2]
+   fsm=3 bitcount=3 no-sign-fix=3 counter=3
+II [0, 1, 0, 1, 0, 1, 99]
+   fsm=99 bitcount=99 no-sign-fix=99 counter=99
+II [-2, -2, 1, 1, -3, 1, -3, -3, -4, -2]
+   fsm=-4 bitcount=-4 no-sign-fix=4294967292 counter=-4
+II [-2147483648, 5, 5, 5]
+   fsm=-2147483648 bitcount=-2147483648 no-sign-fix=2147483648 counter=-2147483648
+bin(-5) = -0b101  -5 & 0xFFFFFFFF = 4294967291  to_int32 back = -5  ~5 = -6
+single_three([]) -> ValueError: nums is empty

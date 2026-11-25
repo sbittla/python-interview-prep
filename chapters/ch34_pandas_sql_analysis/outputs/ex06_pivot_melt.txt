@@ -1,0 +1,15 @@
+         2026-01  2026-02  2026-03  2026-04  2026-05  2026-06    total
+BR        118.01     0.00   189.05   112.40   300.07   188.58   908.11
+DE          0.00    57.40   155.64   214.94   349.69   310.43  1088.10
+IN        111.04   194.15    96.99    97.90   198.04   177.81   875.93
+US          0.00   123.14   258.66   166.69   868.33   233.38  1650.20
+unknown     0.00   119.42    16.07     0.00    91.59     0.00   227.08
+matches brute force: True
+long rows: 24 | first three:
+country   month  revenue
+     BR 2026-01   118.01
+     BR 2026-03   189.05
+     BR 2026-04   112.40
+SQL long matches melt: True
+SQL CASE-WHEN pivot matches Jan/Feb columns: True
+pivot with a repeated (k, c): ValueError | pivot_table default aggfunc: [1.5, 3.0]

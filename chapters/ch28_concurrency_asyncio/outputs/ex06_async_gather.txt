@@ -1,0 +1,7 @@
+sequential:   (['users:0.3', 'orders:0.1', 'prices:0.2'], 0.6)
+gather:       (['users:0.3', 'orders:0.1', 'prices:0.2'], 0.3)
+as_completed: (['orders', 'prices', 'users'], 0.3)
+gather_safe:  (['users:0.3', 'error: ConnectionError', 'prices:0.2'], 0.3)
+plain gather raises: ConnectionError bad-db
+empty batch:  ([], 0.0)
+call without await gives: coroutine

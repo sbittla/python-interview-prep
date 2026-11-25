@@ -1,0 +1,9 @@
+singleton same object: True | settings survive: {'debug': True}
+areas: [3.1416, 9, 10]
+ValueError: unknown kind 'hexagon'; known: ['circle', 'rect', 'square']
+if-chain forgot rect -> ValueError: rect
+no discount: 2000
+10% off   : 1800
+3 for 2   : 1800 | lambda strategy: 1000
+handlers run: 2 | no subscribers: 0
+seen: ['email:A1', 'audit:A1', 'audit:A2']

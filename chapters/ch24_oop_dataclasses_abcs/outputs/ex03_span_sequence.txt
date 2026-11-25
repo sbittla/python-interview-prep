@@ -1,0 +1,8 @@
+Span(0, 10, 3) len 4 items [0, 3, 6, 9] s[-1] = 9
+9 in s: True | 4 in s: False | reversed: [9, 6, 3, 0]
+Span(0, 20, 2)[1:8:3] = Span(2, 16, 6) -> range agrees: True
+Span(10, -1, -4) -> [10, 6, 2] | d[::-1] -> [2, 6, 10] | 2 in d: True
+Span(0,0) == Span(5,5): True | Span(0,3,5) == Span(0,1): True
+huge span: len 142857142857142858 | 7*10**16 in big: True
+ListSpan agrees on 9: True
+IndexError: Span index out of range

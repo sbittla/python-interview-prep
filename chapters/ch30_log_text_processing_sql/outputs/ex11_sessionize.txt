@@ -1,0 +1,10 @@
+   ('ana', 0, 2400, 3)
+   ('ana', 6000, 6000, 2)
+   ('bo', 100, 1900, 2)
+   ('bo', 3701, 3701, 1)
+   ('cy', 50, 50, 1)
+SQL agrees: True | brute agrees: True
+summary: {'ana': (2, 2400), 'bo': (2, 1800), 'cy': (1, 0)}
+boundary 1800 vs 1801: 1 2
+random cross-check (50 cases): True
+empty: [] {}

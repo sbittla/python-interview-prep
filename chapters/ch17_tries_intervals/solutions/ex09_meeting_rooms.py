@@ -29,6 +29,8 @@ Hints
 -----
 - Heap: sort by start; the heap holds end times of meetings in progress. Before placing a
   meeting, pop every end <= its start (those rooms are free).
+- Two pointers: sort starts and ends separately; before counting a start, release every
+  end <= it (half-open). No heap needed when you only want the count.
 - Sweep: one event (time, +1) per start and (time, -1) per end. Sort, then keep a running sum.
   At equal times the END must be processed first — with tuples, -1 sorts before +1 for free.
 
@@ -38,6 +40,9 @@ Approach ladder
    meetings that contain it. O(n^2).
 2. Heap       — sort by start, min-heap of end times. O(n log n) time, O(n) heap. Also yields
    the room assignment if the heap stores (end, room).
+2b. Two pointers — sort starts and ends separately; walk the starts, releasing every end
+   <= the current start first. O(n log n) for the sorts, O(n) extra. Counts rooms but
+   cannot say which meeting uses which room.
 3. Line sweep — 2n sorted events, running count. O(n log n) time, O(n) events; no heap, and
    the same loop answers "when is it busiest" and generalises to weighted loads.
    Why move between rungs: brute force re-scans every meeting per start; sorting once lets a
@@ -75,6 +80,19 @@ def min_rooms_heap(meetings: list[list[int]]) -> int:
         heapq.heappush(ends, e)
         rooms = max(rooms, len(ends))
     return rooms
+
+
+def min_rooms_two_pointers(meetings: list[list[int]]) -> int:
+    starts = sorted(s for s, _ in meetings)
+    ends = sorted(e for _, e in meetings)
+    rooms = best = j = 0
+    for s in starts:                           # next event is a start...
+        while ends[j] <= s:                    # ...after every end at or before it
+            rooms -= 1
+            j += 1
+        rooms += 1
+        best = max(best, rooms)
+    return best
 
 
 def events(meetings: list[list[int]]) -> list[tuple[int, int]]:
@@ -130,7 +148,7 @@ def main() -> None:
     cases = [[[0, 30], [5, 10], [15, 20]], [[1, 2], [2, 3]], [[1, 5], [2, 6], [4, 8], [6, 9]], []]
     for m in cases:
         print(f"{str(m):34} rooms: brute={min_rooms_brute(m)} heap={min_rooms_heap(m)} "
-              f"sweep={min_rooms(m)} | busiest={busiest(m)}")
+              f"two_ptr={min_rooms_two_pointers(m)} sweep={min_rooms(m)} | busiest={busiest(m)}")
     print("events for [[1, 2], [2, 3]]:", events([[1, 2], [2, 3]]))
     print("wrong tie rule on [[1, 2], [2, 3]]:", sweep_wrong_tie([[1, 2], [2, 3]]))
     m = [[0, 30], [5, 10], [15, 20], [10, 15], [30, 40]]

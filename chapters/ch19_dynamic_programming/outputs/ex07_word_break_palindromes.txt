@@ -1,0 +1,15 @@
+word_break('catsanddog') = True  split = ['cat', 'sand', 'dog']  brute/memo = True/True
+word_break('catsandog') = False  split = None  brute/memo = False/False
+word_break('') = True  split = []  brute/memo = True/True
+pineapplepen -> ['pineapple', 'pen']
+300 a's + 'b' with {a, aa, aaa}: False | memo: False
+palindromic substrings in 'aaa': 6  rungs agree: True
+palindromic substrings in 'abc': 3  rungs agree: True
+palindromic substrings in 'abba': 6  rungs agree: True
+palindromic substrings in 'racecar': 10  rungs agree: True
+palindromic substrings in '': 0  rungs agree: True
+lps('bbbab') = 4  rungs agree: True
+lps('cbbd') = 2  rungs agree: True
+lps('character') = 5  rungs agree: True
+lps('a') = 1  rungs agree: True
+lps('') = 0  rungs agree: True

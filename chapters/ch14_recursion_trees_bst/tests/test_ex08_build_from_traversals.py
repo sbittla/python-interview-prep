@@ -47,3 +47,30 @@ def test_random_round_trip(load):
         assert m.to_level(m.build_pre_in(pre, ino)) == level
         assert m.to_level(m.build_slicing(pre, ino)) == level
         assert m.to_level(m.build_post_in(post, ino)) == level
+
+
+def test_iterative_matches_recursive(load):
+    m = load("ex08_build_from_traversals")
+    tn = load("treenode")
+    rng = random.Random(1418)
+    assert m.build_pre_in_iterative([], []) is None
+    for _ in range(300):
+        root = tn.random_tree(rng, rng.randint(1, 40), lo=-50, hi=50, distinct=True)
+        pre, _ = pre_and_post(root)
+        ino = tn.inorder_values(root)
+        assert m.to_level(m.build_pre_in_iterative(pre, ino)) == tn.to_level(root)
+
+
+@pytest.mark.parametrize("side", ["left", "right"])
+def test_deep_chain_iterative(load, side):
+    m = load("ex08_build_from_traversals")
+    tn = load("treenode")
+    n = 3000                                     # the stated maximum, as one chain
+    vals = list(range(n))
+    ino = vals[::-1] if side == "left" else vals
+    root = m.build_pre_in_iterative(vals, ino)
+    assert tn.inorder_values(root) == ino
+    depth, node = 0, root
+    while node:
+        depth, node = depth + 1, getattr(node, side)
+    assert depth == n

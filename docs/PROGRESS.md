@@ -14,14 +14,23 @@ Concurrency cap: ~6 agents (hit the 5-hour usage limit at ~11).
 | 10 | PASS 9.6 | 11.0 pages |
 | 12 | PASS 9.8 | + to_rpn malformed-input fix |
 | 13 | PASS 9.7 | final polish |
-| 14 | writing | resumed |
-| 15 | writing | resumed |
-| 17 | writing | resumed |
-| 19 | writing | resumed |
-| 21 | writing | resumed |
-| 22 | writing | resumed |
+| 14 | PASS 9.75 | v1 8.35 (TODO outputs, recursion limits) → v2 9.75 |
+| 15 | PASS 9.8 | v1 9.0 (2 tech errors) → v2 9.8 |
+| 17 | PASS 9.8 | v1 9.0 (complexity claim) → v2 9.8 |
+| 19 | PASS 9.8 | v1 9.4 → v2 9.8 (+2 small fixes by orchestrator) |
+| 21 | PASS 9.9 | v1 9.0 (RK bound, period def, Fermat) → v2 9.9 |
+| 22 | PASS 9.85 | v1 9.0 → v2 9.3 (flaky ex06) → v3 9.85 |
+| 24 | PASS 9.8 | v1 9.0 → v2 9.8 (last IntEnum sentence fixed by orchestrator) |
+| 25 | PASS 9.9 | v1 9.0 (class-decorator claim) → v2 9.9 |
+| 27 | PASS 9.9 | v1 9.0 → v2 9.9 (+ lock assert tightened by orchestrator) |
+| 28 | review | r28 |
+| 30 | review | r30 |
+| 32 | fixing | r32 v1 8.65 (edge-case bugs ex01–03, stub leak) |
+| 34 | writing | w34 (session 2) |
+| 35 | writing | w35 (session 2) |
+| 37 | writing | w37 (session 2) |
 
-Queue (new chapters): 24 25 27 28 30 32 34 35 37 39 40 43 44 46 47
+Queue (new chapters): 39 40 43 44 46 47
 Queue (ch45 bank code): A 001–024 · B 025–048 · C 057–078 · D 079–098 · E 099–120 · F 121–150 · G lab01–30 · then ch45 manuscript
 Queue (complete existing chapters + manuscript): 01 05 07 09 11 16 18 20 23 26 29 31 33 36 38 41 42 48
 Last: front matter + appendices A–H, full-book check, BOOK.md build.

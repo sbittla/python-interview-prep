@@ -22,3 +22,4 @@ lca_bst(2, 4) = 2
 lca_bst(3, 5) = 4
 lca_bst(0, 5) = 2
 lca_bst(7, 9) = 8
+100,000-node chain, parent-map lca(50000, 99999): 50000

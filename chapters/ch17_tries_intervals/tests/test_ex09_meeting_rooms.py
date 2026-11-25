@@ -13,6 +13,7 @@ import pytest
 def test_rooms_all_rungs(load, meetings, rooms):
     m = load("ex09_meeting_rooms")
     assert m.min_rooms(meetings) == m.min_rooms_heap(meetings) == m.min_rooms_brute(meetings) == rooms
+    assert m.min_rooms_two_pointers(meetings) == rooms
 
 
 def test_busiest_and_wrong_tie(load):
@@ -38,6 +39,7 @@ def test_random_against_brute(load):
             meetings.append([s, s + rng.randint(1, 4)])
         rooms = m.min_rooms_brute(meetings)
         assert m.min_rooms(meetings) == m.min_rooms_heap(meetings) == rooms
+        assert m.min_rooms_two_pointers(meetings) == rooms
         count, when = m.busiest(meetings)
         assert count == rooms
         if meetings:

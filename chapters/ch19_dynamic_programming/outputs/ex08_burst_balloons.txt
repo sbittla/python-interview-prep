@@ -1,0 +1,6 @@
+max_coins([3, 1, 5, 8]) = 167  rungs agree: True
+max_coins([1, 5]) = 10  rungs agree: True
+max_coins([7]) = 7  rungs agree: True
+max_coins([]) = 0  rungs agree: True
+max_coins([2, 4, 3, 5, 1, 6]) = 276  rungs agree: True
+n=100, top-down == bottom-up: True

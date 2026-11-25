@@ -1,0 +1,18 @@
+country  revenue  orders  buyers   aov
+     US  1650.20      28      12 63.47
+     DE  1088.10      18       8 60.45
+     BR   908.11      16       9 60.54
+     IN   875.93      11       6 79.63
+unknown   227.08       3       2 75.69
+brute force matches: True
+top user per country:
+country  user_id  revenue  share
+     BR        4   222.11  0.245
+     DE        8   298.89  0.275
+     IN       16   263.09  0.300
+     US       38   273.37  0.166
+unknown        7   135.49  0.597
+shares sum to 1 per country: True
+SQL summary matches: True
+SQL share matches  : True
+agg -> one row per group: 5 | transform -> one value per input row: 37 of 37

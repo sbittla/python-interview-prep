@@ -1,0 +1,6 @@
+hand case AP: 0.833333  brute: 0.833333  trapezoid: 0.791667
+ties AP     : 0.588889  brute: 0.588889
+1% prevalence: ROC-AUC=0.846  AP=0.113  random-ranker AP ~ 0.010
+calibrated   : ECE=0.005  Brier=0.174  AP=0.8190
+overconfident: ECE=0.147  Brier=0.200  AP=0.8190
+ECE hand case: 0.0375

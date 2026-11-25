@@ -1,0 +1,5 @@
+succeeds on 3rd attempts=3 waits=[0.1, 0.2]             -> ok after 3 attempts
+gives up        attempts=3 waits=[0.1, 0.2]             -> raised ConnectionError(attempt 3 failed)
+capped delays   attempts=5 waits=[1.0, 2.0, 3.0, 3.0]   -> ok after 5 attempts
+not retryable   attempts=1 waits=[]                     -> raised KeyError('attempt 1 failed')
+retry(0): times must be >= 1

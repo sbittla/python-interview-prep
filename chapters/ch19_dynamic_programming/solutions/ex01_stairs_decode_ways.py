@@ -37,8 +37,8 @@ transition: ways(i) = sum(ways(i - s) for s in steps if s <= i); base: ways(0) =
 order: i ascending; answer: ways(n).
 1. Plain recursion — re-solves the same i again and again: O(k^n) for k step sizes
    (O(phi^n) ~ O(1.618^n) for steps (1, 2)).
-2. Memoised (top-down) — each i solved once: O(n*k) time, O(n) space, but recursion
-   depth n (Python's limit is ~1000, see section 7.21).
+2. Memoised (top-down) — each i solved once: O(n*k) time, O(n) space; recursion
+   depth ~n: hits the ~1000 limit (section 7.21) well inside the constraints; this is why we move to the table.
 3. Bottom-up table — same O(n*k) time and O(n) space, no recursion.
 4. Rolling window — ways(i) reads only the last max(steps) values: O(max(steps)) space.
 decode_ways — state: f(i) = decodings of s[i:]; transition: f(i) = f(i+1) if

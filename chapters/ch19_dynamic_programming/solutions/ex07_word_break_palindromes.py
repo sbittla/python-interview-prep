@@ -31,14 +31,15 @@ answer: ok(n).
 1. Plain recursion — try every word at every position: O(2^n) on inputs like
    "aaaa...ab" with words {"a", "aa", "aaa"}.
 2. Memoised on position — n states, each tries all W words with startswith (O(L)
-   each, L = longest word): O(n * W * L) time, O(n) space, recursion depth up to n.
+   each, L = longest word): O(n * W * L) time, O(n) space; recursion depth ~n (fails
+   at n = 1000): hits the ~1000 limit (section 7.21) well inside the constraints; this is why we move to the table.
 3. Bottom-up table — for each i try only the L cut points j in [i - L, i); slicing and
    hashing s[j:i] costs O(L): O(n * L^2) time, O(n) space; parent[i] = j rebuilds a
    split. (A rolling window of L + 1 cells would answer True/False, but not the split.)
 Palindromic substrings — state: pal(i, j) = s[i..j] is a palindrome; transition:
 s[i] == s[j] and (j - i < 2 or pal(i+1, j-1)); order: i descending (pal(i+1, ..) first).
 Brute O(n^3) -> table O(n^2) time and space -> expand around 2n-1 centres O(n^2) time,
-O(1) space (section 9.6, Chapter 9 exercise 09).
+O(1) space (section 9.5, Chapter 9 exercise 09).
 Longest palindromic subsequence — state: P(i, j) for s[i..j]; transition: 2 + P(i+1, j-1)
 if s[i] == s[j] else max(P(i+1, j), P(i, j-1)); base P(i, i) = 1, P(i, i-1) = 0;
 order: i descending, j ascending; answer P(0, n-1).

@@ -21,6 +21,8 @@ Constraints
 
 Hints
 -----
+- The memoised rung recurses ~n deep and hits the ~1000 limit (section 7.21) well inside
+  the constraints; this is why the final answer is a table.
 - Name the states first (draw the arrows), then each update is one max per state.
 - Update all three states from the OLD values (tuple assignment), or you will buy and
   sell on the same day.

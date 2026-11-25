@@ -1,0 +1,13 @@
+naive: JSONDecodeError
+good users: ['asha', 'bo', 'asha', 'ivy', 'bo', 'chen', 'ivy', 'asha', 'jo']
+total amount: 440
+  line 3: amount must be int
+  line 4: bad json
+  line 6: missing amount
+  line 7: amount must be int
+  line 8: amount < 0
+  line 9: not an object
+  line 10: bad utf-8
+budget 25%: 7/16 lines bad
+lenient decode: '{"user": "h\ufffdi", '
+empty: ([], []) | blank only: ([], [])

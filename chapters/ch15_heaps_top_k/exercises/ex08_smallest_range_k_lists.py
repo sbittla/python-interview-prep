@@ -28,7 +28,8 @@ Hints
 
 Follow-ups
 ----------
-- Lists are infinite generators: the heap version works unchanged (stop on exhaustion).
+- Lists are lazy, finite iterators: keep the iterator per list instead of an index; it still
+  stops when any one runs out (infinite sources never terminate).
 - Find the range covering at least m of the k lists: the sliding-window rung adapts,
   the heap rung does not.
 

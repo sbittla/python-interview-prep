@@ -1,0 +1,7 @@
+[[0]*3]*3 aliases: [('root[0]', 'root[1]'), ('root[0]', 'root[2]')]
+comprehension grid aliases: []
+self-containing list: [('root', 'root[1]')]
+shallow copy shares: ["root['a']", "root['b'][0]", "root['b'][1]"]
+deep copy shares: []
+tuple holding a mutated list: ([1],)
+tuple contents aliased: [('root[0]', 'root[1]')]

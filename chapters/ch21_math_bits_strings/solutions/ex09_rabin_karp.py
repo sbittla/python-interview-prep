@@ -27,15 +27,16 @@ Approach ladder
 Search:
 1. Brute force — compare at every start. O(n m).
 2. Optimal    — hash the window: h(s[i+1:i+m+1]) = (h(s[i:i+m]) - s[i]*B^(m-1)) * B + s[i+m].
-   O(n + m) expected; O(n m) worst case if (almost) every window collides, because each hit
-   is verified. Why move up: the window update is O(1) instead of O(m).
+   O(n + m + occ*m) expected, where occ = number of matches (each true match is verified
+   in O(m)); O(n m) worst case. KMP stays O(n + m) even for text "a"*n, pattern "a"*(n//2).
+   Why move up: the window update is O(1) instead of O(m).
 Longest duplicate substring:
 1. Brute force — for L from n-1 down, put every length-L substring in a set. O(n^3) time
    (O(n) slices of length L for each L), O(n^2) space per L.
 2. Binary search on L (a duplicate of length L implies one of length L-1), checking each L
    with a set of slices. O(n^2 log n) worst case.
 3. Optimal    — the same binary search, checking each L with rolling hashes (hash -> start
-   indices, verify on a hit). O(n log n) expected, O(n) space.
+   indices; slice and compare only on a hash hit). O(n log n) expected, O(n) space.
    Why move up: slicing costs O(L) per window; rolling costs O(1).
 
 Follow-ups
@@ -91,10 +92,9 @@ def _dup_of_length_hash(s: str, L: int) -> str | None:
     seen: dict[int, list[int]] = {h: [0]}
     for i in range(1, len(s) - L + 1):
         h = ((h - ord(s[i - 1]) * high) * BASE + ord(s[i - 1 + L])) % MOD
-        window = s[i:i + L]
         starts = seen.setdefault(h, [])
-        if any(s[j:j + L] == window for j in starts):     # verify against true matches
-            return window
+        if starts and any(s[j:j + L] == s[i:i + L] for j in starts):   # slice only on a hit
+            return s[i:i + L]
         starts.append(i)
     return None
 

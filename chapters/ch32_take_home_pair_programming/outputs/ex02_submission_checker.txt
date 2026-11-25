@@ -1,0 +1,18 @@
+clean: 5/5 checks pass
+  [x] readme      ok
+  [x] tests       ok
+  [x] annotations ok
+  [x] func_size   ok
+  [x] leftovers   ok
+sloppy: 0/5 checks pass
+  [ ] readme      README.md no 'how to run' heading; README.md no 'trade-offs' heading
+  [ ] tests       no tests/test_*.py
+  [ ] annotations tool/core.py:4 total
+  [ ] func_size   tool/core.py:12 long_one
+  [ ] leftovers   tool/core.py:1 import pdb; tool/core.py:5 TODO comment; tool/core.py:8 bare except
+broken: 2/5 checks pass
+  [ ] readme      README.md missing
+  [ ] tests       no tests/test_*.py
+  [x] annotations ok
+  [x] func_size   ok
+  [ ] leftovers   tool/bad.py:1 syntax error

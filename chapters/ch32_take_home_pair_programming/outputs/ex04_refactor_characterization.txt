@@ -1,0 +1,10 @@
+golden master: 208 cases, 39 distinct outcomes
+  legacy(2000, 'eu', False, False) = 1250
+  legacy(11000, 'eu', True, True) = 7600
+  legacy(1, 'mars', False, True) = 2000
+clean vs legacy mismatches: []
+tempting vs legacy mismatches: 38
+  (-1, 'domestic', False, False): legacy=0 new='raises ValueError'
+  (-1, 'domestic', False, True): legacy=0 new='raises ValueError'
+  (1000, 'intl', False, True): legacy=2000 new=1500
+  (1000, 'mars', False, True): legacy=2000 new=1500

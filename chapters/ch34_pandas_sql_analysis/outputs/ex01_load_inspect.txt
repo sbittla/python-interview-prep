@@ -1,0 +1,18 @@
+shape: (87, 5)
+ids int64: True | date is datetime: True | amount float: True | status string: True
+profile == brute force: True
+  rows: 87
+  columns: ['order_id', 'user_id', 'order_date', 'amount', 'status']
+  nulls: {'amount': 3}
+  users: 39
+  first: 2026-01-23
+  last: 2026-06-29
+first rows:
+ order_id  user_id order_date  amount   status
+     1070       32 2026-01-23  108.49 refunded
+     1008        4 2026-01-25  118.01     paid
+     1005        2 2026-01-30  111.04     paid
+type(df['amount']): Series | type(df[['amount']]): DataFrame
+a + b          : {'x': nan, 'y': 12.0, 'z': nan}
+add_aligned    : {'x': 1.0, 'y': 12.0, 'z': 5.0}
+empty profile  : {'rows': 0, 'columns': ['order_id', 'user_id', 'order_date', 'amount', 'status'], 'nulls': {}, 'users': 0, 'first': None, 'last': None}

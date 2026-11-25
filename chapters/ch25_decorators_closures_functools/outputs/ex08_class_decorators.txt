@@ -1,0 +1,5 @@
+registry: ['Csv', 'json']
+reprs: Csv(sep=',') JsonExporter(indent=2, sort_keys=False)
+duplicate: "duplicate registration: 'Csv'"
+add: 1 2 | calls = 2 | name = add | doc = Add an item; return the new size.
+without __get__: main.<locals>.Cart.add_broken() missing 1 required positional argument: 'item'

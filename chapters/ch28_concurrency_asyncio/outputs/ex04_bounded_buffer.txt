@@ -1,0 +1,6 @@
+put on full buffer: buffer full
+FIFO: a b
+get on empty buffer: buffer empty
+all 600 items consumed exactly once: True
+size never above capacity 4: True
+capacity 1, 1x1 threads: 50 items, max size 1

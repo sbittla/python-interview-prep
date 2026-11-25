@@ -8,7 +8,9 @@ Problem
    also a suffix of it.
 2. ``kmp_search(text, pattern)``: every start index where pattern occurs, overlaps included,
    ascending. An empty pattern matches at every index 0..len(text) (as ``str.find`` does).
-3. ``shortest_period(s)``: smallest p such that s is a repetition of s[:p] (len(s) if none).
+3. ``smallest_repeating_unit(s)``: smallest p such that s == s[:p] * (len(s) // p), i.e. s is
+   a whole repetition of s[:p] (len(s) if none; 0 for ""). Note: the shortest *period*
+   n - pi[n-1] always exists ("abcab" -> 3); it is a repeating unit only when it divides n.
 4. ○ ``z_function(s)``: z[i] = length of the longest common prefix of s and s[i:] (z[0] =
    len(s)); ``z_search(text, pattern)`` returns the same list as ``kmp_search``.
 
@@ -18,7 +20,7 @@ Examples
 [0, 1, 0, 1, 2, 2, 3]
 >>> kmp_search("abababa", "aba")
 [0, 2, 4]
->>> shortest_period("abcabcabc"), shortest_period("abcab")
+>>> smallest_repeating_unit("abcabcabc"), smallest_repeating_unit("abcab")
 (3, 5)
 >>> z_function("aabxaab")
 [7, 1, 0, 0, 3, 1, 0]
@@ -40,7 +42,7 @@ Approach ladder
 
 Follow-ups
 ----------
-- Repeated-substring pattern: s is periodic iff shortest_period(s) < len(s).
+- Repeated-substring pattern: s is a repetition iff smallest_repeating_unit(s) < len(s).
 - Shortest palindrome by prepending: prefix_function(s + "#" + s[::-1]).
 - Count distinct borders: follow pi[n-1], pi[pi[n-1]-1], ... down to 0.
 """
@@ -90,7 +92,7 @@ def find_all(text: str, pattern: str) -> list[int]:
     return hits
 
 
-def shortest_period(s: str) -> int:
+def smallest_repeating_unit(s: str) -> int:
     if not s:
         return 0
     p = len(s) - prefix_function(s)[-1]
@@ -128,7 +130,7 @@ def main() -> None:
         print(f"search({text!r}, {pat!r}): kmp={kmp_search(text, pat)} z={z_search(text, pat)} "
               f"find={find_all(text, pat)} brute={brute_search(text, pat)}")
     for s in ["abcabcabc", "abcab", "aaaa", "a", ""]:
-        print(f"shortest_period({s!r}) = {shortest_period(s)}")
+        print(f"smallest_repeating_unit({s!r}) = {smallest_repeating_unit(s)}")
 
 
 if __name__ == "__main__":

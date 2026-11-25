@@ -1,0 +1,16 @@
+definitions:
+  Invoice.__init__     billing:6
+  Invoice.subtotal     billing:10
+  Invoice.total        billing:13
+  apply_discount       pricing:9
+  is_vip               pricing:15
+  legacy_rate          pricing:19
+  render               billing:17
+  unit_price           pricing:5
+callers_of('unit_price') = ['Invoice.subtotal', 'legacy_rate']
+callers_of('is_vip') = ['apply_discount']
+callers_of('total') = ['render']
+callees_of('Invoice.total') = ['apply_discount', 'subtotal']
+callees_of('<module>') = ['Invoice', 'print', 'render']
+entry_points = ['legacy_rate']
+empty codebase: {} [] []

@@ -1,0 +1,25 @@
+missing per column: {'order_id': 0, 'user_id': 0, 'order_date': 0, 'amount': 3, 'status': 0} | duplicate rows: 1
+rows before/after dedup: 87 86 | NaN left: 0
+imputed rows:
+ order_id  user_id  amount
+     1001        1   67.97
+     1027       13   63.22
+     1041       17   78.37
+matches brute force: True
+countries missing: 2 | users['country'] == np.nan finds: 0
+revenue, NaN group dropped (groupby default):
+country
+BR     908.11
+DE    1145.50
+IN     875.93
+US    1650.20
+with unknown: {'BR': 908.11, 'DE': 1145.5, 'IN': 875.93, 'US': 1650.2, 'unknown': 227.08}
+SQL GROUP BY (keeps NULL) matches: True
+  pandas_sum_all_null  0.0
+  sql_sum_all_null     None
+  pandas_count         2
+  sql_count            2
+  pandas_size          3
+  sql_count_star       3
+  pandas_mean          2.0
+  sql_avg              2.0

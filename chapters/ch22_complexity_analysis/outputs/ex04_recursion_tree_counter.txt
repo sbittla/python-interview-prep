@@ -1,0 +1,15 @@
+ n  subset calls/leaves/copied   perm calls/leaves/copied   e*n!
+ 1       3     2      1                2     1      1            2.7
+ 2       7     4      4                5     2      4            5.4
+ 3      15     8     12               16     6     18           16.3
+ 4      31    16     32               65    24     96           65.2
+ 5      63    32     80              326   120    600          326.2
+ 6     127    64    192             1957   720   4320         1957.2
+ 7     255   128    448            13700  5040  35280        13700.1
+subset closed forms hold n=0..14: True
+perm closed forms hold n=0..7: True; floor(e*n!) matches n=1..14: True
+  n  naive fib calls  2F(n+1)-1  memo calls
+  5               15         15           9
+ 10              177        177          19
+ 20            21891      21891          39
+naive fib calls ratio n=20/n=19: 1.618 (phi = 1.618)

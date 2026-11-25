@@ -1,0 +1,4 @@
+direct blocking call (saw event, ticks during): (False, 0)
+asyncio.to_thread                              : (True, 3)
+loop.run_in_executor(None, ...)                : (True, 3)
+CPU work in a process pool: True

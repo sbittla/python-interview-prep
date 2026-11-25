@@ -1,0 +1,8 @@
+order_id,customer,country,item,qty,unit_price
+1001,Asha,IN,"Widget, large",2,19.99
+1002,Bo,US,Gadget,1,5.50
+1003,Asha,IN,Gizmo,3,0.10
+1004,Chen,CN,Widget,1,12.00
+1005,Bo,US,"Cable ""USB-C""",4,2.25
+1006,Dana,,Gadget,1,5.50
+1007,Chen,CN,Gizmo,10,0.10

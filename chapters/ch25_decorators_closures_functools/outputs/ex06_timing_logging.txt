@@ -1,0 +1,9 @@
+call divide(9, b=2)
+divide -> 4.5
+divide took 0.250s
+call divide(1, 0)
+divide raised ZeroDivisionError('division by zero')
+divide took 0.250s
+caller saw ZeroDivisionError
+last_elapsed: 0.25 | name: divide
+real clock gives a float >= 0: True

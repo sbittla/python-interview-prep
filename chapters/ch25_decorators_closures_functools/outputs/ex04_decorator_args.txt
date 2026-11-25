@@ -1,0 +1,7 @@
+repeat(3): [6, 6, 6] | name kept: roll
+repeat(-1) fails at decoration time: times must be >= 0
+order: 2kg rice | 5g salt
+rejected: order: invalid qty=0
+rejected: order: invalid unit='lb'
+bad check name: order: no parameter(s) ['colour']
+tag: <span>hi</span> <em>hi</em>

@@ -23,6 +23,8 @@ Constraints
 
 Hints
 -----
+- The memoised rung recurses ~n deep and hits the ~1000 limit (section 7.21) well inside
+  the constraints; this is why the final answer is a table.
 - end(i) is "ending at i", so the answer is a max over all i, not end(n-1).
 - For patience sorting, store indices in tails so you can rebuild the answer.
 - Non-decreasing variant: switch bisect_left to bisect_right.
