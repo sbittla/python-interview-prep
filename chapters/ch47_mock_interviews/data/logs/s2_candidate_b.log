@@ -1,0 +1,10 @@
+# Scripted log: mock S2, problem A (top-k frequent words), candidate B.
+00:00 START top-k frequent words
+00:50 CODE_START
+06:30 RUN 2/5
+07:10 HINT which word should a size-k min-heap pop first on ties?
+12:40 RUN 3/5
+13:30 HINT try the case where every count is equal
+17:20 RUN 5/5
+18:00 SAY uses sorted(), probably n log n
+21:30 END

@@ -29,7 +29,8 @@ Constraints
 
 Approach ladder
 ---------------
-1. Brute force (the bug) — ``registry=[]``. Looks right in a single call, fails across calls.
+1. Brute force (the bug) — ``registry=[]``. O(1) per call; looks right in a single call,
+   fails across calls.
 2. Optimal    — use ``None`` as a sentinel and create the list inside the body:
    ``if registry is None: registry = []``. O(1) extra work per call. Test with ``is None``,
    not truthiness: ``registry or []`` would wrongly replace a caller's *empty* list.

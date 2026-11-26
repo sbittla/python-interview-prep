@@ -32,11 +32,11 @@ Approach ladder
    per call but no reuse.
 2. Optimal    — return a closure that loops over the stored tuple of functions. Building is
    O(k); each call is O(k) function applications. ``functools.reduce`` gives a one-liner
-   (Chapter 6), but the loop is easier to explain and debug.
+   (§6.11), but the loop is easier to explain and debug.
 
 Follow-ups
 ----------
-- Why does ``[lambda: i for i in range(3)]`` return 2 three times? Late binding (Chapter 7).
+- Why does ``[f() for f in [lambda: i for i in range(3)]]`` give ``[2, 2, 2]``? Late binding (§7.5).
 - How would you support functions with several arguments? Make the first stage take ``*args``.
 """
 from __future__ import annotations

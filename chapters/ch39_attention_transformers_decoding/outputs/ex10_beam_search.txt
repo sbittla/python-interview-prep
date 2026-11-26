@@ -1,0 +1,13 @@
+greedy: a a a a      p=0.015
+beam k=1: a <eos>    p=0.055
+beam k=2: b <eos>    p=0.405
+beam k=3: b <eos>    p=0.405
+exhaustive: b <eos>  p=0.405
+
+length bias on a random bigram model (V=5, eos=0, max_len=6):
+  alpha=0.0: [4, 0] score=-1.245; [4, 3, 0] score=-2.204; [4, 1, 1, 1, 1, 1] score=-2.210
+  alpha=0.6: [4, 1, 1, 1, 1, 1] score=-0.754; [4, 0] score=-0.821; [4, 3, 0] score=-1.140
+  alpha=1.0: [4, 1, 1, 1, 1, 1] score=-0.368; [4, 4, 1, 1, 1, 1] score=-0.590; [4, 0] score=-0.622
+  huge beam == exhaustive (alpha=0.0): True
+  huge beam == exhaustive (alpha=0.7): True
+  huge beam == exhaustive (alpha=1.0): True

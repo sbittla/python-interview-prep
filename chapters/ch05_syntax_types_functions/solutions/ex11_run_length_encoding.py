@@ -27,7 +27,7 @@ Approach ladder
    repeated string concatenation can be O(n**2) in general because strings are immutable
    (CPython sometimes optimises it in place, but do not rely on that).
 2. Optimal    — collect pieces in a list and ``"".join`` them once at the end: O(n) time and
-   space. ``itertools.groupby`` (Chapter 6) turns encoding into a one-liner.
+   space. ``itertools.groupby`` (§6.10) turns encoding into a one-liner.
 
 Follow-ups
 ----------

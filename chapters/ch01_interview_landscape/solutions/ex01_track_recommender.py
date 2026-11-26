@@ -21,7 +21,8 @@ Rules:
    every loop contains general coding rounds). A profile with no matches gets S.
 3. "parts" is the track's part list from TRACK_PARTS. When skip_python_basics is True, Part "I"
    is removed (the reader skims it instead).
-4. "reasons" lists, in sorted order, the keywords that matched the winning track.
+4. "reasons" lists, in sorted order, the keywords that scored for the winning track: role
+   words found in its ROLE_KEYWORDS plus interest words found in its INTEREST_KEYWORDS.
 
 Examples
 --------
@@ -100,10 +101,12 @@ def recommend_track(profile: dict) -> dict:
     parts = list(TRACK_PARTS[track])
     if profile.get("skip_python_basics"):
         parts.remove("I")
-    words = tokens(profile.get("target_role", ""))
+    role_words = tokens(profile.get("target_role", ""))
+    interest_words: set[str] = set()
     for item in profile.get("interests", []):
-        words |= tokens(item)
-    reasons = sorted(words & (ROLE_KEYWORDS[track] | INTEREST_KEYWORDS[track]))
+        interest_words |= tokens(item)
+    reasons = sorted((role_words & ROLE_KEYWORDS[track])
+                     | (interest_words & INTEREST_KEYWORDS[track]))
     return {"track": track, "parts": parts, "reasons": reasons}
 
 

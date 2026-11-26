@@ -19,3 +19,9 @@ def test_big_and_squares(load, n, expected):
 ])
 def test_first_prime(load, nums, expected):
     assert load("ex06_primes_for_else").solve(nums) == expected
+
+
+def test_large_semiprime(load):
+    m = load("ex06_primes_for_else")
+    assert m.is_prime(999_983 * 1_000_003) is False      # ~10**12, factors near sqrt(n)
+    assert m.is_prime(999_983) is True

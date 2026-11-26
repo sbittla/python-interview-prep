@@ -12,6 +12,7 @@ def test_examples(load):
     ({"target_role": "LLM engineer"}, "L"),
     ({"target_role": "Engineer"}, "S"),  # no match -> S
     ({"target_role": "ML engineer", "interests": ["rag", "agents", "prompting"]}, "M"),  # tie -> M
+    ({"target_role": "backend engineer", "interests": ["rag", "agents", "prompting"]}, "S"),  # S/L tie
     ({"target_role": "engineer", "interests": ["RAG", "Embeddings"]}, "L"),
     ({"target_role": "", "interests": []}, "S"),
 ])
@@ -34,3 +35,11 @@ def test_reasons_sorted_and_input_untouched(load):
     rec = m.recommend_track(p)
     assert rec["reasons"] == ["data", "pandas", "scientist", "statistics"]
     assert p == before
+
+
+def test_reasons_only_count_scoring_keywords(load):
+    m = load("ex01_track_recommender")
+    # "ai" is an L *role* keyword; listed as an interest it scores nothing, so it is no reason.
+    rec = m.recommend_track({"target_role": "LLM engineer", "interests": ["AI", "embeddings"]})
+    assert rec["track"] == "L"
+    assert rec["reasons"] == ["embeddings", "llm"]

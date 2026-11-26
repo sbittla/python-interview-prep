@@ -52,6 +52,9 @@ Follow-ups
 - -inf vs -1e9: -1e9 gives exp(-1e9 - max) = 0 when at least one key is valid, so the two agree;
   on a fully masked row -1e9 gives a *uniform* average over every (masked) value: silent leak.
   In float16, -1e9 overflows to -inf anyway (max finite ≈ 65504).
+- Library behaviour on a fully masked row is path-dependent (torch 2.15 CPU, see ``main``):
+  SDPA returned zeros; ``nn.MultiheadAttention`` returned NaN with ``need_weights=True`` and
+  zeros with ``need_weights=False``, except its eval-mode no-grad fast path, which gave NaN.
 - PyTorch: ``F.scaled_dot_product_attention`` bool mask True = attend; ``nn.MultiheadAttention``
   bool ``attn_mask`` True = *blocked*. Opposite conventions.
 - Cross-attention: n != m (decoder queries, encoder keys); the code above already handles it.
@@ -178,6 +181,22 @@ def main() -> None:
     ref2 = F.scaled_dot_product_attention(t(Q[None]), t(K[None]), t(V[None]), attn_mask=t(mask)).numpy()[0]
     print("torch SDPA fully masked row:", ref2[1].round(3).tolist(),
           "| valid rows match:", np.allclose(ref2[[0, 2, 3]], out[[0, 2, 3]]))
+    print("nn.MultiheadAttention, fully masked row has NaN?")
+    for need_weights, training, grad in [(True, True, True), (False, True, True), (False, False, False)]:
+        has_nan = torch_mha_masked_row_is_nan(need_weights, training, grad)
+        print(f"  need_weights={need_weights!s:<5} train={training!s:<5} grad={grad!s:<5} -> {has_nan}")
+
+
+def torch_mha_masked_row_is_nan(need_weights: bool, training: bool, grad: bool) -> bool:
+    """Does torch's nn.MultiheadAttention give NaN on a fully masked query row? (path-dependent)"""
+    import torch
+    torch.manual_seed(0)
+    x = torch.randn(1, 3, 4, dtype=torch.float64)
+    allowed = torch.tensor([[True, True, False], [False, False, False], [True, True, True]])
+    mha = torch.nn.MultiheadAttention(4, 2, batch_first=True, dtype=torch.float64).train(training)
+    with torch.set_grad_enabled(grad):
+        out, _ = mha(x, x, x, attn_mask=~allowed, need_weights=need_weights)   # True = blocked
+    return bool(torch.isnan(out[0, 1]).any())
 
 
 if __name__ == "__main__":

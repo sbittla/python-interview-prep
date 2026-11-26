@@ -103,7 +103,7 @@ def main() -> None:
     print("bootstrap 95% CI median:", tuple(round(v, 3) for v in bootstrap_ci(x, np.median, seed=7)))
     print("constant data CI       :", bootstrap_ci(np.full(5, 3.0), np.mean))
     for n in (10, 100):
-        print(f"coverage n={n:<3} bootstrap={coverage('bootstrap', n):.2f}  normal={coverage('normal', n):.2f}  (target 0.95)")
+        print(f"coverage n={n:<3} bootstrap={coverage('bootstrap', n, reps=2000):.3f}  normal={coverage('normal', n, reps=2000):.3f}  (target 0.95, 2000 datasets)")
 
 
 if __name__ == "__main__":

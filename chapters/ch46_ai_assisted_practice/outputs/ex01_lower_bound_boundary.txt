@@ -1,0 +1,6 @@
+generated on typical inputs: [0, 1, 2]
+counterexample: ([0], 3) -> generated 0 oracle 1
+edge cases the generated code fails: [([5], 9)]
+fixed: counterexample = None | edge cases pass: True
+fixed agrees with bisect_left on 1000 cases: True
+complexity: {'time': 'O(log n)', 'space': 'O(1)'}

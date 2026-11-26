@@ -1,0 +1,8 @@
+one call looks right: [3, 1, 2]
+second call: [4] (expected [3, 4])
+leaks state: generated True | fixed False
+n=100: __eq__ calls generated=4950 fixed=0
+n=200: __eq__ calls generated=19900 fixed=0
+n=400: __eq__ calls generated=79800 fixed=0
+fixed: [3, 1, 2] [3, 4] []
+complexity: {'time': 'O(n)', 'space': 'O(n)'}

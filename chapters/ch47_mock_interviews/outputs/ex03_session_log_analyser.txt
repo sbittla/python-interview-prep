@@ -1,0 +1,19 @@
+l2_candidate_c: 24:10 total, first question 01:20, code 05:00, first green 16:50
+  runs=2 hints=0 own tests=1 longest gap=05:50
+  flag [communication] silent 05:50 from 16:50
+s2_candidate_a: 20:45 total, first question 01:05, code 06:40, first green 16:10
+  runs=2 hints=0 own tests=2 longest gap=02:10
+  no flags
+s2_candidate_b: 21:30 total, first question -, code 00:50, first green 17:20
+  runs=3 hints=2 own tests=0 longest gap=05:40
+  flag [clarifying] coded before asking any question
+  flag [approach] no approach stated before coding
+  flag [approach] 2 hints used
+  flag [complexity] complexity not stated before coding
+  flag [testing] no tests of your own added
+  flag [communication] silent 05:40 from 00:50
+
+Malformed logs:
+  ValueError: line 2: RUN needs passed/total, got 'five'
+  ValueError: line 3: time goes backwards
+  ValueError: log must end with END

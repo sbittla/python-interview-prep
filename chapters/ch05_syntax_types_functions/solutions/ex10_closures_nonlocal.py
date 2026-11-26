@@ -26,7 +26,8 @@ Constraints
 
 Approach ladder
 ---------------
-1. Brute force — keep the state in a module-level global and use ``global``. Works for one
+1. Brute force — keep the state in a module-level global and use ``global``. O(1) per call
+   and works for one
    counter, but two counters share the same global, and tests interfere with each other.
 2. Optimal    — keep the state in the enclosing function and rebind it from the inner
    function with ``nonlocal``. Every factory call creates a fresh scope, so counters are

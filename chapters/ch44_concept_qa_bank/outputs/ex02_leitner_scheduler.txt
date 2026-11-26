@@ -1,0 +1,12 @@
+always right, review days: [0, 1, 4, 11, 32] retired: ['py01']
+right, right, wrong, then right: [0, 1, 4, 5, 6, 9, 16, 37] lapses: 1
+deck of 102 cards, cap 25/day, 45 days
+  day  0: 25 reviews, first three ['ai17', 'al06', 'ai18']
+  day  1: 25 reviews, first three ['cc02', 'cc03', 'al08']
+  day  2: 25 reviews, first three ['ml08', 'ds06', 'ml04']
+  day  3: 25 reviews, first three ['py10', 'py13', 'te07']
+  study days: 45 | total reviews: 788
+  retired: 48 | still active: 54
+  active cards per box 0..4: [0, 0, 1, 1, 52]
+  most lapses: [('py01', 10), ('al02', 8), ('py02', 8)]
+same seed, same day -> same order: True

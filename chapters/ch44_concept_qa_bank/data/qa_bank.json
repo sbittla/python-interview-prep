@@ -1,0 +1,1546 @@
+[
+ {
+  "id": "py01",
+  "section": "44.1",
+  "question": "Why is a mutable default argument a bug?",
+  "answer": "The default is evaluated once, at `def` time, so every call that omits it shares one object. Default to `None` and create the list inside.",
+  "xref": "§7.1",
+  "tags": [
+   "references",
+   "functions"
+  ],
+  "keywords": [
+   "once",
+   "None"
+  ],
+  "book": true
+ },
+ {
+  "id": "py02",
+  "section": "44.1",
+  "question": "`is` or `==`?",
+  "answer": "`==` compares values through `__eq__`; `is` compares identity. Use `is` only for singletons such as `None`; small-int caching is a CPython detail.",
+  "xref": "§7.6",
+  "tags": [
+   "equality"
+  ],
+  "keywords": [
+   "identity",
+   "__eq__"
+  ],
+  "book": true
+ },
+ {
+  "id": "py03",
+  "section": "44.1",
+  "question": "Why does `[[0] * 3] * 3` misbehave?",
+  "answer": "The outer `* 3` repeats one reference, so every row is the same list. Build rows with `[[0] * 3 for _ in range(3)]`.",
+  "xref": "§7.3",
+  "tags": [
+   "references"
+  ],
+  "keywords": [
+   "one reference",
+   "same list"
+  ],
+  "book": true
+ },
+ {
+  "id": "py04",
+  "section": "44.1",
+  "question": "Shallow copy or deep copy?",
+  "answer": "A shallow copy (`x.copy()`, `list(x)`, `copy.copy`) is a new outer container whose elements are the same inner objects. `copy.deepcopy` also copies nested objects recursively, using a memo so shared references and cycles are handled.",
+  "xref": "§7.2",
+  "tags": [
+   "references"
+  ],
+  "keywords": [
+   "shallow",
+   "deepcopy"
+  ],
+  "book": false
+ },
+ {
+  "id": "py05",
+  "section": "44.1",
+  "question": "What is late binding in closures?",
+  "answer": "A closure reads a variable when called, not when created, so loop lambdas all see the final value. Bind early: `lambda i=i: i`.",
+  "xref": "§7.5",
+  "tags": [
+   "scope",
+   "closures"
+  ],
+  "keywords": [
+   "when called",
+   "bind early"
+  ],
+  "book": true
+ },
+ {
+  "id": "py06",
+  "section": "44.1",
+  "question": "When do you need `nonlocal`?",
+  "answer": "Assigning to a name anywhere in a function makes it local there, so `x += 1` on an outer `x` raises `UnboundLocalError`. Declare `nonlocal x` (or `global x`).",
+  "xref": "§5.8",
+  "tags": [
+   "scope"
+  ],
+  "keywords": [
+   "UnboundLocalError",
+   "nonlocal"
+  ],
+  "book": true
+ },
+ {
+  "id": "py07",
+  "section": "44.1",
+  "question": "Why can a tuple be a dict key but a list cannot?",
+  "answer": "Keys must be hashable with a hash that never changes; lists are mutable and have `__hash__ = None`. A tuple is hashable only if every element is.",
+  "xref": "§6.5",
+  "tags": [
+   "hashing"
+  ],
+  "keywords": [
+   "hashable",
+   "mutable"
+  ],
+  "book": false
+ },
+ {
+  "id": "py08",
+  "section": "44.1",
+  "question": "What if a class defines `__eq__` but not `__hash__`?",
+  "answer": "Python sets `__hash__` to `None`, so instances are unhashable. Hash the same immutable fields that `__eq__` compares.",
+  "xref": "§24.6",
+  "tags": [
+   "equality",
+   "hashing",
+   "oop"
+  ],
+  "keywords": [
+   "None",
+   "unhashable"
+  ],
+  "book": true
+ },
+ {
+  "id": "py09",
+  "section": "44.1",
+  "question": "Are type hints enforced at runtime?",
+  "answer": "No: the interpreter stores annotations but never checks them. Static checkers such as mypy or pyright check them, and libraries such as pydantic validate explicitly.",
+  "xref": "§5.9",
+  "tags": [
+   "typing"
+  ],
+  "keywords": [
+   "annotations",
+   "checkers"
+  ],
+  "book": false
+ },
+ {
+  "id": "py10",
+  "section": "44.1",
+  "question": "What does `functools.wraps` do?",
+  "answer": "It copies `__name__`, `__doc__` and other metadata onto the wrapper and sets `__wrapped__`, so `help()` and `inspect.signature` describe the original.",
+  "xref": "§25.3",
+  "tags": [
+   "decorators"
+  ],
+  "keywords": [
+   "__name__",
+   "__wrapped__"
+  ],
+  "book": true
+ },
+ {
+  "id": "py11",
+  "section": "44.1",
+  "question": "How does CPython free memory?",
+  "answer": "Reference counting frees an object when its count hits zero; a generational cycle collector (`gc`) reclaims groups that only reference each other.",
+  "xref": "§27.2",
+  "tags": [
+   "memory"
+  ],
+  "keywords": [
+   "reference counting",
+   "cycle"
+  ],
+  "book": true
+ },
+ {
+  "id": "py12",
+  "section": "44.1",
+  "question": "What does `__slots__` buy and cost?",
+  "answer": "It replaces the per-instance `__dict__` with fixed attribute slots, so each object uses less memory. You can no longer add new attributes, nor take weak references unless `__weakref__` is listed.",
+  "xref": "§27.4",
+  "tags": [
+   "memory",
+   "oop"
+  ],
+  "keywords": [
+   "__dict__",
+   "memory"
+  ],
+  "book": false
+ },
+ {
+  "id": "py13",
+  "section": "44.1",
+  "question": "What does `super()` call under multiple inheritance?",
+  "answer": "The next class after the current one in `type(self).__mro__` (a C3 linearisation), which is not necessarily the direct parent. If every class in a diamond calls `super()`, each runs exactly once.",
+  "xref": "§24.3",
+  "tags": [
+   "oop"
+  ],
+  "keywords": [
+   "next class",
+   "__mro__"
+  ],
+  "book": false
+ },
+ {
+  "id": "py14",
+  "section": "44.1",
+  "question": "Generator or list?",
+  "answer": "A generator yields items lazily, one at a time, without storing them all, and can be iterated only once. A list stores every item and supports indexing and repeated passes.",
+  "xref": "§23.4",
+  "tags": [
+   "iteration"
+  ],
+  "keywords": [
+   "lazily",
+   "once"
+  ],
+  "book": false
+ },
+ {
+  "id": "ds01",
+  "section": "44.2",
+  "question": "What does a dict lookup cost?",
+  "answer": "O(1) on average, O(n) in the worst case when many keys collide.",
+  "xref": "§6.5",
+  "tags": [
+   "hashing"
+  ],
+  "keywords": [
+   "average",
+   "collide"
+  ],
+  "book": true
+ },
+ {
+  "id": "ds02",
+  "section": "44.2",
+  "question": "Why is `list.append` O(1) if lists must grow?",
+  "answer": "Lists over-allocate in proportion to their size, so n appends copy O(n) elements in total: O(1) amortised, a worst-case bound on the total, not an average.",
+  "xref": "§22.3",
+  "tags": [
+   "amortised",
+   "lists"
+  ],
+  "keywords": [
+   "over-allocate",
+   "amortised"
+  ],
+  "book": true
+ },
+ {
+  "id": "ds03",
+  "section": "44.2",
+  "question": "Why use `deque` instead of `list.pop(0)`?",
+  "answer": "`pop(0)` shifts every remaining element, O(n); a `deque` pops either end in O(1), though indexing its middle is O(n).",
+  "xref": "§7.15",
+  "tags": [
+   "queues"
+  ],
+  "keywords": [
+   "shifts",
+   "either end"
+  ],
+  "book": true
+ },
+ {
+  "id": "ds04",
+  "section": "44.2",
+  "question": "`x in my_list` or `x in my_set`?",
+  "answer": "A list membership test is a linear scan, O(n); a set or dict hashes the key, O(1) on average. Convert once if you test membership many times.",
+  "xref": "§7.16",
+  "tags": [
+   "hashing"
+  ],
+  "keywords": [
+   "scan",
+   "hashes"
+  ],
+  "book": false
+ },
+ {
+  "id": "ds05",
+  "section": "44.2",
+  "question": "How do you get a max-heap from `heapq`?",
+  "answer": "`heapq` is a min-heap (push and pop O(log n), `heapify` O(n)). Push negated keys, or wrap items in a class with reversed `__lt__`.",
+  "xref": "§15.2",
+  "tags": [
+   "heaps"
+  ],
+  "keywords": [
+   "min-heap",
+   "negated"
+  ],
+  "book": true
+ },
+ {
+  "id": "ds06",
+  "section": "44.2",
+  "question": "Why avoid `s += piece` in a loop?",
+  "answer": "Strings are immutable, so each `+=` may copy everything: O(n²) in the worst case. `\"\".join(parts)` is reliably linear.",
+  "xref": "§7.17",
+  "tags": [
+   "strings"
+  ],
+  "keywords": [
+   "immutable",
+   "join"
+  ],
+  "book": true
+ },
+ {
+  "id": "ds07",
+  "section": "44.2",
+  "question": "What does a slice cost?",
+  "answer": "`a[i:j]` copies j − i references: O(j − i) time and extra space. So `xs = xs[1:]` inside a loop is O(n²); advance an index instead.",
+  "xref": "§8.6",
+  "tags": [
+   "lists"
+  ],
+  "keywords": [
+   "copies",
+   "index"
+  ],
+  "book": false
+ },
+ {
+  "id": "ds08",
+  "section": "44.2",
+  "question": "Big-O or Big-Θ?",
+  "answer": "Big-O is an upper bound, Big-Θ a tight one. \"Binary search is O(n)\" is true but useless, so give the tight bound.",
+  "xref": "§8.2",
+  "tags": [
+   "notation"
+  ],
+  "keywords": [
+   "upper bound",
+   "tight"
+  ],
+  "book": true
+ },
+ {
+  "id": "ds09",
+  "section": "44.2",
+  "question": "What space does a recursive tree DFS use?",
+  "answer": "O(h) for the call stack: O(log n) if balanced, O(n) if path-shaped. Deep inputs can hit CPython's default recursion limit of 1000.",
+  "xref": "§8.5",
+  "tags": [
+   "recursion"
+  ],
+  "keywords": [
+   "call stack",
+   "recursion limit"
+  ],
+  "book": true
+ },
+ {
+  "id": "ds10",
+  "section": "44.2",
+  "question": "Given n ≤ 10⁵, what complexity should you aim for?",
+  "answer": "O(n log n) or better: about 1.7·10⁶ basic steps, whereas O(n²) is 10¹⁰.",
+  "xref": "§8.7",
+  "tags": [
+   "constraints"
+  ],
+  "keywords": [
+   "n log n"
+  ],
+  "book": true
+ },
+ {
+  "id": "ds11",
+  "section": "44.2",
+  "question": "Is Python's sort stable, and why does it matter?",
+  "answer": "Yes, it is stable: equal keys keep their input order, so you can sort by a secondary key and then by the primary key. Timsort is O(n log n) worst case and O(n) on already-sorted input.",
+  "xref": "§6.12",
+  "tags": [
+   "sorting"
+  ],
+  "keywords": [
+   "stable",
+   "secondary"
+  ],
+  "book": false
+ },
+ {
+  "id": "ds12",
+  "section": "44.2",
+  "question": "What makes union-find nearly O(1) per operation?",
+  "answer": "Path compression plus union by rank (or size) give O(α(n)) amortised, where the inverse Ackermann function α(n) is at most 4 for any practical n.",
+  "xref": "§16.9",
+  "tags": [
+   "union-find",
+   "amortised"
+  ],
+  "keywords": [
+   "path compression",
+   "rank"
+  ],
+  "book": false
+ },
+ {
+  "id": "ds13",
+  "section": "44.2",
+  "question": "When is a trie better than a hash set of words?",
+  "answer": "When you need prefix queries such as autocomplete or starts-with: a trie checks a prefix of length L in O(L), then walks only the matching subtree. A hash set answers only exact membership.",
+  "xref": "§17.1",
+  "tags": [
+   "tries"
+  ],
+  "keywords": [
+   "prefix",
+   "exact"
+  ],
+  "book": false
+ },
+ {
+  "id": "al01",
+  "section": "44.3",
+  "question": "Which signals point to a sliding window?",
+  "answer": "A contiguous subarray or substring, a longest, shortest or at-most-k goal, and a condition monotone in window size. Each index enters and leaves once: O(n).",
+  "xref": "§10.5",
+  "tags": [
+   "sliding-window"
+  ],
+  "keywords": [
+   "contiguous",
+   "monotone"
+  ],
+  "book": true
+ },
+ {
+  "id": "al02",
+  "section": "44.3",
+  "question": "Why prefix sums, not a window, for \"count subarrays summing to k\"?",
+  "answer": "Negative numbers break the window's shrink rule. Count earlier prefix sums equal to `prefix - k` in a dict: O(n).",
+  "xref": "§10.9",
+  "tags": [
+   "prefix-sums"
+  ],
+  "keywords": [
+   "negative",
+   "prefix sums"
+  ],
+  "book": true
+ },
+ {
+  "id": "al03",
+  "section": "44.3",
+  "question": "When does binary search on the answer apply?",
+  "answer": "When feasibility is monotone: if x works, so does every larger x (or every smaller). Search for the boundary in O(log(range) × cost of a check).",
+  "xref": "§11.4",
+  "tags": [
+   "binary-search"
+  ],
+  "keywords": [
+   "monotone",
+   "feasibility"
+  ],
+  "book": true
+ },
+ {
+  "id": "al04",
+  "section": "44.3",
+  "question": "Why BFS for shortest paths in an unweighted graph?",
+  "answer": "BFS reaches nodes in order of distance, so the first visit is along a shortest path. DFS finds a path, not necessarily the shortest.",
+  "xref": "§16.3",
+  "tags": [
+   "graphs"
+  ],
+  "keywords": [
+   "order of distance",
+   "first visit"
+  ],
+  "book": true
+ },
+ {
+  "id": "al05",
+  "section": "44.3",
+  "question": "When does Dijkstra's algorithm fail?",
+  "answer": "With negative edge weights: it finalises a node when popped, assuming no later path is shorter. Use Bellman-Ford, O(VE), which also detects negative cycles.",
+  "xref": "§16.10",
+  "tags": [
+   "graphs"
+  ],
+  "keywords": [
+   "negative",
+   "Bellman-Ford"
+  ],
+  "book": true
+ },
+ {
+  "id": "al06",
+  "section": "44.3",
+  "question": "How does Kahn's algorithm detect a cycle?",
+  "answer": "It repeatedly removes nodes with in-degree 0; if fewer than V nodes come out, the rest are on a cycle or downstream of one.",
+  "xref": "§16.8",
+  "tags": [
+   "graphs"
+  ],
+  "keywords": [
+   "in-degree",
+   "cycle"
+  ],
+  "book": false
+ },
+ {
+  "id": "al07",
+  "section": "44.3",
+  "question": "What two properties signal dynamic programming?",
+  "answer": "Overlapping subproblems (the same subproblem recurs) and optimal substructure (an optimal answer combines optimal answers to subproblems). Then write the state, transition and base case.",
+  "xref": "§19.1",
+  "tags": [
+   "dp"
+  ],
+  "keywords": [
+   "overlapping",
+   "optimal substructure"
+  ],
+  "book": true
+ },
+ {
+  "id": "al08",
+  "section": "44.3",
+  "question": "Greedy or DP?",
+  "answer": "Greedy needs an exchange argument proving the local choice safe. A counterexample (coins 1, 3, 4 and amount 6: greedy uses 3 coins, the optimum 2) means DP.",
+  "xref": "§20.7",
+  "tags": [
+   "greedy",
+   "dp"
+  ],
+  "keywords": [
+   "exchange argument",
+   "counterexample"
+  ],
+  "book": true
+ },
+ {
+  "id": "al09",
+  "section": "44.3",
+  "question": "What is the backtracking template?",
+  "answer": "Choose an option, recurse, then undo the choice so the shared state is clean for the next option. Prune any branch that cannot lead to a valid answer as early as possible.",
+  "xref": "§18.1",
+  "tags": [
+   "backtracking"
+  ],
+  "keywords": [
+   "undo",
+   "prune"
+  ],
+  "book": false
+ },
+ {
+  "id": "al10",
+  "section": "44.3",
+  "question": "What does a monotonic stack solve?",
+  "answer": "Next-greater and next-smaller questions in O(n): each index is pushed once and popped at most once, when the current item answers it.",
+  "xref": "§12.4",
+  "tags": [
+   "stacks"
+  ],
+  "keywords": [
+   "next-greater",
+   "at most once"
+  ],
+  "book": true
+ },
+ {
+  "id": "al11",
+  "section": "44.3",
+  "question": "How do you detect a linked-list cycle in O(1) space?",
+  "answer": "Floyd's algorithm: a slow pointer moves one step and a fast pointer two; they meet if and only if there is a cycle. Then reset one pointer to the head and step both by one; they meet at the cycle start.",
+  "xref": "§13.4",
+  "tags": [
+   "linked-lists"
+  ],
+  "keywords": [
+   "slow",
+   "fast"
+  ],
+  "book": false
+ },
+ {
+  "id": "al12",
+  "section": "44.3",
+  "question": "Kth largest: heap or quickselect?",
+  "answer": "A size-k min-heap costs O(n log k) time and O(k) space and works on a stream. Quickselect is O(n) expected but O(n²) worst case and needs the whole array in memory.",
+  "xref": "§15.5",
+  "tags": [
+   "heaps",
+   "selection"
+  ],
+  "keywords": [
+   "min-heap",
+   "quickselect"
+  ],
+  "book": false
+ },
+ {
+  "id": "al13",
+  "section": "44.3",
+  "question": "Why is merge sort O(n log n)?",
+  "answer": "T(n) = 2T(n/2) + O(n): halving gives log n levels and each level does O(n) merging in total, which is case 2 of the Master Theorem.",
+  "xref": "§22.2",
+  "tags": [
+   "recurrences",
+   "sorting"
+  ],
+  "keywords": [
+   "levels",
+   "Master Theorem"
+  ],
+  "book": false
+ },
+ {
+  "id": "cc01",
+  "section": "44.4",
+  "question": "What does the GIL limit?",
+  "answer": "In default CPython one thread runs bytecode at a time, so CPU-bound threads do not run in parallel. It does not make code thread-safe: `x += 1` can lose updates.",
+  "xref": "§27.5",
+  "tags": [
+   "gil"
+  ],
+  "keywords": [
+   "one thread",
+   "thread-safe"
+  ],
+  "book": true
+ },
+ {
+  "id": "cc02",
+  "section": "44.4",
+  "question": "Threads, processes or asyncio for CPU-bound pure Python?",
+  "answer": "Processes, such as `ProcessPoolExecutor`: one GIL each on the default build. Threads suit blocking I/O; asyncio suits thousands of sockets.",
+  "xref": "§27.7",
+  "tags": [
+   "gil",
+   "concurrency"
+  ],
+  "keywords": [
+   "processes",
+   "one GIL each"
+  ],
+  "book": true
+ },
+ {
+  "id": "cc03",
+  "section": "44.4",
+  "question": "What is the status of free-threaded Python?",
+  "answer": "Experimental in 3.13 (PEP 703); officially supported in 3.14 (PEP 779) but still opt-in, with single-thread overhead and C extensions that must declare support.",
+  "xref": "§27.6",
+  "tags": [
+   "gil"
+  ],
+  "keywords": [
+   "opt-in",
+   "experimental"
+  ],
+  "book": true
+ },
+ {
+  "id": "cc04",
+  "section": "44.4",
+  "question": "Concurrency or parallelism?",
+  "answer": "Concurrency is tasks in progress over the same period, taking turns. Parallelism is tasks executing at the same instant on different cores.",
+  "xref": "§28.1",
+  "tags": [
+   "concurrency"
+  ],
+  "keywords": [
+   "taking turns",
+   "same instant"
+  ],
+  "book": true
+ },
+ {
+  "id": "cc05",
+  "section": "44.4",
+  "question": "How do you fix a check-then-act race?",
+  "answer": "Hold one lock across both the check and the act, or give each thread private data and combine after `join()`. Locking only the write still lets two threads pass the check.",
+  "xref": "§28.2",
+  "tags": [
+   "threading"
+  ],
+  "keywords": [
+   "one lock",
+   "check"
+  ],
+  "book": false
+ },
+ {
+  "id": "cc06",
+  "section": "44.4",
+  "question": "What if you call a coroutine function without `await`?",
+  "answer": "You get a coroutine object that never runs, plus a \"never awaited\" warning. Await it, or wrap it in a Task.",
+  "xref": "§28.5",
+  "tags": [
+   "asyncio"
+  ],
+  "keywords": [
+   "coroutine object",
+   "never awaited"
+  ],
+  "book": true
+ },
+ {
+  "id": "cc07",
+  "section": "44.4",
+  "question": "Why is `time.sleep` inside `async def` a bug?",
+  "answer": "It blocks the event loop's thread, so every task stalls. Use `await asyncio.sleep(...)`, or run blocking work via `asyncio.to_thread`.",
+  "xref": "§28.9",
+  "tags": [
+   "asyncio"
+  ],
+  "keywords": [
+   "event loop",
+   "to_thread"
+  ],
+  "book": true
+ },
+ {
+  "id": "cc08",
+  "section": "44.4",
+  "question": "`gather` or `TaskGroup` when a task fails?",
+  "answer": "`gather` propagates the first exception but leaves the siblings running; `TaskGroup` (3.11+) cancels them and raises an `ExceptionGroup`.",
+  "xref": "§28.6",
+  "tags": [
+   "asyncio"
+  ],
+  "keywords": [
+   "siblings",
+   "ExceptionGroup"
+  ],
+  "book": true
+ },
+ {
+  "id": "cc09",
+  "section": "44.4",
+  "question": "How do you cap concurrent requests in asyncio?",
+  "answer": "Share one `asyncio.Semaphore(k)` and wrap each request in `async with sem:`. At most k run at once, and `gather` still returns results in input order.",
+  "xref": "§28.8",
+  "tags": [
+   "asyncio"
+  ],
+  "keywords": [
+   "Semaphore",
+   "async with"
+  ],
+  "book": false
+ },
+ {
+  "id": "cc10",
+  "section": "44.4",
+  "question": "Why must you re-raise `CancelledError`?",
+  "answer": "Swallowing it breaks timeouts, `TaskGroup` and shutdown. Clean up in `finally` and let it propagate.",
+  "xref": "§28.7",
+  "tags": [
+   "asyncio"
+  ],
+  "keywords": [
+   "finally",
+   "propagate"
+  ],
+  "book": true
+ },
+ {
+  "id": "cc11",
+  "section": "44.4",
+  "question": "How do you find where the time goes before optimising?",
+  "answer": "Profile with `cProfile` and sort by `tottime` to find the hotspot, then confirm the fix with `timeit`, comparing the minimum of several repeats.",
+  "xref": "§22.8",
+  "tags": [
+   "profiling"
+  ],
+  "keywords": [
+   "cProfile",
+   "timeit"
+  ],
+  "book": false
+ },
+ {
+  "id": "cc12",
+  "section": "44.4",
+  "question": "Why can `ProcessPoolExecutor` be slower than a plain loop?",
+  "answer": "Every task pays to pickle its arguments and result, and workers cost time to start, so tiny tasks lose. Send work in larger chunks and define the worker at module top level so it can be pickled.",
+  "xref": "§28.4",
+  "tags": [
+   "processes"
+  ],
+  "keywords": [
+   "pickle",
+   "chunks"
+  ],
+  "book": false
+ },
+ {
+  "id": "te01",
+  "section": "44.5",
+  "question": "Fixture or parametrize?",
+  "answer": "A fixture supplies setup, and teardown after `yield`, to each test that names it; `@pytest.mark.parametrize` runs one test body over many cases.",
+  "xref": "§31.1",
+  "tags": [
+   "pytest"
+  ],
+  "keywords": [
+   "fixture",
+   "parametrize"
+  ],
+  "book": true
+ },
+ {
+  "id": "te02",
+  "section": "44.5",
+  "question": "Which test cases should every function get?",
+  "answer": "The happy path, edges (empty, one item, duplicates, extremes), errors that must raise, and a property check against a brute-force oracle.",
+  "xref": "§31.2",
+  "tags": [
+   "testing"
+  ],
+  "keywords": [
+   "happy path",
+   "brute-force"
+  ],
+  "book": true
+ },
+ {
+  "id": "te03",
+  "section": "44.5",
+  "question": "Where do you point `unittest.mock.patch`?",
+  "answer": "At the name where it is looked up, not where it is defined: if `app.py` does `from api import fetch`, patch `app.fetch`.",
+  "xref": "§31.3",
+  "tags": [
+   "mocking"
+  ],
+  "keywords": [
+   "looked up",
+   "app.fetch"
+  ],
+  "book": true
+ },
+ {
+  "id": "te04",
+  "section": "44.5",
+  "question": "What is the debugging-round loop?",
+  "answer": "Reproduce with a failing test, isolate the smallest failing case, fix the cause, then verify with that test plus the existing suite.",
+  "xref": "§31.4",
+  "tags": [
+   "debugging"
+  ],
+  "keywords": [
+   "reproduce",
+   "isolate"
+  ],
+  "book": true
+ },
+ {
+  "id": "te05",
+  "section": "44.5",
+  "question": "How do you read a traceback fast?",
+  "answer": "Read the last line first (type and message), then walk up to the deepest frame in your own code. Chained exceptions print the original one first.",
+  "xref": "§31.6",
+  "tags": [
+   "debugging"
+  ],
+  "keywords": [
+   "last line",
+   "frame"
+  ],
+  "book": true
+ },
+ {
+  "id": "te06",
+  "section": "44.5",
+  "question": "What do you check first in a code review?",
+  "answer": "Correctness and edge cases, then complexity, then safety (input validation, secrets, leaked resources), then readability. Phrase each finding as a specific, actionable suggestion.",
+  "xref": "§31.8",
+  "tags": [
+   "code-review"
+  ],
+  "keywords": [
+   "correctness",
+   "actionable"
+  ],
+  "book": false
+ },
+ {
+  "id": "te07",
+  "section": "44.5",
+  "question": "How do you build an O(1) LRU cache?",
+  "answer": "A dict maps keys to nodes of a doubly linked list in recency order: `get` moves a node to the front, `put` evicts the tail. Or use `OrderedDict`.",
+  "xref": "§29.2",
+  "tags": [
+   "design"
+  ],
+  "keywords": [
+   "doubly linked list",
+   "OrderedDict"
+  ],
+  "book": true
+ },
+ {
+  "id": "te08",
+  "section": "44.5",
+  "question": "Fixed-window or token-bucket rate limiter?",
+  "answer": "A fixed window can admit twice the limit in a burst across a boundary. A token bucket refills steadily up to a capacity: bounded bursts, smooth average.",
+  "xref": "§29.5",
+  "tags": [
+   "design"
+  ],
+  "keywords": [
+   "boundary",
+   "refills"
+  ],
+  "book": true
+ },
+ {
+  "id": "te09",
+  "section": "44.5",
+  "question": "What can a Bloom filter get wrong?",
+  "answer": "It can report false positives but never false negatives, provided nothing is deleted. It trades a tunable error rate for far less memory than a set.",
+  "xref": "§29.11",
+  "tags": [
+   "design",
+   "probabilistic"
+  ],
+  "keywords": [
+   "false positives",
+   "false negatives"
+  ],
+  "book": false
+ },
+ {
+  "id": "te10",
+  "section": "44.5",
+  "question": "WHERE or HAVING?",
+  "answer": "WHERE filters rows before grouping and cannot use aggregates; HAVING filters groups after GROUP BY and can.",
+  "xref": "§30.6",
+  "tags": [
+   "sql"
+  ],
+  "keywords": [
+   "before grouping",
+   "aggregates"
+  ],
+  "book": true
+ },
+ {
+  "id": "te11",
+  "section": "44.5",
+  "question": "How do ROW_NUMBER, RANK and DENSE_RANK treat ties?",
+  "answer": "For the values 120, 120, 100 in descending order, ROW_NUMBER gives 1, 2, 3; RANK gives 1, 1, 3; DENSE_RANK gives 1, 1, 2.",
+  "xref": "§30.9",
+  "tags": [
+   "sql"
+  ],
+  "keywords": [
+   "RANK",
+   "DENSE_RANK"
+  ],
+  "book": false
+ },
+ {
+  "id": "te12",
+  "section": "44.5",
+  "question": "Why is `pickle.load` on untrusted bytes dangerous?",
+  "answer": "Unpickling can run arbitrary code chosen by whoever produced the bytes. Use JSON for untrusted input, and authenticate any pickle you must accept.",
+  "xref": "§7.27",
+  "tags": [
+   "security"
+  ],
+  "keywords": [
+   "arbitrary code",
+   "JSON"
+  ],
+  "book": false
+ },
+ {
+  "id": "te13",
+  "section": "44.5",
+  "question": "What do take-home reviewers grade beyond correctness?",
+  "answer": "Structure, tests of edge and error cases runnable with one command, a README with how to run, assumptions and trade-offs, and no leftover debris such as `breakpoint()` calls.",
+  "xref": "§32.3",
+  "tags": [
+   "take-home"
+  ],
+  "keywords": [
+   "README",
+   "tests"
+  ],
+  "book": false
+ },
+ {
+  "id": "ml01",
+  "section": "44.6",
+  "question": "Precision or recall?",
+  "answer": "Precision = TP/(TP+FP), the flagged items that are right; recall = TP/(TP+FN), the positives found. Favour recall when misses cost most.",
+  "xref": "§35.7",
+  "tags": [
+   "metrics"
+  ],
+  "keywords": [
+   "flagged",
+   "found"
+  ],
+  "book": true
+ },
+ {
+  "id": "ml02",
+  "section": "44.6",
+  "question": "Why can 99 % accuracy be useless?",
+  "answer": "With 1 % positives, always predicting negative scores 99 %. Report precision, recall or average precision instead.",
+  "xref": "§35.7",
+  "tags": [
+   "metrics",
+   "imbalance"
+  ],
+  "keywords": [
+   "positives",
+   "average precision"
+  ],
+  "book": true
+ },
+ {
+  "id": "ml03",
+  "section": "44.6",
+  "question": "What does ROC-AUC measure?",
+  "answer": "The chance that a random positive scores above a random negative, ties counting half. It is threshold-free but flatters rare-positive models; check average precision too.",
+  "xref": "§35.7",
+  "tags": [
+   "metrics"
+  ],
+  "keywords": [
+   "random positive",
+   "threshold-free"
+  ],
+  "book": true
+ },
+ {
+  "id": "ml04",
+  "section": "44.6",
+  "question": "How does a percentile bootstrap confidence interval work?",
+  "answer": "Resample the data with replacement B times, compute the statistic on each resample, and take the α/2 and 1 − α/2 quantiles. It handles medians, ratios and AUC, but undercovers on small samples.",
+  "xref": "§35.5",
+  "tags": [
+   "statistics"
+  ],
+  "keywords": [
+   "with replacement",
+   "quantiles"
+  ],
+  "book": false
+ },
+ {
+  "id": "ml05",
+  "section": "44.6",
+  "question": "What does a p-value mean?",
+  "answer": "Assuming the null hypothesis is true, the probability of a result at least as extreme as the one observed. It is not the probability that the null is true.",
+  "xref": "§35.6",
+  "tags": [
+   "statistics"
+  ],
+  "keywords": [
+   "null hypothesis",
+   "extreme"
+  ],
+  "book": true
+ },
+ {
+  "id": "ml06",
+  "section": "44.6",
+  "question": "What is a classic cross-validation leakage bug?",
+  "answer": "Fitting a scaler, imputer or feature selector on all the data before splitting. Fit preprocessing inside each fold.",
+  "xref": "§35.11",
+  "tags": [
+   "leakage"
+  ],
+  "keywords": [
+   "before splitting",
+   "each fold"
+  ],
+  "book": true
+ },
+ {
+  "id": "ml07",
+  "section": "44.6",
+  "question": "Why subtract the max logit before softmax?",
+  "answer": "Large logits overflow `exp`; softmax ignores a constant shift, so subtracting the max keeps every exponent at most 0. Log-sum-exp applies the same trick to cross-entropy.",
+  "xref": "§35.10",
+  "tags": [
+   "numerics"
+  ],
+  "keywords": [
+   "overflow",
+   "log-sum-exp"
+  ],
+  "book": true
+ },
+ {
+  "id": "ml08",
+  "section": "44.6",
+  "question": "MSE or MAE?",
+  "answer": "MSE squares errors, so outliers dominate and the best constant prediction is the mean. MAE is more robust to outliers, and its best constant is the median.",
+  "xref": "§35.8",
+  "tags": [
+   "metrics"
+  ],
+  "keywords": [
+   "mean",
+   "median"
+  ],
+  "book": true
+ },
+ {
+  "id": "ml09",
+  "section": "44.6",
+  "question": "What does NDCG reward?",
+  "answer": "Highly relevant items near the top: each gain is divided by log₂(rank + 1), and the sum is normalised by the ideal ordering's DCG, so scores lie in [0, 1].",
+  "xref": "§35.9",
+  "tags": [
+   "ranking",
+   "metrics"
+  ],
+  "keywords": [
+   "ideal",
+   "log"
+  ],
+  "book": false
+ },
+ {
+  "id": "ml10",
+  "section": "44.6",
+  "question": "L1 or L2 regularisation?",
+  "answer": "L2 shrinks all weights smoothly toward zero; L1 drives many weights exactly to zero, giving sparse models and implicit feature selection.",
+  "xref": "§36.10",
+  "tags": [
+   "regularisation"
+  ],
+  "keywords": [
+   "sparse",
+   "exactly to zero"
+  ],
+  "book": false
+ },
+ {
+  "id": "ml11",
+  "section": "44.6",
+  "question": "What does `model.eval()` change in PyTorch?",
+  "answer": "Dropout turns off and batch norm uses its running statistics. Gradients are still tracked, so wrap inference in `torch.no_grad()`.",
+  "xref": "§37.5",
+  "tags": [
+   "pytorch"
+  ],
+  "keywords": [
+   "dropout",
+   "no_grad"
+  ],
+  "book": true
+ },
+ {
+  "id": "ml12",
+  "section": "44.6",
+  "question": "Why call `optimizer.zero_grad()` every step?",
+  "answer": "`backward()` adds into each parameter's `.grad`, so without clearing, gradients from earlier batches accumulate. Gradient accumulation exploits exactly this on purpose.",
+  "xref": "§37.1",
+  "tags": [
+   "pytorch"
+  ],
+  "keywords": [
+   "adds",
+   "accumulate"
+  ],
+  "book": false
+ },
+ {
+  "id": "ml13",
+  "section": "44.6",
+  "question": "What are NumPy's broadcasting rules?",
+  "answer": "Align shapes from the right; two dimensions are compatible if they are equal or one of them is 1, and missing leading dimensions count as 1.",
+  "xref": "§33.3",
+  "tags": [
+   "numpy"
+  ],
+  "keywords": [
+   "right",
+   "equal"
+  ],
+  "book": false
+ },
+ {
+  "id": "ml14",
+  "section": "44.6",
+  "question": "`groupby().agg` or `groupby().transform`?",
+  "answer": "`agg` returns one row per group; `transform` returns one value per input row aligned to the original index, like `SUM(x) OVER (PARTITION BY k)`.",
+  "xref": "§34.4",
+  "tags": [
+   "pandas"
+  ],
+  "keywords": [
+   "per group",
+   "input row"
+  ],
+  "book": false
+ },
+ {
+  "id": "ai01",
+  "section": "44.7",
+  "question": "Why scale attention scores by 1/√d_k?",
+  "answer": "With independent zero-mean, unit-variance components, a query–key dot product has variance d_k; large scores saturate softmax and shrink gradients. Scaling restores a variance of about 1.",
+  "xref": "§39.1",
+  "tags": [
+   "attention"
+  ],
+  "keywords": [
+   "variance",
+   "softmax"
+  ],
+  "book": true
+ },
+ {
+  "id": "ai02",
+  "section": "44.7",
+  "question": "What does a causal mask do?",
+  "answer": "It sets future positions' scores to −∞ before softmax, so position t attends only to positions up to t. Training then predicts every next token in parallel.",
+  "xref": "§39.3",
+  "tags": [
+   "attention"
+  ],
+  "keywords": [
+   "future",
+   "parallel"
+  ],
+  "book": true
+ },
+ {
+  "id": "ai03",
+  "section": "44.7",
+  "question": "What does a KV cache save, and what does it cost?",
+  "answer": "It keeps each layer's past keys and values, so a new token computes only its own. Memory ≈ 2 × layers × kv_heads × head_dim × tokens × bytes, per sequence.",
+  "xref": "§39.7",
+  "tags": [
+   "inference"
+  ],
+  "keywords": [
+   "keys and values",
+   "per sequence"
+  ],
+  "book": true
+ },
+ {
+  "id": "ai04",
+  "section": "44.7",
+  "question": "What do temperature, top-k and top-p do?",
+  "answer": "Temperature divides the logits (below 1 sharpens, above 1 flattens). Top-k keeps the k likeliest tokens; top-p the smallest set whose total probability reaches p.",
+  "xref": "§39.8",
+  "tags": [
+   "decoding"
+  ],
+  "keywords": [
+   "divides the logits",
+   "smallest set"
+  ],
+  "book": true
+ },
+ {
+  "id": "ai05",
+  "section": "44.7",
+  "question": "Why tokenise into subwords?",
+  "answer": "A fixed, modest vocabulary can still encode any text: common words become single tokens and rare words split into pieces. Byte-level BPE needs no unknown token at all.",
+  "xref": "§38.1",
+  "tags": [
+   "tokenisation"
+  ],
+  "keywords": [
+   "vocabulary",
+   "rare words"
+  ],
+  "book": false
+ },
+ {
+  "id": "ai06",
+  "section": "44.7",
+  "question": "Cosine similarity or dot product?",
+  "answer": "Cosine similarity is the dot product of L2-normalised vectors, so it ignores vector length. Once embeddings are normalised, both give the same ranking.",
+  "xref": "§38.5",
+  "tags": [
+   "embeddings"
+  ],
+  "keywords": [
+   "normalised",
+   "length"
+  ],
+  "book": false
+ },
+ {
+  "id": "ai07",
+  "section": "44.7",
+  "question": "Why combine BM25 with dense retrieval?",
+  "answer": "BM25 matches exact rare terms such as IDs and error codes; dense embeddings match paraphrases. Fusing the two ranked lists covers each one's misses.",
+  "xref": "§40.4",
+  "tags": [
+   "retrieval"
+  ],
+  "keywords": [
+   "exact",
+   "paraphrases"
+  ],
+  "book": false
+ },
+ {
+  "id": "ai08",
+  "section": "44.7",
+  "question": "How does reciprocal rank fusion score a document?",
+  "answer": "It sums 1 / (k + rank) over the ranked lists, commonly with k = 60. Only ranks matter, so the retrievers' scores need no calibration.",
+  "xref": "§40.5",
+  "tags": [
+   "retrieval"
+  ],
+  "keywords": [
+   "rank",
+   "calibration"
+  ],
+  "book": true
+ },
+ {
+  "id": "ai09",
+  "section": "44.7",
+  "question": "Why add a cross-encoder reranker?",
+  "answer": "A cross-encoder reads query and document together, so it is more accurate than comparing separate embeddings, but far too slow for the whole corpus. Retrieve a few dozen candidates cheaply, then rerank only those.",
+  "xref": "§40.6",
+  "tags": [
+   "retrieval"
+  ],
+  "keywords": [
+   "together",
+   "rerank"
+  ],
+  "book": false
+ },
+ {
+  "id": "ai10",
+  "section": "44.7",
+  "question": "Retrieval recall or faithfulness?",
+  "answer": "Measure both: Recall@K checks that the right chunks were retrieved; faithfulness checks that the answer's claims are supported by them. Either can fail alone.",
+  "xref": "§40.9",
+  "tags": [
+   "evaluation"
+  ],
+  "keywords": [
+   "Recall@K",
+   "supported"
+  ],
+  "book": true
+ },
+ {
+  "id": "ai11",
+  "section": "44.7",
+  "question": "What are three LLM-as-judge pitfalls?",
+  "answer": "Position bias, verbosity bias and self-preference for the judge's own style. Swap answer order, score against a rubric and check the judge's agreement with human labels.",
+  "xref": "§40.10",
+  "tags": [
+   "evaluation"
+  ],
+  "keywords": [
+   "position bias",
+   "human labels"
+  ],
+  "book": false
+ },
+ {
+  "id": "ai12",
+  "section": "44.7",
+  "question": "Why must an agent loop have a step limit?",
+  "answer": "A model can call tools or repeat itself indefinitely; a maximum step count, and a token budget, guarantee termination with a clear error.",
+  "xref": "§41.2",
+  "tags": [
+   "agents"
+  ],
+  "keywords": [
+   "step",
+   "termination"
+  ],
+  "book": false
+ },
+ {
+  "id": "ai13",
+  "section": "44.7",
+  "question": "What do you do when a structured output fails validation?",
+  "answer": "Validate it against the schema and retry with the validation error in the prompt a bounded number of times, then fail loudly.",
+  "xref": "§41.4",
+  "tags": [
+   "agents"
+  ],
+  "keywords": [
+   "schema",
+   "retry"
+  ],
+  "book": false
+ },
+ {
+  "id": "ai14",
+  "section": "44.7",
+  "question": "Why exponential backoff with jitter?",
+  "answer": "Backoff lets an overloaded service recover; jitter stops clients retrying in synchronised waves. Retry only idempotent (or idempotency-keyed) requests.",
+  "xref": "§42.3",
+  "tags": [
+   "production"
+  ],
+  "keywords": [
+   "jitter",
+   "idempotent"
+  ],
+  "book": true
+ },
+ {
+  "id": "ai15",
+  "section": "44.7",
+  "question": "What is prompt injection?",
+  "answer": "Instructions in untrusted content (web pages, documents, tool output) that the model may obey. Treat that content as data, give tools least privilege, confirm side effects.",
+  "xref": "§42.11",
+  "tags": [
+   "safety"
+  ],
+  "keywords": [
+   "untrusted",
+   "least privilege"
+  ],
+  "book": true
+ },
+ {
+  "id": "ai16",
+  "section": "44.7",
+  "question": "How much memory do a 7B-parameter model's fp16 weights need?",
+  "answer": "About 7·10⁹ × 2 bytes ≈ 14 GB, before the KV cache and activations. 8-bit weights halve that and 4-bit weights roughly quarter it.",
+  "xref": "§42.12",
+  "tags": [
+   "inference"
+  ],
+  "keywords": [
+   "2 bytes",
+   "KV cache"
+  ],
+  "book": false
+ },
+ {
+  "id": "ai17",
+  "section": "44.7",
+  "question": "How many parameters does a rank-r LoRA adapter add to a d_out × d_in weight?",
+  "answer": "r × (d_in + d_out): B is d_out × r and A is r × d_in, against d_out × d_in for full fine-tuning of that matrix.",
+  "xref": "§42.12",
+  "tags": [
+   "inference"
+  ],
+  "keywords": [
+   "d_in",
+   "full fine-tuning"
+  ],
+  "book": false
+ },
+ {
+  "id": "ai18",
+  "section": "44.7",
+  "question": "Static or continuous batching?",
+  "answer": "Static batching holds the batch until its longest request finishes; continuous batching admits new requests and retires finished ones at every decoding step, keeping the accelerator busy.",
+  "xref": "§42.9",
+  "tags": [
+   "inference"
+  ],
+  "keywords": [
+   "longest request",
+   "every decoding step"
+  ],
+  "book": false
+ },
+ {
+  "id": "py15",
+  "section": "44.1",
+  "question": "What does `raise NewError(...) from exc` do?",
+  "answer": "It sets `__cause__`, so the traceback shows the original exception as the direct cause of the new one. Writing `from None` suppresses the implicit context instead.",
+  "xref": "§26.2",
+  "tags": [
+   "exceptions"
+  ],
+  "keywords": [
+   "__cause__",
+   "from None"
+  ],
+  "book": false
+ },
+ {
+  "id": "ds14",
+  "section": "44.2",
+  "question": "How do you group anagrams efficiently?",
+  "answer": "Use a dict keyed by a signature: the sorted letters, O(L log L) per word, or, for a–z text, a tuple of 26 letter counts, O(L). Words with equal signatures are anagrams.",
+  "xref": "§9.4",
+  "tags": [
+   "hashing",
+   "strings"
+  ],
+  "keywords": [
+   "signature",
+   "counts"
+  ],
+  "book": false
+ },
+ {
+  "id": "al14",
+  "section": "44.3",
+  "question": "Why is comparing each node with its children not enough to validate a BST?",
+  "answer": "The BST property covers whole subtrees: a deep left descendant can still exceed an ancestor. Pass (low, high) bounds down the recursion, or check that the inorder traversal is strictly increasing.",
+  "xref": "§14.12",
+  "tags": [
+   "trees"
+  ],
+  "keywords": [
+   "bounds",
+   "inorder"
+  ],
+  "book": false
+ },
+ {
+  "id": "al15",
+  "section": "44.3",
+  "question": "How does XOR find the element that appears once when every other appears twice?",
+  "answer": "Since x ^ x = 0, x ^ 0 = x and XOR is commutative and associative, XOR-ing everything cancels the pairs and leaves the single element in O(n) time and O(1) space.",
+  "xref": "§21.6",
+  "tags": [
+   "bits"
+  ],
+  "keywords": [
+   "cancels",
+   "O(1) space"
+  ],
+  "book": false
+ },
+ {
+  "id": "ai19",
+  "section": "44.7",
+  "question": "What comes first in an LLM system-design interview?",
+  "answer": "Clarifying requirements and constraints: users, traffic, latency and cost budgets, the quality bar and data sensitivity. Only then sketch the architecture and the evaluation plan.",
+  "xref": "§43.1",
+  "tags": [
+   "system-design"
+  ],
+  "keywords": [
+   "requirements",
+   "latency"
+  ],
+  "book": false
+ }
+]

@@ -43,12 +43,11 @@ from __future__ import annotations
 
 
 def brute_force(nums: list[int], target: int) -> tuple[int, int] | None:
-    best = None
     for j in range(len(nums)):
         for i in range(j):
             if nums[i] + nums[j] == target:
                 return (i, j)            # j-major order -> smallest j first
-    return best
+    return None
 
 
 def sort_two_pointers(nums: list[int], target: int) -> tuple[int, int] | None:

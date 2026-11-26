@@ -1,0 +1,10 @@
+assumptions: 16-bit weights and KV, 10% reserve, 1 GB = 1e9 B, hypothetical models
+model                weights GB KV KiB/token seqs @4k seqs @32k
+M8B-MHA (32kv)             16.0          512       26         3
+M8B (GQA 32q/8kv)          16.0          128      104        13
+M8B-MQA (1kv)              16.0           16      834       104
+rung 2 (count query heads) overestimates M8B's cache by 4x
+rung 1 (weights only) says M8B fits: True; but one 32k sequence needs 4.3 GB of cache
+8-bit KV cache, 4k context: 208
+M70B on 1 GPU: 0 | on 2 GPUs: 2 | on 4 GPUs: 110
+6 query heads / 4 KV heads -> n_heads must be a multiple of n_kv_heads

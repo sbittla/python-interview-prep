@@ -1,0 +1,10 @@
+toy exact_top_k: [1, 0]
+N=4000 d=32 nlist=64: list sizes min=24 median=61 max=118
+nprobe recall@10 scanned/N
+     1     0.522     0.019
+     2     0.676     0.034
+     4     0.794     0.065
+     8     0.888     0.127
+    16     0.949     0.251
+    32     0.995     0.502
+    64     1.000     1.000

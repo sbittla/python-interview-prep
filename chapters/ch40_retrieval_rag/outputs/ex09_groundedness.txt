@@ -1,0 +1,12 @@
+[('Keys rotate every 90 days.', [2]), ('Use two keys.', [1, 2])]
+'Rotate access keys every 90 days [2].'         -> [('supported', 1.0)]
+'Rotate access keys every 90 days [1].'         -> [('unsupported', 0.0)]
+'Rotate access keys every 90 days.'             -> [('uncited', 0.0)]
+'Rotate access keys every 90 days [3].'         -> [('bad-citation', 0.0)]
+'Plain HTTP requests are not rejected [1].'     -> [('supported', 0.8)]
+"I don't know."                                 -> abstained
+
+mode         grounded cites ok abstain  (mean over 12 queries, top-3 chunks)
+extractive     1.0000   1.0000       3
+hallucinate    0.6945   1.0000       3
+miscite        0.2917   0.9167       3

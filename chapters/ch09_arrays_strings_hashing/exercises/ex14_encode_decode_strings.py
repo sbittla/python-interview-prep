@@ -23,15 +23,14 @@ Constraints
 
 Hints
 -----
-- Any delimiter can appear inside a string; frame each string with its length instead.
-- Write f'{len(s)}#' + s. Decode: read digits up to '#', then slice exactly that many characters.
-- RLE: find the end j of each run of equal characters; decode accumulates multi-digit counts.
+- Any delimiter you pick can appear inside a string. What if the decoder never has to search the payload?
+- Escaping works too: what must be escaped, and in what order?
+- RLE: counts can have more than one digit.
 
 Follow-ups
 ----------
 - Binary-safe framing: fixed 4-byte big-endian length (struct.pack(">I", n)).
-- Why does the "#" inside "a#b" not confuse the decoder? It is skipped by the
-  length jump, never searched for.
+- Why must a "#" inside "a#b" not confuse your decoder?
 - Bonus: string building — always collect parts in a list and "".join them;
   repeated s += part can be O(n^2).
 """
@@ -44,6 +43,15 @@ def naive_encode(strs: list[str]) -> str:
 
 def naive_decode(s: str) -> list[str]:
     return s.split(",")
+
+
+def escape_encode(strs: list[str]) -> str:
+    """Rung 2: escape the delimiter and the escape character."""
+    raise NotImplementedError("TODO")
+
+
+def escape_decode(s: str) -> list[str]:
+    raise NotImplementedError("TODO")
 
 
 def encode(strs: list[str]) -> str:
@@ -72,6 +80,8 @@ def main() -> None:
     for strs in samples:
         enc = encode(strs)
         print(f"{strs!s:<22} -> {enc!r:<22} round-trip ok: {decode(enc) == strs}")
+    tricky = ["a,b", "c\\", "", ","]
+    print("escaped:", repr(escape_encode(tricky)), "round-trip ok:", escape_decode(escape_encode(tricky)) == tricky)
     print("naive comma join breaks:", naive_decode(naive_encode(["a,b", "c"])), "and [] ->", naive_decode(naive_encode([])))
     for s in ["aaabcc", "abc", "", "aaaaaaaaaaaab"]:
         print(f"rle {s!r:<16} -> {rle_encode(s)!r:<10} back ok: {rle_decode(rle_encode(s)) == s}")

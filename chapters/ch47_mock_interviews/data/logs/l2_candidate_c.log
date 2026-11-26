@@ -1,0 +1,14 @@
+# Scripted log: mock L2, problem A (BM25), candidate C.
+00:00 START BM25 with an inverted index
+01:20 ASK which IDF variant, and do you want stop words removed?
+03:00 PLAN postings dict term -> {doc: tf}; score only query-term postings
+04:15 COMPLEXITY build O(total terms); query O(sum of postings of query terms)
+05:00 CODE_START
+07:30 SAY tokenising with the shared helper
+10:00 SAY idf with +1 inside the log so it stays positive
+12:30 SAY search loops over postings only
+14:00 RUN 3/6
+14:20 SAY avgdl wrong: counted characters, not terms
+16:50 RUN 6/6
+22:40 TEST_ADDED query term absent from every document
+24:10 END

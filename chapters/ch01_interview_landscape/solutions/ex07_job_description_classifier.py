@@ -32,7 +32,8 @@ Approach ladder
 
 Hints
 -----
-- words = re.findall(r"[a-z0-9+#]+", text.lower()); bigrams = zip(words, words[1:]).
+- words = re.findall(r"[-a-z0-9+#/]+", text.lower()) keeps "a/b" and "scikit-learn" whole;
+  bigrams = zip(words, words[1:]).
 - Counter.most_common does not break ties alphabetically — sort explicitly.
 
 Follow-ups
@@ -62,7 +63,7 @@ LIKELY_ROUNDS = {
 
 def term_counts(text: str) -> Counter:
     """Counter of unigrams and bigrams ("a b") in the lower-cased text."""
-    words = re.findall(r"[a-z0-9+#/\-]+", text.lower())
+    words = re.findall(r"[-a-z0-9+#/]+", text.lower())
     counts = Counter(words)
     counts.update(f"{a} {b}" for a, b in zip(words, words[1:]))
     return counts

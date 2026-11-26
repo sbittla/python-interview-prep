@@ -28,7 +28,8 @@ Constraints
 
 Hints
 -----
-- words = re.findall(r"[a-z0-9+#]+", text.lower()); bigrams = zip(words, words[1:]).
+- words = re.findall(r"[-a-z0-9+#/]+", text.lower()) keeps "a/b" and "scikit-learn" whole;
+  bigrams = zip(words, words[1:]).
 - Counter.most_common does not break ties alphabetically — sort explicitly.
 
 Follow-ups

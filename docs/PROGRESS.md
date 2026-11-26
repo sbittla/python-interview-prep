@@ -26,15 +26,24 @@ Concurrency cap: ~6 agents (hit the 5-hour usage limit at ~11).
 | 28 | PASS 9.8 | v1 9.0 → v2 9.8 (+2 table/wording fixes by orchestrator) |
 | 30 | PASS 9.8 | v1 9.0 → v2 9.8 (+ SUM-trap row by orchestrator) |
 | 32 | PASS 9.7 | v1 8.65 → v2 9.7 (+4 final fixes) |
-| 34 | fixing | r34 v1 9.0 (NaN != claim, "M" alias version) |
-| 35 | fixing | r35 v1 9.4 (feature eng. gap, NDCG variants, test gaps) |
-| 37 | writing | w37 (session 2) |
-| 39 | writing | w39 (session 2) |
-| 40 | writing | w40 (session 2) |
+| 34 | PASS 9.8 | v1 9.0 → v2 9.0 (alias scope) → v3 9.8 |
+| 35 | PASS 9.85 | v1 9.4 → v2 9.85 (+2 wording fixes by orchestrator) |
+| 37 | PASS 9.6 | v1 9.0 → v2 9.6 |
+| 39 | PASS 9.6 | v1 8.8 → v2 9.6 (mask-order line fixed by orchestrator) |
+| 40 | PASS 9.8 | v1 9.0 → v2 9.8 |
+| 43 | PASS 9.9 | v1 9.0 → v2 9.9 (+ objective split by orchestrator) |
+| 44 | PASS 9.85 | v1 9.0 → v2 9.85 |
+| 46 | PASS 9.9 | v1 9.0 → v2 9.9 |
+| 47 | review | r47 (note: Ch45 refs limited to #049–056 until bank exists) |
+| 01 | review | r01 |
+| 05 | writing | w05 (session 2) |
+| 07 | writing | w07 (session 2) |
+| 09 | writing | w09 (session 2) |
+| 11 | writing | w11 (session 2) |
 
-Queue (new chapters): 43 44 46 47
+Queue (new chapters): (none)
 Queue (ch45 bank code): A 001–024 · B 025–048 · C 057–078 · D 079–098 · E 099–120 · F 121–150 · G lab01–30 · then ch45 manuscript
-Queue (complete existing chapters + manuscript): 01 05 07 09 11 16 18 20 23 26 29 31 33 36 38 41 42 48
+Queue (complete existing chapters + manuscript): 16 18 20 23 26 29 31 33 36 38 41 42 48
 Last: front matter + appendices A–H, full-book check, BOOK.md build.
 
 Recurring reviewer catches (put in every writer brief): overstated CPython claims; untested timing numbers;

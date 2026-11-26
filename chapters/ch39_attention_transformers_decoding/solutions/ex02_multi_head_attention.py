@@ -114,7 +114,7 @@ def mha_param_count(D: int) -> int:
 def main() -> None:
     x = np.arange(8.0).reshape(1, 2, 4)
     print("split_heads example:", split_heads(x, 2)[0].tolist())
-    print("wrong reshape      :", split_heads_wrong(x, 2)[0].tolist(), "<- token 0 and 1 mixed")
+    print("wrong reshape      :", split_heads_wrong(x, 2)[0].tolist(), "<- \"head 0\" is token 0 cut in two")
 
     rng = np.random.default_rng(392)
     B, T, D, H = 2, 5, 8, 2

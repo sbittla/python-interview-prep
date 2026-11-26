@@ -29,7 +29,7 @@ Approach ladder
 ---------------
 1. Brute force — accept a single list argument and a dict of options. Works, but every caller
    has to build a list and remember option names inside a dict, which the signature cannot
-   document or validate.
+   document or validate. O(n) time, same as the optimal rung: the gain is the interface.
 2. Optimal    — use the signature itself: ``*values`` collects positionals into a tuple,
    parameters after it are keyword-only, ``**labels`` collects the rest into a dict. One pass
    over the values: O(n) time, O(n) space for the filtered list.
@@ -76,14 +76,14 @@ def main() -> None:
     print("unpacked list:", solve(*data, precision=3))
     print("brute agrees :", brute_force(data, {"precision": 3}) == solve(*data, precision=3))
     for call in (lambda: solve(), lambda: solve(1, None, skip_none=False),
-                 lambda: solve(1, count=5), lambda: solve(1, 2, 3)):
+                 lambda: solve(1, count=5)):
         try:
             print("result:", call())
         except (TypeError, ValueError) as exc:
             print(f"{type(exc).__name__}: {exc}")
+    print("four positionals are all data:", solve(1, 2, 3, 2)["count"])
     try:
-        solve(1, 2, 3, 2)   # fine: four positional values
-        eval("solve(1, 2, precision=1, 3)")
+        eval("solve(1, 2, precision=1, 3)")      # positional after keyword
     except SyntaxError as exc:
         print("SyntaxError:", exc.msg)
 

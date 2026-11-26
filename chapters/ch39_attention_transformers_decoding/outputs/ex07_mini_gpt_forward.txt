@@ -1,0 +1,8 @@
+tokens shape: (2, 10) -> logits shape: (2, 10, 50)
+one pass == prefix-by-prefix: True
+changing tokens 6..9 moves logits at positions: [6, 7, 8, 9]
+params counted: 27584  formula: 27584
+GPT-2-small-shaped config (V=50257, T=1024, D=768, L=12): 124,439,808
+loss at init: 3.9453  ln V = 3.9120
+greedy next token per sequence: [37, 36]
+T=17: sequence length 17 exceeds T_max=16

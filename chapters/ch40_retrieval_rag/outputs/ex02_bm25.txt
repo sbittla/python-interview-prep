@@ -1,0 +1,21 @@
+toy search('red'): [('c', 0.5982), ('a', 0.4992)]
+idf red/apple/zebra: [0.47, 0.47, 2.0794]
+
+query 'e409 bucket' on short / long / keyword-stuffed docs
+  k1=1.2   b=0.75 [('spam', 0.4255), ('short', 0.397), ('long', 0.1791)]
+  k1=1.2   b=0.0  [('spam', 0.389), ('long', 0.2671), ('short', 0.2671)]
+  k1=0.0   b=0.75 [('long', 0.2671), ('short', 0.2671), ('spam', 0.2671)]
+  k1=100.0 b=0.75 [('spam', 1.5732), ('short', 0.6579), ('long', 0.1412)]
+  tf-idf         [('spam', 1.2018), ('long', 0.2671), ('short', 0.2671)]
+
+N=10, df=8: RSJ idf = -1.2238  +1 variant = 0.2578
+
+'why does deleting my bucket fail with E409'
+  index: [('d08', 3.2027), ('d14', 3.1245), ('d02', 2.4618)]  (matches full scan: True)
+
+'how often should I rotate credentials'
+  index: [('d15', 2.5595), ('d06', 2.2066)]  (matches full scan: True)
+
+'too many requests error 429'
+  index: [('d07', 4.9186), ('d05', 4.0419), ('d08', 1.8913)]  (matches full scan: True)
+unknown term: []  empty query: []

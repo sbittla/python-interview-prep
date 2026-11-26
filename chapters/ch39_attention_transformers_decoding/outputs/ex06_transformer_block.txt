@@ -1,0 +1,6 @@
+pre-LN output shape: (2, 5, 8)  y[0, 0, :4] = [-2.2168, 1.2982, -0.1163, -1.1691]
+per-token rung == whole sequence: True
+post-LN: (y - beta2) / gamma2 has per-token mean 0: True | pre-LN is not normalised: True
+params D=8, F=32: 872  D=768, F=3072: 7087872  12D^2+13D: 7087872
+matches torch TransformerEncoderLayer(norm_first=True): True | torch params: 872
+matches torch TransformerEncoderLayer(norm_first=False): True | torch params: 872

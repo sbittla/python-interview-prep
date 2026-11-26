@@ -16,3 +16,12 @@ def test_decode_multi_digit_and_errors(load):
     assert m.decode("x10y2") == "x" * 10 + "yy"
     with pytest.raises(ValueError):
         m.decode("ab2")
+
+
+def test_decode_rejects_leading_digit_and_handles_zero(load):
+    m = load("ex11_run_length_encoding")
+    with pytest.raises(ValueError):
+        m.decode("3a")
+    assert m.decode("a0b2") == "bb"
+    long = "q" * 1000 + "r"
+    assert m.decode(m.solve(long)) == long and m.solve(long) == "q1000r1"

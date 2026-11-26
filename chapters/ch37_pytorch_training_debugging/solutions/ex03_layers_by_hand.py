@@ -42,7 +42,8 @@ Approach ladder (batch norm)
 ----------------------------
 1. Loop over channels computing mean/var per column — O(N C) work, C Python iterations.
 2. Optimal — reduce over dim 0 in one call: O(N C) work, vectorised; update buffers under
-   ``no_grad`` so they never join the graph.
+   ``no_grad``. Why move up: C Python iterations dominate for wide layers, and in-graph buffer
+   updates would leak state into autograd.
 
 Follow-ups
 ----------

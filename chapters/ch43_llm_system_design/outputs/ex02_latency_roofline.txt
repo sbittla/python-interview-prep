@@ -1,0 +1,12 @@
+hypothetical: M8B dense 8e9 params, GQA 8 KV heads; G80 80 GB, 2 TB/s, 400 TFLOP/s, MFU 0.5
+rung 1 compute-only decode: 12,500 tokens/s per sequence
+roofline decode at batch 1:  122 tokens/s per sequence
+prefill 3000 tokens: 240 ms
+batch  TPOT ms  tokens/s    bound  e2e s
+    1      8.2       122   memory   2.69
+    8      9.7       829   memory   3.13
+   32     14.6     2,191   memory   4.61
+   64     21.2     3,017   memory   6.58
+  128     34.4     3,718   memory  10.53
+output = 1 token: ttft 16 ms, e2e 16 ms
+short context, batch 512: compute bound

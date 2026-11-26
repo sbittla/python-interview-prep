@@ -1,0 +1,128 @@
+[
+ {
+  "id": "po01",
+  "set": "references",
+  "xref": "§7.1",
+  "code": "def add(x, bucket=[]):\n    bucket.append(x)\n    return bucket\n\nprint(add(1), add(2))",
+  "expected": "[1, 2] [1, 2]\n"
+ },
+ {
+  "id": "po02",
+  "set": "references",
+  "xref": "§7.3",
+  "code": "grid = [[0] * 3] * 2\ngrid[0][0] = 1\nprint(grid)",
+  "expected": "[[1, 0, 0], [1, 0, 0]]\n"
+ },
+ {
+  "id": "po03",
+  "set": "references",
+  "xref": "§7.2",
+  "code": "a = [[1], [2]]\nb = a.copy()\nb[0].append(9)\nb.append([3])\nprint(a, len(b))",
+  "expected": "[[1, 9], [2]] 3\n"
+ },
+ {
+  "id": "po04",
+  "set": "references",
+  "xref": "§7.4",
+  "code": "class Cart:\n    items = []\n\nc1, c2 = Cart(), Cart()\nc1.items.append(\"pen\")\nprint(c2.items)",
+  "expected": "['pen']\n"
+ },
+ {
+  "id": "po05",
+  "set": "scope",
+  "xref": "§7.5",
+  "code": "fs = [lambda: i for i in range(3)]\nprint([f() for f in fs])",
+  "expected": "[2, 2, 2]\n"
+ },
+ {
+  "id": "po06",
+  "set": "scope",
+  "xref": "§5.8",
+  "code": "x = 1\n\ndef bump():\n    x += 1\n\nbump()",
+  "expected": "raises UnboundLocalError\n"
+ },
+ {
+  "id": "po07",
+  "set": "numbers",
+  "xref": "§7.9",
+  "code": "print(-7 // 2, -7 % 2, round(2.5), round(3.5))",
+  "expected": "-4 1 2 4\n"
+ },
+ {
+  "id": "po08",
+  "set": "numbers",
+  "xref": "§7.8",
+  "code": "import math\nprint(0.1 + 0.2 == 0.3, math.isclose(0.1 + 0.2, 0.3))",
+  "expected": "False True\n"
+ },
+ {
+  "id": "po09",
+  "set": "numbers",
+  "xref": "§7.6",
+  "code": "print(True + True, isinstance(True, int), {1: \"a\", True: \"b\"})",
+  "expected": "2 True {1: 'b'}\n"
+ },
+ {
+  "id": "po10",
+  "set": "iteration",
+  "xref": "§7.12",
+  "code": "squares = (n * n for n in range(4))\nprint(sum(squares), sum(squares))",
+  "expected": "14 0\n"
+ },
+ {
+  "id": "po11",
+  "set": "iteration",
+  "xref": "§7.13",
+  "code": "for n in [3, 5, 7]:\n    if n % 2 == 0:\n        print(\"found\", n)\n        break\nelse:\n    print(\"no even number\")",
+  "expected": "no even number\n"
+ },
+ {
+  "id": "po12",
+  "set": "iteration",
+  "xref": "§7.11",
+  "code": "d = {\"a\": 1}\nfor k in d:\n    d[k + \"!\"] = 2",
+  "expected": "raises RuntimeError\n"
+ },
+ {
+  "id": "po13",
+  "set": "collections",
+  "xref": "§7.14",
+  "code": "from collections import Counter, defaultdict\nd = defaultdict(int)\nd[\"x\"]\nprint(len(d), Counter(a=1) - Counter(a=2))",
+  "expected": "1 Counter()\n"
+ },
+ {
+  "id": "po14",
+  "set": "collections",
+  "xref": "§7.23",
+  "code": "print(\"a  b\".split(), \"a  b\".split(\" \"))",
+  "expected": "['a', 'b'] ['a', '', 'b']\n"
+ },
+ {
+  "id": "po15",
+  "set": "collections",
+  "xref": "§7.20",
+  "code": "import heapq\nh = []\nheapq.heappush(h, (1, {\"job\": \"a\"}))\nheapq.heappush(h, (1, {\"job\": \"b\"}))",
+  "expected": "raises TypeError\n"
+ },
+ {
+  "id": "po16",
+  "set": "collections",
+  "xref": "§6.12",
+  "code": "words = [\"bb\", \"a\", \"cc\", \"b\"]\nprint(sorted(words, key=len))",
+  "expected": "['a', 'b', 'bb', 'cc']\n"
+ },
+ {
+  "id": "po17",
+  "set": "equality",
+  "xref": "§7.7",
+  "code": "class Point:\n    def __init__(self, x):\n        self.x = x\n    def __eq__(self, other):\n        return self.x == other.x\n\nprint(Point(1) == Point(1))\nprint({Point(1)})",
+  "expected": "True\nraises TypeError\n"
+ },
+ {
+  "id": "po18",
+  "set": "equality",
+  "xref": "§7.6",
+  "code": "a = [1, 2]\nb = a\nc = [1, 2]\nprint(a == c, a is c, a is b)",
+  "expected": "True False True\n"
+ }
+]

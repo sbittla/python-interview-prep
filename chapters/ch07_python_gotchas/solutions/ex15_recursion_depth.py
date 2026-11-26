@@ -23,8 +23,9 @@ Constraints
 Approach ladder
 ---------------
 1. Buggy  — recursion depth = list length: O(n) stack frames.
-2. Patch  — `sys.setrecursionlimit(20_000)`: works for this input, but deeper
-   inputs can still crash the interpreter (C stack overflow) — not a real fix.
+2. Patch  — `sys.setrecursionlimit(20_000)`: works for this input, but the next,
+   deeper input fails again, every frame costs memory, and recursion that runs
+   through C code can overflow the C stack and crash the process — not a real fix.
 3. Fixed  — iterate: a `while` loop walking `node = node.next`. O(n) time, O(1) space.
    For tree DFS, use an explicit stack list.
 

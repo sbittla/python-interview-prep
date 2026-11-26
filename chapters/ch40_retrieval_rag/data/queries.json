@@ -1,0 +1,88 @@
+[
+ {
+  "qid": "q01",
+  "query": "how often should I rotate credentials",
+  "relevant": [
+   "d06"
+  ]
+ },
+ {
+  "qid": "q02",
+  "query": "why does deleting my bucket fail with E409",
+  "relevant": [
+   "d08",
+   "d14"
+  ]
+ },
+ {
+  "qid": "q03",
+  "query": "upload a 20 GB video file",
+  "relevant": [
+   "d09"
+  ]
+ },
+ {
+  "qid": "q04",
+  "query": "is my data encrypted at rest",
+  "relevant": [
+   "d05"
+  ]
+ },
+ {
+  "qid": "q05",
+  "query": "too many requests error 429",
+  "relevant": [
+   "d07"
+  ]
+ },
+ {
+  "qid": "q06",
+  "query": "copy objects automatically to another region",
+  "relevant": [
+   "d10"
+  ]
+ },
+ {
+  "qid": "q07",
+  "query": "make objects undeletable for regulators",
+  "relevant": [
+   "d04"
+  ]
+ },
+ {
+  "qid": "q08",
+  "query": "move old data to cheaper storage",
+  "relevant": [
+   "d03",
+   "d11"
+  ]
+ },
+ {
+  "qid": "q09",
+  "query": "share a file with a temporary download link",
+  "relevant": [
+   "d15"
+  ]
+ },
+ {
+  "qid": "q10",
+  "query": "restore an overwritten object",
+  "relevant": [
+   "d02"
+  ]
+ },
+ {
+  "qid": "q11",
+  "query": "how many buckets can one account create",
+  "relevant": [
+   "d16"
+  ]
+ },
+ {
+  "qid": "q12",
+  "query": "who handles a P1 ticket at night",
+  "relevant": [
+   "d12"
+  ]
+ }
+]

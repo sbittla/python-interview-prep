@@ -4,17 +4,16 @@
 
 **Learning objectives**
 
-- Load, filter, aggregate and reshape tables in pandas without loops.
-- Translate each pandas step to SQL and back.
+- Load, filter, aggregate and reshape tables in pandas without loops, and in SQL.
 - Handle NaN/NULL, duplicate join keys, missing days and ties deliberately.
 - Solve cohort retention, funnels, N-th highest and streaks.
 
-> **Recognise it.** "Per-X metrics from this table"; "monthly", "share of total", "rolling 7-day",
-> "retention", "conversion", "second highest", "consecutive days". Frame in memory → pandas;
-> "write the query" → SQL. State the grain (one row per what?) and the NULL and tie rules first.
+> **Recognise it.** "Per-X metrics"; "share of total", "rolling 7-day", "retention", "conversion",
+> "second highest", "consecutive days". State the grain (one row per what?) and the NULL and tie
+> rules first.
 
-**Version baseline.** Everything here ran on **pandas 3.1.1**, NumPy 2.5.5, SQLite 3.50.4,
-CPython 3.13, no pyarrow. pandas 3 changes you will be asked about:
+**Version baseline.** All code ran on **pandas 3.1.1**, NumPy 2.5.5, SQLite 3.50.4, CPython 3.13,
+no pyarrow. Key pandas 3 changes:
 
 | pandas 3 behaviour | pandas 2.x default | Consequence |
 |---|---|---|
@@ -22,8 +21,9 @@ CPython 3.13, no pyarrow. pandas 3 changes you will be asked about:
 | Text columns get dtype `str` (pyarrow-backed if installed, else Python) | `object` | test `is_string_dtype`, not `== object` |
 | Parsed datetimes default to `datetime64[us]` (`[ns]` if the strings carry nanoseconds) | `[ns]` | don't hard-code the unit |
 
-Use `"ME"`/`"YE"`/`"QE"` (`"M"`/`"Y"`/`"Q"` raise since 3.0); 3.1 deprecates `.dt.dayofweek`,
-`.dt.weekday` and `.dt.dayofyear` for `.dt.day_of_week`/`.dt.day_of_year`.
+Offsets (`date_range`, `resample`, `Grouper`) take `"ME"`/`"YE"`/`"QE"`; `"M"`/`"Y"`/`"Q"` raise
+there since 3.0, but periods keep `"M"` (`to_period("ME")` raises). 3.1 deprecates `.dt.dayofweek`,
+`.dt.weekday`, `.dt.dayofyear` for `.dt.day_of_week`/`.dt.day_of_year`.
 
 ## 34.1 Series and DataFrames; reading data
 
@@ -59,8 +59,8 @@ print(a.add(b, fill_value=0).to_dict())
 ```
 
 An int column with a blank becomes `float64` (`"Int64"` keeps integers). Too big for memory:
-`chunksize=`, `usecols=` (→ §30.5). ex01 profiles with `read_csv` and with `csv` loops: both O(n),
-but pandas parses in C into typed columns.
+`chunksize=`, `usecols=` (→ §30.5). ex01 compares `read_csv` with `csv` loops: both O(n),
+but pandas parses in C.
 → repo: `chapters/ch34_pandas_sql_analysis/solutions/ex01_load_inspect.py`.
 
 ## 34.2 Selection: `loc`, `iloc`, boolean filters
@@ -111,8 +111,8 @@ rolls back) but does not close, so the listings use `contextlib.closing`.
 
 ## 34.4 `groupby`, aggregation, `transform`
 
-Split-apply-combine: rows are hashed by key (O(n)), each group is reduced, and with the default
-`sort=True` the g keys are sorted (O(g log g)). `agg` returns **one row per group** (`GROUP BY`);
+Rows are hashed by key (O(n)), each group is reduced, and `sort=True` (default) sorts the g keys
+(O(g log g)). `agg` returns **one row per group** (`GROUP BY`);
 `transform` returns **one value per input row** (`SUM(x) OVER (PARTITION BY k)`).
 
 **Worked problem: country scorecard (ex04).** Per country: paid revenue, orders, distinct buyers,
@@ -164,11 +164,10 @@ SQL: a `SELECT DISTINCT` paid CTE, then `GROUP BY country`; share =
 `revenue / SUM(revenue) OVER (PARTITION BY country)`. Tests check pandas, SQL and loops agree.
 → repo: `chapters/ch34_pandas_sql_analysis/solutions/ex04_groupby_transform.py`.
 
-**Edge cases:** NaN amount (an order, but not in the AOV denominator: `size` vs `count`); duplicate
-row; refunds; NULL country; revenue ties (second sort key); all-NaN group (SQL `SUM` is NULL, so use
-`TOTAL`). **Wrong-but-tempting:** `groupby().mean()` over text columns raises (pandas ≥ 2:
-`numeric_only=False`); `agg("count")` to count orders skips NaN. **Follow-ups:** top-2 buyers with
-ties (ex11); share per country and month; countries with no orders (left join from users).
+**Edge cases:** NaN amount (an order, not in the AOV denominator: `size` vs `count`); duplicate
+row; refunds; NULL country; revenue ties; all-NaN group (SQL needs `TOTAL`). **Wrong-but-tempting:**
+`groupby().mean()` over text columns raises (pandas ≥ 2); `agg("count")` skips NaN. **Follow-ups:**
+top-2 buyers with ties (ex11); share per month; countries with no orders (left join).
 
 ## 34.5 Merge, join, concat (SQL equivalents)
 
@@ -210,8 +209,8 @@ except MergeError as e:
 MergeError: Merge keys are not unique in right dataset
 ```
 
-**Edge cases:** duplicate lookup keys; NaN keys (they match each other, §34.3); `int` vs `str` keys;
-unmatched rows; counting rows instead of a column after a left join. Self-joins → §30.7.
+**Edge cases:** duplicate lookup keys; NaN keys (§34.3); `int` vs `str` keys; unmatched rows;
+counting rows, not a column, after a left join. Self-joins → §30.7.
 → repo: `chapters/ch34_pandas_sql_analysis/solutions/ex05_merge_joins.py`.
 
 ## 34.6 Pivot tables and reshaping (`melt`, `pivot`)
@@ -277,8 +276,8 @@ print(pd.date_range("2026-01-01", periods=2, freq="ME").strftime("%m-%d").tolist
 
 ## 34.8 Window/rolling operations
 
-**Worked problem: per-store window features (ex08).** Running total, previous value and a w-day
-moving average per store, with some days missing. Ladder: (1) re-slice the last w values for each
+**Worked problem: per-store window features (ex08).** Running total, previous value and w-day
+average per store, with missing days. Ladder: (1) re-slice the last w values for each
 row, O(n·w); (2) `rolling(w)` keeps a running sum, O(n); (3) `rolling("wD")` runs two pointers over
 the timestamps, O(n). Only rung 3 is correct across gaps, because "7-day" means calendar days.
 
@@ -333,10 +332,9 @@ with closing(sqlite3.connect(":memory:")) as con:
 03-07 [11.0, 15.0]
 ```
 
-Row and calendar windows diverge after the gap (03-06: 5.0 vs 10.0). At the start, count windows
-default to `min_periods=w` (NaN) while SQL averages whatever rows exist. `cumsum` is
-`SUM() OVER (... ROWS UNBOUNDED PRECEDING)` and `shift(1)` is `LAG()`; ex08 has all four in SQL
-and tests a 7-day, two-store version against SQLite.
+The windows diverge after the gap (03-06: 5.0 vs 10.0). Count windows start NaN (`min_periods=w`);
+SQL averages what exists. `cumsum` = `SUM() OVER (... ROWS UNBOUNDED PRECEDING)`, `shift(1)` =
+`LAG()`; ex08 tests all of them, on two stores, against SQLite.
 → repo: `chapters/ch34_pandas_sql_analysis/solutions/ex08_rolling_windows.py`.
 
 A time window is (d − w, d] by default; "the 7 days before today" is `rolling("7D", closed="left")`
@@ -344,8 +342,7 @@ A time window is (d − w, d] by default; "the 7 days before today" is `rolling(
 **Wrong-but-tempting:** `rolling(7)` for "7-day"; `df["revenue"].shift(1)` without `groupby`, which
 leaks the last north row into south. **Edge cases:** unsorted input; duplicate dates (no frame means
 `RANGE`, summing ties); `prev` across a gap is not "yesterday" (§34.7); zero `prev`.
-**Follow-ups:** `ewm(alpha=...)`; centred windows (`center=True`; SQL `AND 3 FOLLOWING`).
-`RANGE` offsets need SQLite ≥ 3.28; window syntax → §30.9.
+**Follow-ups:** `ewm(alpha=...)`; `center=True`. `RANGE` offsets need SQLite ≥ 3.28; syntax → §30.9.
 
 ## 34.9 Analytical SQL interview questions (cohorts, retention, funnels)
 
@@ -402,11 +399,10 @@ User 1 signed up on 30 Jan and ordered on 1 Feb: offset 1, because this uses cal
 (`SELECT DISTINCT c_idx, user_id, k`), then `GROUP BY c_idx, k` (CTEs → §30.8).
 → repo: `chapters/ch34_pandas_sql_analysis/solutions/ex09_cohort_retention.py`.
 
-**Edge cases:** size from `users` (users 6, 39, 40 never pay); many orders in a month = one active
-user; unknown users; orders before signup (k < 0); future NaN vs observed 0.0.
-**Wrong-but-tempting:** cohort size counted from orders; 30-day blocks or `Period` subtraction
-(offset objects, not ints) for k. **Follow-ups:**
-revenue retention; weekly cohorts; "rolling" retention (month k *or later*); significance (→ §35.6).
+**Edge cases:** many orders in a month = one active user; unknown users; orders before signup
+(k < 0); future NaN vs observed 0.0. **Wrong-but-tempting:** cohort size from orders (users 6, 39, 40
+never pay); 30-day blocks or `Period` subtraction for k. **Follow-ups:** revenue retention; weekly
+cohorts; "rolling" retention (month k *or later*); significance (→ §35.6).
 
 **The other classics, as patterns:**
 
@@ -415,7 +411,7 @@ revenue retention; weekly cohorts; "rolling" retention (month k *or later*); sig
 | Ordered funnel (ex10) | per step: merge step events onto `t_prev`, keep `ts >= t_prev`, `min` | one CTE per step joined on `e.ts >= prev.t` |
 | N-th highest per group, ties shared (ex11) | `rank(method="dense", ascending=False) == n` | `DENSE_RANK() OVER (PARTITION BY g ORDER BY v DESC)` |
 | Latest row per key | `sort_values` + `drop_duplicates(keep="last")` | `ROW_NUMBER() ... = 1` |
-| Consecutive-day streaks (ex11) | dedupe dates per key; `date - cumcount() days` is constant per run | `julianday(d) - DENSE_RANK()` (duplicates would split a run under `ROW_NUMBER`) |
+| Consecutive-day streaks (ex11) | dedupe dates per key; `date - cumcount() days` is constant per run | `julianday(d) - DENSE_RANK()`, length `COUNT(DISTINCT d)` (`ROW_NUMBER` splits runs on duplicates) |
 
 Rank methods: `"first"`/`"min"`/`"dense"` = `ROW_NUMBER`/`RANK`/`DENSE_RANK`. **Wrong-but-tempting
 funnels:** an unordered count (distinct users per event) ignores time: the repo data has 15
@@ -427,15 +423,13 @@ O(n log n) at worst (the sort).
 
 ## 34.10 Practice set
 
-The exercises below. Drill ex04, ex08, ex09, ex11 at 25 min each.
+The exercises below; drill ex04, ex08, ex09, ex11 (25 min).
 
 ## Interviewer's view
 
-- **Rewarded:** grain, NULL and tie rules first; vectorised code, deterministic sorts; sanity
-  checks (row counts around joins); the SQL for each step.
-- **Penalised:** `iterrows`; chained assignment; counting rows after a left join; `pivot_table`
-  with the default mean; joins that silently multiply rows.
-- **Strong signal:** checking a tiny hand-computed frame before the full data.
+- **Rewarded:** grain, NULL and tie rules first; vectorised code; sanity checks; the SQL for each step.
+- **Penalised:** `iterrows`; chained assignment; counting rows after a left join; silent row blow-ups.
+- **Strong signal:** testing a tiny hand-computed frame first.
 
 ## Exercises
 
@@ -468,8 +462,8 @@ All in `chapters/ch34_pandas_sql_analysis/`.
 
 1. Nothing (copy-on-write). Use `df.loc[df.x > 0, "y"] = 0`.
 2. pandas `0.0` (`min_count=1` gives NaN); SQL `NULL` (SQLite `TOTAL()` gives 0.0).
-3. Duplicate lookup keys multiply rows: `validate="many_to_one"` raises `MergeError`; dedupe first.
-4. When days are missing or duplicated: 7 rows no longer span 7 calendar days.
+3. Duplicate lookup keys multiply rows; `validate="many_to_one"` catches it.
+4. When days are missing or duplicated.
 5. Non-buyers are in the cohort; counting from orders inflates retention.
 
 </details>
@@ -477,10 +471,12 @@ All in `chapters/ch34_pandas_sql_analysis/`.
 ## Summary card
 
 - pandas 3: `str` dtype, `datetime64[us]`, copy-on-write; read with `dtype=`/`parse_dates=`.
-- Labels align; `loc` = labels (inclusive), `iloc` = positions; one `.loc[mask, col] =`.
+- `loc` = labels (inclusive), `iloc` = positions; one `.loc[mask, col] =`.
 - NaN: all-NaN `sum` = 0.0 (SQL NULL); `groupby` drops NaN keys; `merge` matches them (SQL doesn't).
 - `agg` = one row per group (`GROUP BY`); `transform` = one per row (`OVER (PARTITION BY)`).
-- `merge`: hash join, O(n + m + output); `indicator=` anti joins; `validate=` against blow-ups.
+- `merge`: hash join, O(n + m + output); `indicator=`, `validate=`.
 - `pivot_table(aggfunc="sum", fill_value=0)` ↔ `melt`; SQL pivots with `SUM(CASE WHEN ...)`.
 - Sort, then per-group `cumsum`/`shift`/`rolling`; count and time windows differ across gaps.
-- Ranks: first/min/dense = `ROW_NUMBER`/`RANK`/`DENSE_RANK`.
+- Missing days: `reindex(date_range)`; `"W"` = `"W-SUN"`; month end `"ME"`.
+- Retention: size from users, integer month offsets + `nunique`, NaN future cells. Funnel: `ts >= t_prev`
+  per step. Streaks: date − row number. Ranks: first/min/dense = `ROW_NUMBER`/`RANK`/`DENSE_RANK`.

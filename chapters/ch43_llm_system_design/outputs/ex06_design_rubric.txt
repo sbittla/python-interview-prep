@@ -1,0 +1,8 @@
+weak notes: 15.0/100  gaps=['estimates', 'evaluation', 'requirements']
+  requirements 5/15, estimates 0/15, architecture 10/15, data 0/10, evaluation 0/15, failure_modes 0/10, safety 0/10, observability 0/10
+strong notes: 100.0/100  gaps=[]
+  requirements 15/15, estimates 15/15, architecture 15/15, data 10/10, evaluation 15/15, failure_modes 10/10, safety 10/10, observability 10/10
+empty: 0.0/100  gaps=['requirements', 'estimates', 'architecture']
+  requirements 0/15, estimates 0/15, architecture 0/15, data 0/10, evaluation 0/15, failure_modes 0/10, safety 0/10, observability 0/10
+numbers without units: Line(name='estimates', hits=0, need=3, points=0.0, weight=15)
+repeated signal counts once: 1

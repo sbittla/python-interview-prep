@@ -1,0 +1,10 @@
+split_heads example: [[[0.0, 1.0], [4.0, 5.0]], [[2.0, 3.0], [6.0, 7.0]]]
+wrong reshape      : [[[0.0, 1.0], [2.0, 3.0]], [[4.0, 5.0], [6.0, 7.0]]] <- "head 0" is token 0 cut in two
+output shape: (2, 5, 8)  merge(split(x)) == x: True
+fused == per-head loop: True
+wrong split differs   : True
+H=1 equals single attention: True
+y[0, :2] = [[-0.56, -0.392, -0.399, 0.054, 0.078, -1.755, 0.427, 0.039], [-0.301, -0.276, -1.196, -0.247, 1.53, -0.213, 0.747, 0.129]]
+param count D=8: 288  D=768: 2362368
+H=3: D=8 is not divisible by H=3
+matches torch nn.MultiheadAttention: True | torch param count: 288

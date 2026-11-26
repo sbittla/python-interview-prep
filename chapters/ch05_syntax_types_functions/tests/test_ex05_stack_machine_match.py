@@ -18,7 +18,9 @@ def test_order_of_operands_and_pop(load):
 @pytest.mark.parametrize("prog, message", [
     (["add"], "stack underflow"), (["push 1", "mul"], "stack underflow"), (["pop"], "stack underflow"),
     (["print"], "stack underflow"), (["push"], "bad command: push"), (["push x"], "bad command: push x"),
-    (["jump 3"], "bad command: jump 3"), (["add 1"], "bad command: add 1"), ([""], "bad command: "),
+    (["jump 3"], "bad command: jump 3"), (["push --5"], "bad command: push --5"),
+    (["push 1_000"], "bad command: push 1_000"), (["push ²"], "bad command: push ²"),
+    (["push -"], "bad command: push -"), (["add 1"], "bad command: add 1"), ([""], "bad command: "),
 ])
 def test_errors(load, prog, message):
     m = load("ex05_stack_machine_match")

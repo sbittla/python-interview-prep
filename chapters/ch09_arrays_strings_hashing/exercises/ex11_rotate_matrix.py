@@ -18,14 +18,13 @@ Constraints
 
 Hints
 -----
-- Clockwise rotation = transpose + reverse each row.
-- Transpose in place: swap matrix[r][c] with matrix[c][r] only for c > r.
-- Counter-clockwise = transpose + reverse the order of rows.
+- Where does cell (r, c) go after a clockwise quarter turn?
+- Can the rotation be split into two simpler in-place reflections?
+- rotate_layers: each move touches four cells at once.
 
 Follow-ups
 ----------
-- Counter-clockwise: transpose then reverse each column (or reverse rows first).
-- 180°: reverse rows and reverse each row.
+- Counter-clockwise (rotate_ccw) and 180°: which reflections compose to each?
 - Non-square m x n: in-place is impossible in general; return a new n x m matrix.
 """
 from __future__ import annotations

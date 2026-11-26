@@ -5,5 +5,5 @@ brute agrees : True
 ValueError: no values
 TypeError: None in values
 ValueError: label clashes: count
-result: {'count': 3, 'mean': 2.0, 'min': 1, 'max': 3}
+four positionals are all data: 4
 SyntaxError: positional argument follows keyword argument

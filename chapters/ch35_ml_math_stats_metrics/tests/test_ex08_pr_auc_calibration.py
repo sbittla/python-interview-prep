@@ -56,6 +56,8 @@ def test_brier_and_ece_by_hand(load):
     # bin 0: y=0, p=0.05 -> 0.05; bin 9: y sum 3, p sum 2.9 -> 0.1; ECE = 0.15 / 4
     assert m.ece([0, 1, 1, 1], [0.05, 0.95, 0.95, 1.0]) == pytest.approx(0.0375)
     assert m.ece([1, 0], [1.0, 0.0]) == 0.0
+    # p == 1.0 must land in the last bin: |1 - 0.05| + |0 - 1.0| = 1.95 over 2 rows
+    assert m.ece([1, 0], [0.05, 1.0]) == pytest.approx(0.975)
 
 
 def test_overconfidence_hurts_ece_not_ap(load):

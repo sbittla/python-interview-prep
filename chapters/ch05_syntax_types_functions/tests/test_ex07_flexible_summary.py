@@ -31,3 +31,19 @@ def test_errors(load, args, kwargs, exc, msg):
     with pytest.raises(exc) as info:
         m.solve(*args, **kwargs)
     assert str(info.value) == msg
+
+
+def test_labels_keep_order_and_floats(load):
+    m = load("ex07_flexible_summary")
+    out = m.solve(0.1, 0.2, b=1, a=2)
+    assert list(out) == ["count", "mean", "min", "max", "b", "a"]
+    assert out["mean"] == 0.15 and out["min"] == 0.1
+
+
+def test_precision_is_keyword_only(load):
+    import inspect
+    m = load("ex07_flexible_summary")
+    params = inspect.signature(m.solve).parameters
+    assert params["precision"].kind is inspect.Parameter.KEYWORD_ONLY
+    assert params["skip_none"].kind is inspect.Parameter.KEYWORD_ONLY
+    assert m.solve(1, 2, 4, precision=1)["mean"] == 2.3

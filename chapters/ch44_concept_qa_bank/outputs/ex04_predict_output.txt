@@ -1,0 +1,19 @@
+18 snippets in 6 sets: {'references': 4, 'scope': 2, 'numbers': 3, 'iteration': 3, 'collections': 4, 'equality': 2}
+mismatches: []
+
+quiz sheet, set 'numbers':
+[po07] §7.9
+print(-7 // 2, -7 % 2, round(2.5), round(3.5))
+
+[po08] §7.8
+import math
+print(0.1 + 0.2 == 0.3, math.isclose(0.1 + 0.2, 0.3))
+
+[po09] §7.6
+print(True + True, isinstance(True, int), {1: "a", True: "b"})
+
+answers:
+  [po07] -4 1 2 4
+  [po08] False True
+  [po09] 2 True {1: 'b'}
+stale key detected: [('po01', '[1] [2]\n', '[1, 2] [1, 2]\n')]

@@ -1,0 +1,5 @@
+vague           ok=False words=  6 missing=['complexity', 'space', 'alternative', 'edge cases', 'assumptions', 'evidence']
+substring trap  ok=False words=  5 missing=['complexity', 'space', 'alternative', 'edge cases', 'assumptions', 'evidence']
+rambling        ok=False words=150 missing=['complexity', 'space', 'alternative', 'edge cases', 'assumptions']
+keyword soup    ok=True  words=  8 missing=[]
+mine            ok=True  words= 83 missing=[]

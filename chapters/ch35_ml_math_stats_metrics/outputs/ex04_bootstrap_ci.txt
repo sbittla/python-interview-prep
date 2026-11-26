@@ -3,5 +3,5 @@ bootstrap 95% CI mean  : (1.079, 2.056)  loop agrees: True
 normal    95% CI mean  : (1.052, 2.023)
 bootstrap 95% CI median: (0.849, 1.787)
 constant data CI       : (3.0, 3.0)
-coverage n=10  bootstrap=0.84  normal=0.86  (target 0.95)
-coverage n=100 bootstrap=0.95  normal=0.95  (target 0.95)
+coverage n=10  bootstrap=0.862  normal=0.873  (target 0.95, 2000 datasets)
+coverage n=100 bootstrap=0.939  normal=0.941  (target 0.95, 2000 datasets)

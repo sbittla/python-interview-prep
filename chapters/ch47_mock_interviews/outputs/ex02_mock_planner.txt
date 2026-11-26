@@ -1,0 +1,25 @@
+10 mocks: {'SWE': ['S1', 'S2', 'S3', 'S4'], 'Data/ML': ['M1', 'M2', 'M3'], 'GenAI/LLM': ['L1', 'L2', 'L3']}
+  S1 SWE       45 min  Fundamentals: two short problems  [Ch. 45 #050, §10.5]
+  S2 SWE       60 min  Heaps and graphs  [§15.4, §16.8]
+  S3 SWE       60 min  Design-style: cache, then rate limiter  [§29.2, §29.5]
+  S4 SWE       45 min  Dynamic programming  [§19.9, §19.6]
+  M1 Data/ML   60 min  Analytics: SQL window functions and a cohort table  [§30.9, §34.9]
+  M2 Data/ML   45 min  Metrics and leakage-free evaluation  [§35.7, §35.11]
+  M3 Data/ML   60 min  Logistic regression, then a broken training loop  [§36.2, §37.9]
+  L1 GenAI/LLM 60 min  Attention, masks and the KV cache  [§39.1, §39.3, §39.7]
+  L2 GenAI/LLM 60 min  BM25, hybrid fusion and an evaluation gate  [§40.3, §40.5, §40.11]
+  L3 GenAI/LLM 75 min  Tool-calling agent loop with an assistant allowed  [§41.1, §41.3]
+
+Time boxes for S2:
+   0-5  intro
+   5-27 A: top-k frequent words
+  27-55 B: course schedule
+  55-60 closing
+
+SWE-track loop, 8 sessions, 2 per week (seed 7):
+  week 1: ['S4', 'S2']  (105 min)
+  week 2: ['M2', 'S1']  (90 min)
+  week 3: ['S3', 'M1']  (120 min)
+  week 4: ['S2', 'S4']  (105 min)
+
+All three tracks, 10 sessions (seed 0): ['S3', 'M1', 'L1', 'S1', 'M3', 'L3', 'S2', 'M2', 'L2', 'S4']

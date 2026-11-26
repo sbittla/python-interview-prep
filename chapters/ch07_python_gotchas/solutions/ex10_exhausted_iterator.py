@@ -26,7 +26,7 @@ Approach ladder
 1. Buggy  — assumes it can iterate multiple times.
 2. Fixed  — materialise once: `values = list(values)`. O(n) extra space.
 3. One pass — track min, max, sum and count in a single loop: O(1) extra space,
-   works on endless streams of unknown size (but not infinite ones, of course).
+   works on streams too large to hold in memory (it still needs them to end).
 
 Follow-ups
 ----------

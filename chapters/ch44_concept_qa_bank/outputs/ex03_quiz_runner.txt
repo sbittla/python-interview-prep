@@ -1,0 +1,13 @@
+picked: ['py05', 'ds14', 'al04', 'cc07', 'te03', 'ml04', 'ai17']
+  py05 44.1  keywords 1/2  PASS  §7.5
+  ds14 44.2  keywords 2/2  PASS  §9.4
+  al04 44.3  keywords 2/2  PASS  §16.3
+  cc07 44.4  keywords 0/2  MISS  §28.9
+  te03 44.5  keywords 2/2  PASS  §31.3
+  ml04 44.6  keywords 1/2  PASS  §35.5
+  ai17 44.7  keywords 0/2  MISS  §42.12
+score: 5/7
+review next: ['§28.9', '§42.12']
+pick is deterministic: True
+two sections only: ['ml14', 'ai03', 'ml11', 'ai11']
+whole words only: (0, 1, False)

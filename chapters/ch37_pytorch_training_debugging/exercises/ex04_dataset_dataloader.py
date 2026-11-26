@@ -23,8 +23,10 @@ Examples
 
 Constraints
 -----------
-- Every sequence has length >= 1; ``num_workers=0`` (worker processes need
-  ``worker_init_fn`` seeding and an ``if __name__ == "__main__"`` guard on Windows/macOS).
+- Every sequence has length >= 1; ``num_workers=0``. (With workers, the loader's generator
+  already seeds each worker's torch, ``random`` and NumPy from base seed + worker id; use
+  ``worker_init_fn`` only for other libraries or per-worker state, and add an
+  ``if __name__ == "__main__"`` guard on Windows/macOS.)
 
 Hints
 -----

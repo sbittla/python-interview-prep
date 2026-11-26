@@ -33,7 +33,8 @@ Hints
 -----
 - ``X.chunk(micro)`` splits along dim 0; zero the gradients once, before the loop.
 - With mean losses, each chunk's loss divided by ``micro`` sums to the full-batch loss.
-- ``torch.tensor(v).to(torch.float16)`` rounds to fp16; values below ~6e-8 become 0.
+- ``torch.tensor(v).to(torch.float16)`` rounds to fp16; below ~3e-8 (half the smallest
+  subnormal, ~6e-8) a value becomes 0.
 - Scaler: inf -> halve and reset the streak; ``growth_interval`` good steps -> double.
 
 Wrong-but-tempting

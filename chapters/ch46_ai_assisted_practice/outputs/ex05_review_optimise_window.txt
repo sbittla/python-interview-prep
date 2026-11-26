@@ -1,0 +1,7 @@
+review categories: ['complexity', 'correctness', 'edge case', 'readability']
+generated fails: [([1, 2, 3], 3), ([5, 1, 9], 1), ([-4, -1, -3], 2), ([7], 1), ([1, 2], 0), ([1, 2], -1), ([1, 2], 3), ([], 1)]
+fixed passes all edge cases: True
+fixed == brute force on 500 random cases: True
+n=1000, k=500: reads generated=250000 fixed=1500
+n=2000, k=1000: reads generated=1000000 fixed=3000
+complexity: {'time': 'O(n)', 'space': 'O(1)'}

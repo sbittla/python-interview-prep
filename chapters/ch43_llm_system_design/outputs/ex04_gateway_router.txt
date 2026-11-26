@@ -1,0 +1,31 @@
+hypothetical backends; 'large' is down for t in [5000, 9000) ms
+-- fallback, deadline-aware
+rid  0 t=    0 complex prompt  1500 out 400 -> ok       10400 ms  ok:large
+rid  1 t= 1000 simple  prompt   300 out  50 -> ok         650 ms  ok:small
+rid  2 t= 2000 simple  prompt   300 out  50 -> cache        5 ms  hit
+rid  3 t= 3000 simple  prompt 12000 out  50 -> ok        1650 ms  ok:large
+rid  4 t= 5000 complex prompt   300 out 150 -> fallback  5650 ms  fail:large ok:small
+rid  5 t= 5500 simple  prompt  1500 out 150 -> ok        1650 ms  ok:small
+rid  6 t= 6000 simple  prompt 12000 out  50 -> degraded  3000 ms  fail:large
+rid  7 t= 7000 complex prompt  4000 out 400 -> fallback  4150 ms  skip:large ok:small
+rid  8 t= 8000 complex prompt   300 out 150 -> cache        5 ms  hit
+rid  9 t= 9500 complex prompt   300 out 150 -> ok        4150 ms  ok:large
+rid 10 t=10000 complex prompt 12000 out 400 -> ok       10400 ms  ok:large
+rid 11 t=10500 simple  prompt  4000 out  50 -> ok         650 ms  ok:small
+-- fallback, fixed timeouts
+rid  0 t=    0 complex prompt  1500 out 400 -> ok       10400 ms  ok:large
+rid  1 t= 1000 simple  prompt   300 out  50 -> ok         650 ms  ok:small
+rid  2 t= 2000 simple  prompt   300 out  50 -> cache        5 ms  hit
+rid  3 t= 3000 simple  prompt 12000 out  50 -> ok        1650 ms  ok:large
+rid  4 t= 5000 complex prompt   300 out 150 -> fallback  5650 ms  fail:large ok:small
+rid  5 t= 5500 simple  prompt  1500 out 150 -> ok        1650 ms  ok:small
+rid  6 t= 6000 simple  prompt 12000 out  50 -> degraded  4000 ms  fail:large  LATE
+rid  7 t= 7000 complex prompt  4000 out 400 -> fallback  8150 ms  fail:large ok:small  LATE
+rid  8 t= 8000 complex prompt   300 out 150 -> cache        5 ms  hit
+rid  9 t= 9500 complex prompt   300 out 150 -> ok        4150 ms  ok:large
+rid 10 t=10000 complex prompt 12000 out 400 -> ok       10400 ms  ok:large
+rid 11 t=10500 simple  prompt  4000 out  50 -> ok         650 ms  ok:small
+large only: {'n': 12, 'ok_rate': 0.5, 'fallback_rate': 0.0, 'cache_rate': 0.083, 'degraded_rate': 0.417, 'late_rate': 0.0, 'p50_ms': 3000, 'p95_ms': 10400, 'cost': 0.0345, 'served_by': {'cache': 1, 'large': 6, 'none': 5}}
+fallback, fixed timeouts: {'n': 12, 'ok_rate': 0.583, 'fallback_rate': 0.167, 'cache_rate': 0.167, 'degraded_rate': 0.083, 'late_rate': 0.167, 'p50_ms': 1650, 'p95_ms': 10400, 'cost': 0.03113, 'served_by': {'cache': 2, 'large': 4, 'none': 1, 'small': 5}}
+fallback, deadline-aware: {'n': 12, 'ok_rate': 0.583, 'fallback_rate': 0.167, 'cache_rate': 0.167, 'degraded_rate': 0.083, 'late_rate': 0.0, 'p50_ms': 1650, 'p95_ms': 10400, 'cost': 0.03113, 'served_by': {'cache': 2, 'large': 4, 'none': 1, 'small': 5}}
+summarise([]): no results

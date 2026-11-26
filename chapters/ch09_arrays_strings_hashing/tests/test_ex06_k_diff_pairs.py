@@ -23,3 +23,9 @@ def test_random_against_brute(load):
         nums = [rng.randint(-4, 4) for _ in range(rng.randint(0, 10))]
         k = rng.randint(0, 4)
         assert m.solve(nums, k) == m.brute_force(nums, k)
+
+
+def test_set_only_shortcut_is_wrong_for_k0(load):
+    m = load("ex06_k_diff_pairs")
+    assert m.wrong_set_only([1, 2, 3], 0) == 3          # counts every value
+    assert m.solve([1, 2, 3], 0) == 0                    # no value repeats

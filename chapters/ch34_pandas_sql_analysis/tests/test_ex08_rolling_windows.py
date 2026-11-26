@@ -52,3 +52,15 @@ def test_matches_sql_on_real_data(load):
     num = ["revenue", "run_total", "prev", "dod_pct", "rows_7", "days_7"]
     assert sql["store"].equals(wf["store"]) and sql["date"].equals(wf["date"])
     assert np.allclose(sql[num].to_numpy(float), wf[num].to_numpy(float), equal_nan=True, atol=0.011)
+
+
+def test_prior_week_closed_left(load):
+    m = load("ex08_rolling_windows")
+    got = m.prior_week_mean(small())
+    assert math.isnan(got[0]) and got[1] == 1.0          # today excluded
+    assert got[7] == 5.0                                  # 03-10: 03-03..03-09 -> mean(3, 4, 5, 6, 7)
+    assert got[8] == round((4 + 5 + 6 + 7 + 10) / 5, 2)   # 03-11: 03-04..03-10
+    sales = m.load_sales()
+    with closing(sqlite3.connect(":memory:")) as conn:
+        sales.assign(date=sales["date"].dt.strftime("%Y-%m-%d")).to_sql("sales", conn, index=False)
+        assert np.allclose(m.prior_week_mean(sales), m.sql_prior_week_mean(conn), equal_nan=True, atol=0.011)

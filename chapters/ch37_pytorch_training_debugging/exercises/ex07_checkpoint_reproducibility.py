@@ -42,7 +42,9 @@ Follow-ups
 ----------
 - GPU: also save ``torch.cuda.get_rng_state_all()``; set ``torch.use_deterministic_algorithms(True)``
   (some CUDA ops then need ``CUBLAS_WORKSPACE_CONFIG`` or raise).
-- DataLoader workers: seed each one in ``worker_init_fn``.
+- DataLoader workers: the loader's generator already seeds each worker's torch, ``random`` and
+  NumPy (base seed + worker id); ``worker_init_fn`` is only for other libraries or per-worker
+  state. Checkpoint the generator's state too if you resume mid-epoch.
 - ``map_location="cpu"`` to load a GPU checkpoint on a CPU-only machine.
 - ``weights_only`` defaults to True from PyTorch 2.6 (version-specific); it refuses arbitrary
   pickled objects such as NumPy arrays, which is the point.

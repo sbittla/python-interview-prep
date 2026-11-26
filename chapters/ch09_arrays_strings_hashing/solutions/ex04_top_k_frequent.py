@@ -26,8 +26,10 @@ Approach ladder
 2. Improved   — Counter + sort by (-count, value): O(n + d log d).
    heapq.nsmallest(k, ...) gives O(n + d log k) — best when k is small.
 3. Optimal    — bucket sort by frequency: bucket[f] holds values seen f times;
-   walk buckets from high f to low. O(n) time (plus sorting inside the few
-   buckets we touch, for the deterministic tie-break).
+   walk buckets from high f to low. O(n) time and space without a tie-break
+   rule. Our deterministic tie-break sorts each bucket we touch, which costs
+   O(b log b) for a bucket of size b: O(n + d log d) in the worst case (all
+   values equally frequent), O(n) when the touched buckets are small.
 
 Follow-ups
 ----------

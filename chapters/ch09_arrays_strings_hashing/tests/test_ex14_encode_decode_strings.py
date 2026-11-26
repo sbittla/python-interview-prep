@@ -27,3 +27,32 @@ def test_rle(load, s, enc):
     m = load("ex14_encode_decode_strings")
     assert m.rle_encode(s) == enc
     assert m.rle_decode(enc) == s
+
+
+@pytest.mark.parametrize("strs", [[], [""], ["", ""], ["a,b", "c\\", "", ","], ["\\,", "\\\\"], ["日本,語"]])
+def test_escape_round_trip(load, strs):
+    m = load("ex14_encode_decode_strings")
+    assert m.escape_decode(m.escape_encode(strs)) == strs
+
+
+def test_escape_random(load):
+    m = load("ex14_encode_decode_strings")
+    rng = random.Random(141)
+    for _ in range(200):
+        strs = ["".join(rng.choice("a,\\#") for _ in range(rng.randint(0, 6))) for _ in range(rng.randint(0, 4))]
+        assert m.escape_decode(m.escape_encode(strs)) == strs
+
+
+def test_naive_join_is_ambiguous(load):
+    m = load("ex14_encode_decode_strings")
+    assert m.naive_decode(m.naive_encode([])) == m.naive_decode(m.naive_encode([""]))
+    assert m.naive_decode(m.naive_encode(["a,b"])) != ["a,b"]
+    assert m.decode(m.encode([])) == [] and m.decode(m.encode([""])) == [""]   # framing fixes both
+    assert m.decode(m.encode(["a,b"])) == ["a,b"]
+
+
+def test_decoder_ignores_payload(load):
+    m = load("ex14_encode_decode_strings")
+    # a payload that looks like a frame header must stay opaque
+    assert m.decode(m.encode(["3#abc", "10#"])) == ["3#abc", "10#"]
+    assert m.decode("") == []

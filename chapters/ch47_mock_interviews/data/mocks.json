@@ -1,0 +1,646 @@
+{
+ "mocks": [
+  {
+   "id": "S1",
+   "track": "SWE",
+   "rubric": "coding",
+   "minutes": 45,
+   "role": "Software engineer, early-loop coding screen",
+   "title": "Fundamentals: two short problems",
+   "segments": [
+    [
+     "intro",
+     5
+    ],
+    [
+     "A: merge two sorted lists",
+     13
+    ],
+    [
+     "B: longest substring without repeats",
+     22
+    ],
+    [
+     "closing",
+     5
+    ]
+   ],
+   "problems": [
+    {
+     "label": "A",
+     "title": "Merge two sorted linked lists",
+     "ref": "Ch. 45 #050",
+     "path": "chapters/ch45_problem_bank/solutions/ex050_merge_two_sorted_lists.py",
+     "prompt": "Merge two sorted linked lists into one sorted list, reusing the nodes; on equal values the first list's node comes first.",
+     "hints": [
+      "What do you do with the leftover tail of one list?",
+      "A dummy head removes the special case for the first node."
+     ]
+    },
+    {
+     "label": "B",
+     "title": "Longest substring without repeats",
+     "ref": "§10.5",
+     "path": "chapters/ch10_two_pointers_sliding_window_prefix_sums/solutions/ex07_longest_unique_substring.py",
+     "prompt": "Return the length of the longest substring with no repeated character.",
+     "hints": [
+      "When a character repeats, where must the window's left edge jump to?",
+      "Store each character's last index; left = max(left, last[c] + 1)."
+     ]
+    }
+   ],
+   "strong": [
+    "dummy head, stable on ties, O(n + m) time, O(1) extra space",
+    "window with a last-seen index per character; O(n) time",
+    "traces \"abba\" and the empty string before saying done"
+   ],
+   "followups": [
+    "merge k lists (see §15.6)",
+    "return the substring, not its length",
+    "at most k distinct characters (see §10.6)"
+   ]
+  },
+  {
+   "id": "S2",
+   "track": "SWE",
+   "rubric": "coding",
+   "minutes": 60,
+   "role": "Software engineer, onsite coding round",
+   "title": "Heaps and graphs",
+   "segments": [
+    [
+     "intro",
+     5
+    ],
+    [
+     "A: top-k frequent words",
+     22
+    ],
+    [
+     "B: course schedule",
+     28
+    ],
+    [
+     "closing",
+     5
+    ]
+   ],
+   "problems": [
+    {
+     "label": "A",
+     "title": "Top-k frequent words with a tie-break",
+     "ref": "§15.4",
+     "path": "chapters/ch15_heaps_top_k/solutions/ex03_top_k_frequent_words.py",
+     "prompt": "Return the k most frequent words, most frequent first; equal counts in alphabetical order.",
+     "hints": [
+      "Which word should a size-k min-heap pop first when counts tie?",
+      "Sorting by (-count, word) is a correct baseline; start there."
+     ]
+    },
+    {
+     "label": "B",
+     "title": "Course schedule (topological order)",
+     "ref": "§16.8",
+     "path": "chapters/ch16_graphs/solutions/ex08_course_schedule.py",
+     "prompt": "Given n courses and (course, prerequisite) pairs, return an order that takes every course, or [] if none exists.",
+     "hints": [
+      "Which courses can you take on day one?",
+      "Count in-degrees; repeatedly take a course with in-degree zero."
+     ]
+    }
+   ],
+   "strong": [
+    "compares sort O(n log n) with a size-k heap O(n log k) before coding",
+    "gets the alphabetical tie-break right inside a min-heap",
+    "Kahn's algorithm; a cycle shows up as an order shorter than n; O(V + E)"
+   ],
+   "followups": [
+    "words arrive as a stream (see §15.3)",
+    "return one cycle when there is no order",
+    "fewest semesters if any number of courses fit in one"
+   ]
+  },
+  {
+   "id": "S3",
+   "track": "SWE",
+   "rubric": "coding",
+   "minutes": 60,
+   "role": "Software engineer, design-style coding round",
+   "title": "Design-style: cache, then rate limiter",
+   "segments": [
+    [
+     "intro",
+     5
+    ],
+    [
+     "API and requirements",
+     8
+    ],
+    [
+     "A: LRU cache",
+     22
+    ],
+    [
+     "B: rate limiter",
+     20
+    ],
+    [
+     "closing",
+     5
+    ]
+   ],
+   "problems": [
+    {
+     "label": "A",
+     "title": "LRU cache",
+     "ref": "§29.2",
+     "path": "chapters/ch29_design_style_problems/solutions/ex01_lru_cache.py",
+     "prompt": "Design a fixed-capacity cache with get and put, both O(1); when full, evict the least recently used key.",
+     "hints": [
+      "Which operation forces you beyond a plain dict?",
+      "What lets you move an entry to the most-recent end in O(1)?"
+     ]
+    },
+    {
+     "label": "B",
+     "title": "Rate limiter with an injectable clock",
+     "ref": "§29.5",
+     "path": "chapters/ch29_design_style_problems/solutions/ex04_rate_limiter.py",
+     "prompt": "Add a per-client rate limiter: allow(client) returns False once a client exceeds N requests per window.",
+     "hints": [
+      "How will you test this without sleeping?",
+      "Pass a clock function into the limiter instead of calling time directly."
+     ]
+    }
+   ],
+   "strong": [
+    "writes the API and its O(1) targets before any data structure (see §29.1)",
+    "dict + doubly linked list, or OrderedDict with the trade-off stated",
+    "injects the clock so the limiter is testable without sleeping"
+   ],
+   "followups": [
+    "a TTL per entry",
+    "make it thread-safe (see §28.2)",
+    "sliding log vs token bucket: memory per client"
+   ]
+  },
+  {
+   "id": "S4",
+   "track": "SWE",
+   "rubric": "coding",
+   "minutes": 45,
+   "role": "Software engineer, algorithms round",
+   "title": "Dynamic programming",
+   "segments": [
+    [
+     "intro",
+     5
+    ],
+    [
+     "A: word break",
+     25
+    ],
+    [
+     "B: coin change",
+     10
+    ],
+    [
+     "closing",
+     5
+    ]
+   ],
+   "problems": [
+    {
+     "label": "A",
+     "title": "Word break (yes/no, then one split)",
+     "ref": "§19.9",
+     "path": "chapters/ch19_dynamic_programming/solutions/ex07_word_break_palindromes.py",
+     "prompt": "Can string s be split into dictionary words (reuse allowed)? Then return one such split.",
+     "hints": [
+      "Can you answer for every prefix of s?",
+      "ok[i] is true when some word ends at i and ok[i - len(word)] is true."
+     ]
+    },
+    {
+     "label": "B",
+     "title": "Coin change: fewest coins and number of ways",
+     "ref": "§19.6",
+     "path": "chapters/ch19_dynamic_programming/solutions/ex04_knapsack_coin_change.py",
+     "prompt": "Given coin values and an amount, return the fewest coins that make it (or -1), then the number of ways.",
+     "hints": [
+      "What is the answer for amount 0?",
+      "For number of ways, put the coin loop outside the amount loop."
+     ]
+    }
+   ],
+   "strong": [
+    "states the DP recipe aloud: state, transition, base case (see §19.3)",
+    "memoised recursion first, then bottom-up; bounds the inner loop by the longest word",
+    "explains why the loop order separates combinations from orderings"
+   ],
+   "followups": [
+    "return all splits (the output can be exponential)",
+    "coins in limited supply",
+    "reduce memory to one row (see §19.15)"
+   ]
+  },
+  {
+   "id": "M1",
+   "track": "Data/ML",
+   "rubric": "coding",
+   "minutes": 60,
+   "role": "Data scientist or analytics engineer, technical round",
+   "title": "Analytics: SQL window functions and a cohort table",
+   "segments": [
+    [
+     "intro",
+     5
+    ],
+    [
+     "A: top-N per group in SQL",
+     22
+    ],
+    [
+     "B: cohort retention in pandas",
+     28
+    ],
+    [
+     "closing",
+     5
+    ]
+   ],
+   "problems": [
+    {
+     "label": "A",
+     "title": "Top-N per region, ranks, running totals",
+     "ref": "§30.9",
+     "path": "chapters/ch30_log_text_processing_sql/solutions/ex10_window_functions.py",
+     "prompt": "From sales(region, day, amount) in SQLite, return the n largest sales per region, then a running total per region.",
+     "hints": [
+      "What should happen when two sales tie for the n-th place?",
+      "ROW_NUMBER() OVER (PARTITION BY region ORDER BY amount DESC)."
+     ]
+    },
+    {
+     "label": "B",
+     "title": "Monthly cohort retention matrix",
+     "ref": "§34.9",
+     "path": "chapters/ch34_pandas_sql_analysis/solutions/ex09_cohort_retention.py",
+     "prompt": "From users and orders tables, build a cohort-by-month-offset table of the share of users with a paid order.",
+     "hints": [
+      "What exactly makes a user active in a month?",
+      "Turn each month into year * 12 + month so offsets are subtraction."
+     ]
+    }
+   ],
+   "strong": [
+    "asks how ties rank, then picks ROW_NUMBER, RANK or DENSE_RANK on purpose",
+    "defines active (paid orders only) and the month offset before coding",
+    "checks the matrix on a three-user example worked by hand"
+   ],
+   "followups": [
+    "weekly instead of monthly cohorts",
+    "the same retention table in SQL",
+    "refunded orders: still active?"
+   ]
+  },
+  {
+   "id": "M2",
+   "track": "Data/ML",
+   "rubric": "coding",
+   "minutes": 45,
+   "role": "ML engineer or data scientist, ML fundamentals round",
+   "title": "Metrics and leakage-free evaluation",
+   "segments": [
+    [
+     "intro",
+     5
+    ],
+    [
+     "A: ROC-AUC three ways",
+     20
+    ],
+    [
+     "B: leakage-free CV splits",
+     15
+    ],
+    [
+     "closing",
+     5
+    ]
+   ],
+   "problems": [
+    {
+     "label": "A",
+     "title": "ROC-AUC with ties",
+     "ref": "§35.7",
+     "path": "chapters/ch35_ml_math_stats_metrics/solutions/ex07_roc_auc.py",
+     "prompt": "Compute ROC-AUC from labels and scores without a library, handling tied scores.",
+     "hints": [
+      "What does AUC mean as a probability over pairs?",
+      "Sort by score; how many negatives sit below each positive?"
+     ]
+    },
+    {
+     "label": "B",
+     "title": "Cross-validation splits without leakage",
+     "ref": "§35.11",
+     "path": "chapters/ch35_ml_math_stats_metrics/solutions/ex12_cv_leakage.py",
+     "prompt": "Write k-fold and group k-fold splitters and show how selecting features before splitting leaks.",
+     "hints": [
+      "Which statistics does your preprocessing learn from the data?",
+      "Rows from one user must not sit on both sides of a split."
+     ]
+    }
+   ],
+   "strong": [
+    "defines AUC as P(positive scores above negative), ties counted half",
+    "moves from O(P·N) pairs to an O(n log n) rank formula with a cross-check",
+    "selects features inside each training fold; names group and time leakage"
+   ],
+   "followups": [
+    "PR-AUC when positives are 1% (see §35.7)",
+    "stratified folds",
+    "a model whose AUC is high but is badly calibrated"
+   ]
+  },
+  {
+   "id": "M3",
+   "track": "Data/ML",
+   "rubric": "coding",
+   "minutes": 60,
+   "role": "ML engineer, modelling and debugging round",
+   "title": "Logistic regression, then a broken training loop",
+   "segments": [
+    [
+     "intro",
+     5
+    ],
+    [
+     "A: logistic regression from scratch",
+     25
+    ],
+    [
+     "B: debug a training loop",
+     25
+    ],
+    [
+     "closing",
+     5
+    ]
+   ],
+   "problems": [
+    {
+     "label": "A",
+     "title": "Binary logistic regression with a gradient check",
+     "ref": "§36.2",
+     "path": "chapters/ch36_classical_ml_from_scratch/solutions/ex02_logistic_regression.py",
+     "prompt": "Implement binary logistic regression with gradient descent and check your gradient numerically.",
+     "hints": [
+      "What happens to exp(-z) when z is -1000?",
+      "Compare the analytic gradient with (f(w + h) - f(w - h)) / 2h."
+     ]
+    },
+    {
+     "label": "B",
+     "title": "Debug this broken training loop",
+     "ref": "§37.9",
+     "path": "chapters/ch37_pytorch_training_debugging/solutions/ex10_broken_training_loops.py",
+     "prompt": "This training loop's accuracy is poor. Find the bug, explain the symptom and fix it.",
+     "hints": [
+      "Is the loss flat, stuck at a floor, or noisy at evaluation?",
+      "Compare a first-layer weight before and after one optimiser step."
+     ]
+    }
+   ],
+   "strong": [
+    "overflow-safe sigmoid and a finite-difference gradient check (see §35.2)",
+    "vectorised loss and gradient; states the cost per epoch as O(n·d)",
+    "debugs by symptom, then one probe per hypothesis, then a one-line fix"
+   ],
+   "followups": [
+    "add L2 regularisation (see §36.10)",
+    "class imbalance: weights or threshold?",
+    "the loss becomes NaN at step 40: what do you check?"
+   ]
+  },
+  {
+   "id": "L1",
+   "track": "GenAI/LLM",
+   "rubric": "coding",
+   "minutes": 60,
+   "role": "LLM or ML engineer, model internals round",
+   "title": "Attention, masks and the KV cache",
+   "segments": [
+    [
+     "intro",
+     5
+    ],
+    [
+     "A: scaled dot-product attention",
+     20
+    ],
+    [
+     "B: causal and padding masks",
+     10
+    ],
+    [
+     "C: KV cache",
+     20
+    ],
+    [
+     "closing",
+     5
+    ]
+   ],
+   "problems": [
+    {
+     "label": "A",
+     "title": "Scaled dot-product attention with masks",
+     "ref": "§39.1",
+     "path": "chapters/ch39_attention_transformers_decoding/solutions/ex01_scaled_dot_product_attention.py",
+     "prompt": "Implement scaled dot-product attention with an optional boolean mask; never return NaN.",
+     "hints": [
+      "What shape is Q K^T?",
+      "What does softmax return for a row of all -inf?"
+     ]
+    },
+    {
+     "label": "B",
+     "title": "Causal and padding masks",
+     "ref": "§39.3",
+     "path": "chapters/ch39_attention_transformers_decoding/solutions/ex03_causal_padding_masks.py",
+     "prompt": "Build causal and padding masks by broadcasting and combine them.",
+     "hints": [
+      "Which keys may query i see in a causal model?",
+      "Combine as causal & key-is-real, shape (B, 1, T, T), so it broadcasts over heads."
+     ]
+    },
+    {
+     "label": "C",
+     "title": "KV cache that matches full recompute",
+     "ref": "§39.7",
+     "path": "chapters/ch39_attention_transformers_decoding/solutions/ex08_kv_cache.py",
+     "prompt": "Add a KV cache to a small decoder so incremental decoding matches full recompute.",
+     "hints": [
+      "Which tensors of past tokens never change?",
+      "Each new token needs only its own query."
+     ]
+    }
+   ],
+   "strong": [
+    "says every tensor shape aloud and why scores are divided by sqrt(d_k)",
+    "handles a fully masked row without NaN, using a stable softmax",
+    "tests the cache against full recompute instead of trusting it"
+   ],
+   "followups": [
+    "KV-cache memory for a given model and context (see §39.7)",
+    "grouped-query attention: what shrinks?",
+    "attention cost in n and d"
+   ]
+  },
+  {
+   "id": "L2",
+   "track": "GenAI/LLM",
+   "rubric": "coding",
+   "minutes": 60,
+   "role": "LLM application engineer, retrieval round",
+   "title": "BM25, hybrid fusion and an evaluation gate",
+   "segments": [
+    [
+     "intro",
+     5
+    ],
+    [
+     "A: BM25 with an inverted index",
+     25
+    ],
+    [
+     "B: reciprocal rank fusion",
+     15
+    ],
+    [
+     "C: Recall@K and MRR",
+     10
+    ],
+    [
+     "closing",
+     5
+    ]
+   ],
+   "problems": [
+    {
+     "label": "A",
+     "title": "BM25 from scratch",
+     "ref": "§40.3",
+     "path": "chapters/ch40_retrieval_rag/solutions/ex02_bm25.py",
+     "prompt": "Implement BM25 search over a small corpus with an inverted index.",
+     "hints": [
+      "Which documents can score above zero for this query?",
+      "Keep term -> {doc: tf} postings and touch only query terms."
+     ]
+    },
+    {
+     "label": "B",
+     "title": "Hybrid retrieval with RRF",
+     "ref": "§40.5",
+     "path": "chapters/ch40_retrieval_rag/solutions/ex04_rrf_hybrid.py",
+     "prompt": "Fuse a BM25 ranking and a dense ranking with reciprocal rank fusion.",
+     "hints": [
+      "Why is it useful that RRF needs only ranks?",
+      "Score each doc as the sum of 1 / (k + rank) over lists."
+     ]
+    },
+    {
+     "label": "C",
+     "title": "Retrieval evaluation harness",
+     "ref": "§40.11",
+     "path": "chapters/ch40_retrieval_rag/solutions/ex08_retrieval_eval.py",
+     "prompt": "Report Recall@K and MRR over a labelled query set and fail the run if they regress.",
+     "hints": [
+      "Write the expected Recall@3 for one query by hand first.",
+      "MRR uses the rank of the first relevant document only."
+     ]
+    }
+   ],
+   "strong": [
+    "states which IDF variant it uses and why it stays positive",
+    "scores only the postings of query terms; ties broken by doc id",
+    "measures Recall@K and MRR on labelled queries before tuning k1, b or the RRF k"
+   ],
+   "followups": [
+    "how chunk size changes recall (see §40.2)",
+    "where a reranker goes and what it costs (see §40.6)",
+    "a million documents: ANN trade-offs (see §40.7)"
+   ]
+  },
+  {
+   "id": "L3",
+   "track": "GenAI/LLM",
+   "rubric": "ai",
+   "minutes": 75,
+   "role": "LLM application engineer, AI-assisted build round",
+   "title": "Tool-calling agent loop with an assistant allowed",
+   "segments": [
+    [
+     "intro",
+     5
+    ],
+    [
+     "plan and decompose",
+     10
+    ],
+    [
+     "A: function-calling loop",
+     25
+    ],
+    [
+     "B: tool errors and retries",
+     20
+    ],
+    [
+     "walkthrough",
+     10
+    ],
+    [
+     "closing",
+     5
+    ]
+   ],
+   "problems": [
+    {
+     "label": "A",
+     "title": "The function-calling loop",
+     "ref": "§41.1",
+     "path": "chapters/ch41_agents_tool_calling/solutions/ex03_function_calling_loop.py",
+     "prompt": "With an assistant allowed, build the loop that calls a model, runs requested tools and returns its final answer.",
+     "hints": [
+      "What stops the loop if the model never gives a final answer?",
+      "Keep the transcript as the only state."
+     ]
+    },
+    {
+     "label": "B",
+     "title": "Tool error handling and retries",
+     "ref": "§41.3",
+     "path": "chapters/ch41_agents_tool_calling/solutions/ex05_tool_errors_retries.py",
+     "prompt": "Make tool failures safe: retry what a retry can fix and report the rest to the model.",
+     "hints": [
+      "Which failures can a retry fix, and which can only the model fix?",
+      "Inject sleep so the retry test runs instantly."
+     ]
+    }
+   ],
+   "strong": [
+    "plans the loop and its stop conditions before the first prompt (see §46.2)",
+    "writes tests with the mock model before reading generated code",
+    "retries only transient errors, keeps internal error text away from the model, explains every kept line"
+   ],
+   "followups": [
+    "validate a structured output against a schema (see §41.4)",
+    "add a fallback model behind a gateway (see §43.3)",
+    "how would you evaluate this agent offline?"
+   ]
+  }
+ ]
+}

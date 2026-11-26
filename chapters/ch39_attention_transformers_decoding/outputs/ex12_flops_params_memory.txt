@@ -1,0 +1,18 @@
+per-token FLOPs, V=10 D=4 L=1 T=3: 512
+V=50 D=16 L=2 T=8: counted=119296 formula=119296
+V=37 D=24 L=3 T=5: counted=223440 formula=223440
+V=11 D=8 L=1 T=1: counted=1744 formula=1744
+
+config V=50257 T_max=1024 D=768 L=12
+  total params 124,439,808; matmul params 123,532,032
+  T= 128: exact full-score forward 251.8 MFLOP/token, rule 2N+2LTD 249.4, training ~6N 741.2
+  T=1024: exact full-score forward 284.8 MFLOP/token, rule 2N+2LTD 265.9, training ~6N 741.2
+  T= 4608: attention 169.9, causal half 84.9, dense (no head) 169.9, head 77.2 MFLOP/token
+  T= 9216: attention 339.7, causal half 169.9, dense (no head) 169.9, head 77.2 MFLOP/token
+
+score-matrix memory per layer (H=32, B=1, fp32):
+  T= 2048: 0.50 GiB
+  T= 8192: 8.00 GiB
+  T=32768: 128.00 GiB
+
+torch module count (tied head) 158528 == formula 158528: True

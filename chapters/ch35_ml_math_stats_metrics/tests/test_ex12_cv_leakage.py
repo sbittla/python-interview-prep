@@ -47,6 +47,13 @@ def test_group_kfold_never_splits_a_group(load):
         m.group_kfold([1, 1, 2], 3)
 
 
+def test_group_kfold_balances_fold_sizes(load):
+    # groups sized 5, 4, 3, 3, 1; greedy largest-first gives 5+3 and 4+3+1
+    groups = list("aaaaa" "bbbb" "ccc" "ddd" "e")
+    sizes = sorted(len(te) for _, te in load("ex12_cv_leakage").group_kfold(groups, 2))
+    assert sizes == [8, 8]
+
+
 def test_time_series_split_never_trains_on_the_future(load):
     m = load("ex12_cv_leakage")
     splits = m.time_series_split(23, 4)

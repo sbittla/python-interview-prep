@@ -1,0 +1,9 @@
+sinusoidal(2, 4): [[0.0, 1.0, 0.0, 1.0], [0.8415, 0.5403, 0.01, 1.0]]
+loop == vectorised: True
+PE[p+7] == M @ PE[p] for all p: True
+q.k after RoPE for (m, n) = [(5, 2), (13, 10), (103, 100), (2, 5)] -> [-3.157844, -3.157844, -3.157844, -2.83533]
+  m - n = 3 gives the same score: True | m - n = -3 differs: True
+norms preserved: True | position 0 unchanged: True
+half-split layout == interleaved up to permutation: True
+mixing layouts breaks it: True
+odd d: d must be even

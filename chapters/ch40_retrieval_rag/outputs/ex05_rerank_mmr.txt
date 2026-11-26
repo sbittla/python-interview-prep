@@ -1,0 +1,17 @@
+min_window: 2 None 0
+cross_score('rotate access keys', 'Rotation of access keys') = 0.8833
+cross_score('rotate access keys', 'Rotate access keys every 90 days') = 1.05
+cross_score('rotate access keys', 'keys are rotated by the team; access is logged') = 0.8583
+cross_score('rotate access keys', 'Pricing per GB') = 0.0
+idf weight bucket / e409: 0.8183 2.4277
+
+first relevant rank: dense only -> dense top-5 reranked
+  q06 1 -> 2  copy objects automatically to another region
+  q07 2 -> 1  make objects undeletable for regulators
+  q12 2 -> 1  who handles a P1 ticket at night
+MRR: {'dense': 0.9167, 'rerank': 0.9583} scorer calls: 60 (vs 192 to score every doc)
+
+relevance order: ['s1', 's2', 's3', 's4']
+mmr lam=1.0: ['s1', 's2', 's3']
+mmr lam=0.5: ['s1', 's3', 's4']
+mmr lam=0.0: ['s1', 's4', 's3']

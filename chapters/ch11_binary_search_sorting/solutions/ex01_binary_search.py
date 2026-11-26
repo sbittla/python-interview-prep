@@ -32,6 +32,17 @@ Approach ladder
    Each step discards half of the candidates while preserving the invariant;
    when lo > hi the interval is empty, so the target is absent.
 
+Wrong-but-tempting
+------------------
+- Closed interval but `while lo < hi`: the last one-element interval is never
+  examined, so solve([5], 5) returns -1 (see wrong_closed_lt).
+- Closed interval with `hi = mid` instead of `hi = mid - 1`: when lo == hi the
+  interval never shrinks and the loop spins forever.
+- Starting `hi = len(nums)` in the closed form: nums[mid] can read past the end.
+- Copying `mid = (lo + hi) / 2` from another language: `/` returns a float in
+  Python; use `//`. In C/Java with 32-bit ints, lo + hi can overflow, hence
+  the habit `lo + (hi - lo) // 2` (see mid_int32).
+
 Follow-ups
 ----------
 - Return the insertion point instead of -1 (lower bound, Exercise 02).
@@ -40,6 +51,8 @@ Follow-ups
   search: double hi until nums[hi] >= target, then binary search in [hi/2, hi].
 """
 from __future__ import annotations
+
+import ctypes
 
 
 def brute_force(nums: list[int], target: int) -> int:
@@ -90,6 +103,27 @@ def search_half_open(nums: list[int], target: int) -> int:
     return -1
 
 
+def wrong_closed_lt(nums: list[int], target: int) -> int:
+    """Wrong-but-tempting: closed interval [lo, hi] with a half-open loop test."""
+    lo, hi = 0, len(nums) - 1
+    while lo < hi:                    # bug: skips the final lo == hi candidate
+        mid = (lo + hi) // 2
+        if nums[mid] == target:
+            return mid
+        if nums[mid] < target:
+            lo = mid + 1
+        else:
+            hi = mid - 1
+    return -1
+
+
+def mid_int32(lo: int, hi: int) -> tuple[int, int]:
+    """What (lo + hi) // 2 and lo + (hi - lo) // 2 give with C 32-bit int arithmetic."""
+    naive = ctypes.c_int32(lo + hi).value // 2        # wraps around like C int
+    safe = lo + ctypes.c_int32(hi - lo).value // 2
+    return naive, safe
+
+
 def exponential_search(nums: list[int], target: int) -> int:
     """For 'unknown size' variants: grow the bound, then binary search inside it."""
     if not nums:
@@ -137,6 +171,11 @@ def main() -> None:
         print(f"target={t:>4}: brute/recursive/closed/half-open/exponential = {results}")
     print("empty list:", solve([], 1), search_half_open([], 1))
     print("single element hit/miss:", solve([5], 5), solve([5], 4))
+    print("wrong_closed_lt on [5], 5:", wrong_closed_lt([5], 5), "(should be 0)")
+    print("all duplicates [2,2,2,2] find 2 -> some index:", solve([2, 2, 2, 2], 2))
+    lo, hi = 2_000_000_000, 2_100_000_000
+    print("Python mid of 2.0e9 and 2.1e9:", (lo + hi) // 2)
+    print("C int32 naive / safe mid:", mid_int32(lo, hi))
     print("\nTrace for target 9:")
     for line in trace(nums, 9):
         print("  " + line)

@@ -22,9 +22,9 @@ Constraints
 
 Hints
 -----
-- out[i] = (product of everything left of i) * (product of everything right of i).
-- First pass left-to-right stores the left products in out; second pass right-to-left multiplies a running suffix in.
-- with_division must handle 0, 1 and 2+ zeros separately.
+- Split 'everything except i' into two parts that do not include i.
+- Each part can be built incrementally; can the output list hold one part while you add the other?
+- with_division: what changes when the input has no zeros, one zero, or more?
 
 Follow-ups
 ----------

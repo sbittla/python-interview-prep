@@ -1,0 +1,15 @@
+repetition_penalty theta=2, history [0, 1, 1, 3]: [1.0, -4.0, 1.0, 0.0]
+wrong (divide all)                            : [1.0, -1.0, 1.0, 0.0] <- token 1 got MORE likely
+frequency 0.5, presence 1.0, history [0, 0, 2]: [0.0, -2.0, -0.5, 0.0]
+no_repeat_ngram n=3 after [5, 1, 2, 5, 1, 3, 5, 1] -> banned next tokens: [2, 3]
+
+pieces=['Hel', 'lo\n', '\nUs', 'er:', ' hi']
+  stops=['\n\nUser:'] -> chunks=['Hel', 'lo'] text='Hello' reason=stop | brute agrees: True
+pieces=['The', ' end', '<eos>', 'junk']
+  stops=['STOP'] -> chunks=['The', ' end'] text='The end' reason=eos | brute agrees: True
+pieces=['a', 'b', 'c', 'd', 'e']
+  stops=[] -> chunks=['a', 'b', 'c'] text='abc' reason=length | brute agrees: True
+pieces=['x = 1', '\n#', ' not', ' a stop']
+  stops=['\n##'] -> chunks=['x = 1', '\n# not', ' a stop'] text='x = 1\n# not a stop' reason=end | brute agrees: True
+pieces=['yes', 'STO', 'P', '!']
+  stops=['STOP'] -> chunks=['yes'] text='yes' reason=stop | brute agrees: True

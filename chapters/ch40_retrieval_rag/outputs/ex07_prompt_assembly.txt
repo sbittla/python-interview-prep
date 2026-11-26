@@ -1,0 +1,22 @@
+edge_order: ['r1', 'r3', 'r5', 'r4', 'r2']
+candidates: [('d14#1', 0.5219, 19), ('d14#0', 0.4583, 31), ('d08#1', 0.3501, 28), ('d02#1', 0.2803, 45), ('d04#1', 0.1818, 24), ('d14#1-dup', 0.5219, 19)]
+
+budget=190 reserve=40 -> prompt tokens=146 (+40 reserved)
+sources: {1: 'd14#1', 2: 'd14#0', 3: 'd08#1', 4: 'd04#1'}
+dropped: [('d14#1-dup', 'duplicate'), ('d02#1', 'budget')]
+Answer the question using only the numbered sources. Cite every sentence with [n]. If the sources do not contain the answer, reply: I don't know.
+
+Sources:
+[1] (d14#1) Deleting buckets / After deletion: A deleted bucket name may take up to 24 hours to become available again.
+[2] (d14#0) Deleting buckets / Before you delete: A bucket must be empty before it can be deleted. With versioning enabled, empty means no current objects, no old versions and no delete markers.
+[3] (d08#1) Error codes / Conflicts: E409 BucketNotEmpty is returned when you delete a bucket that still holds objects or object versions. Delete every object version and delete marker first.
+[4] (d04#1) Retention lock / Governance mode: In governance mode, users with the bypass permission can delete locked objects. Retention lock requires versioning on the bucket.
+
+Question: why does deleting my bucket fail with E409
+Answer:
+
+mock answer: Error codes / Conflicts: E409 BucketNotEmpty is returned when you delete a bucket that still holds objects or object versions [3]. Deleting buckets / After deletion: A deleted bucket name may take up to 24 hours to become available again [1].
+
+edges order: {1: 'd14#1', 2: 'd08#1', 3: 'd04#1', 4: 'd02#1', 5: 'd14#0'}
+naive cut keeps the question: False | ends with: 'ng an old version: Overwriting'
+ValueError: instructions + question + reserve need 76 tokens > budget 60

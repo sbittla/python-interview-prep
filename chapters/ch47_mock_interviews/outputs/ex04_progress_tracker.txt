@@ -1,0 +1,20 @@
+coding rubric, 6 mocks:
+  2026-09-01 S1  51.25  not yet
+  2026-09-08 S2  62.50  not yet
+  2026-09-15 M1  63.75  not yet
+  2026-09-22 S3  75.00  close
+  2026-09-29 S4  78.75  close
+  2026-10-06 S2  91.25  ready
+  trend: +7.43 points per mock
+  weak: correctness   avg lost 4.17 (last 3)
+  weak: testing       avg lost 4.17 (last 3)
+ai rubric, 2 mocks:
+  2026-09-20 L3  51.25  not yet
+  2026-10-04 L3  75.00  close
+  trend: +23.75 points per mock
+  weak: verifying     avg lost 15.00 (last 2)
+  weak: decomposition avg lost 7.50 (last 2)
+
+Study plan (coding):
+  correctness (avg -4.17 pts): stress-test against brute force on seeded small inputs (see §2.1); retake S4
+  testing (avg -4.17 pts): dry-run one example and add a failing case before you say done (see §2.6); retake S4

@@ -1,0 +1,25 @@
+example weights: [[1.0, 0.0], [0.3302, 0.6698]]
+loop == vectorised: True
+row sums: [1.0, 0.0, 1.0, 1.0]  (row 1 fully masked)
+weights:
+ [[0.382 0.242 0.    0.    0.377]
+ [0.    0.    0.    0.    0.   ]
+ [0.276 0.341 0.17  0.128 0.084]
+ [0.    0.    1.    0.    0.   ]]
+fully masked row output: [0.0, 0.0, 0.0] any NaN: False
+-1e9 fill: rows with a valid key match -inf: True
+-1e9 fill: fully masked row weights: [0.2, 0.2, 0.2, 0.2, 0.2] <- uniform leak
+scores ~ 1e6, no overflow: [[0.3333, 0.3333, 0.3333]]
+batched (2, 3, 6, 4) causal output shape: (2, 3, 6, 4)
+
+score std  d_k   unscaled  scaled   mean max softmax weight (m=16)
+             4      1.99    1.01   unscaled 0.415  scaled 0.238
+            64      7.92    1.00   unscaled 0.836  scaled 0.252
+           512     22.41    1.00   unscaled 0.935  scaled 0.242
+
+matches torch SDPA (causal, batched): True
+torch SDPA fully masked row: [0.0, 0.0, 0.0] | valid rows match: True
+nn.MultiheadAttention, fully masked row has NaN?
+  need_weights=True  train=True  grad=True  -> True
+  need_weights=False train=True  grad=True  -> False
+  need_weights=False train=False grad=False -> True

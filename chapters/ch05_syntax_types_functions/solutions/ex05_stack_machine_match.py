@@ -14,7 +14,7 @@ Execute a list of text commands against an integer stack and return everything p
 
 Raise ``ValueError("stack underflow")`` when a command needs more values than the stack holds
 and ``ValueError("bad command: <text>")`` for anything unrecognised (including ``push`` with a
-missing or non-integer argument).
+missing or non-integer argument; an integer is an optional ``-`` followed by decimal digits).
 
 Examples
 --------
@@ -35,7 +35,8 @@ Approach ladder
 
 Follow-ups
 ----------
-- Add ``case ["jmp", target] if target.isdigit():`` — guards refine a pattern.
+- Add ``case ["jmp", target] if target.isdecimal():`` — like the ``push`` case, a guard refines
+  a pattern; when the guard is false, matching moves on to the next case.
 - Why does ``case x:`` (a bare name) match everything? A bare name is a capture pattern, not a
   comparison; compare against constants with dotted names (``Op.ADD``) or literals.
 """
@@ -50,11 +51,15 @@ def _pop2(stack: list[int]) -> tuple[int, int]:
     return a, b
 
 
+def _is_int(arg: str) -> bool:
+    # isdecimal, not isdigit: "²".isdigit() is True but int("²") fails
+    return arg.removeprefix("-").isdecimal()          # str.removeprefix: 3.9+
+
+
 def _parse_int(arg: str, line: str) -> int:
-    try:
-        return int(arg)
-    except ValueError:
-        raise ValueError(f"bad command: {line}") from None
+    if not _is_int(arg):
+        raise ValueError(f"bad command: {line}")
+    return int(arg)
 
 
 def brute_force(program: list[str]) -> list[int]:
@@ -85,23 +90,18 @@ def solve(program: list[str]) -> list[int]:
     out: list[int] = []
     for line in program:
         match line.split():
-            case ["push", arg]:
-                stack.append(_parse_int(arg, line))
-            case ["pop" | "dup" | "print" as op]:      # OR-pattern with a capture
+            case ["push", arg] if _is_int(arg):         # guard refines the pattern
+                stack.append(int(arg))
+            case ["pop" | "dup" | "print" as op]:       # OR-pattern with a capture
                 if not stack:
                     raise ValueError("stack underflow")
                 if op == "pop":
                     stack.pop()
-                elif op == "dup":
-                    stack.append(stack[-1])
                 else:
-                    out.append(stack[-1])
-            case ["add"]:
+                    (stack if op == "dup" else out).append(stack[-1])
+            case ["add" | "mul" as op]:
                 a, b = _pop2(stack)
-                stack.append(a + b)
-            case ["mul"]:
-                a, b = _pop2(stack)
-                stack.append(a * b)
+                stack.append(a + b if op == "add" else a * b)
             case _:                                     # wildcard: nothing else matched
                 raise ValueError(f"bad command: {line}")
     return out

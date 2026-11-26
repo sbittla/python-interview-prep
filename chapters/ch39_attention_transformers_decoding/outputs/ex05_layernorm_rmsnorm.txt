@@ -1,0 +1,11 @@
+LN [1, 2, 3]: [-1.2247, 0.0, 1.2247]
+RMS [3, 4]  : [0.8485, 1.1314]
+LN per-token mean ~0: True  std ~1: True
+loop == vectorised: True
+LN  invariant to shift: True  to scale: True
+RMS invariant to shift: False  to scale: True
+constant vector, LN -> beta: True | zero vector, RMS -> 0: True
+ddof=1 variance gives a different answer: True
+params d=768: LN 1536  RMS 768
+matches torch layer_norm: True
+matches torch rms_norm  : True

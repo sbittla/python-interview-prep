@@ -24,9 +24,9 @@ Constraints
 
 Hints
 -----
-- For each x you need target - x. Have you already seen it?
-- Store value -> index in a dict; look up the complement BEFORE inserting x.
-- Keep the earliest index for repeated values.
+- For each x, which single value would complete a pair?
+- Which data structure answers 'have I seen value v, and where?' in O(1) on average?
+- Think about [3, 3] with target 6, and [3] with target 6.
 
 Follow-ups
 ----------

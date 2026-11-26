@@ -5,7 +5,7 @@ Chapter 05 · Pattern: string formatting · Target time: 15 min
 Problem
 -------
 Given a list of ``(name, quantity, unit_price)`` tuples, return the lines of a plain-text
-receipt (a list of strings, no trailing spaces are required to be stripped):
+receipt as a list of strings (every line is 29 characters wide while the numbers fit):
 
 - a header line: ``Item`` left-aligned in 12 columns, ``Qty`` right-aligned in 5, ``Amount``
   right-aligned in 12;
@@ -29,14 +29,14 @@ Constraints
 Approach ladder
 ---------------
 1. Brute force — pad with ``str.ljust``/``str.rjust`` and format numbers with ``round`` and
-   manual comma insertion. Works, but long and error-prone.
+   manual comma insertion. O(n) time too, but long and error-prone.
 2. Optimal    — one f-string per line using format specs: ``{name:<12.12}`` (left, width 12,
    truncate to 12), ``{qty:>5}``, ``{amount:>12,.2f}``. O(n) time. The format mini-language is
    the tool; knowing it is the point of this exercise.
 
 Follow-ups
 ----------
-- Money should not be a float in production: use ``decimal.Decimal`` (Chapter 7).
+- Money should not be a float in production: use ``decimal.Decimal`` (§7.8).
 - Make the column widths parameters: nested replacement fields ``{name:<{w}}`` work.
 """
 from __future__ import annotations

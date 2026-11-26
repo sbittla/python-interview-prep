@@ -22,9 +22,9 @@ Constraints
 
 Hints
 -----
-- Count with Counter first.
-- Bucket sort: a list indexed by frequency (0..n) of value lists; walk from high to low.
-- Sort values inside a bucket for the deterministic tie-break (smaller value first).
+- Count first. The rest is choosing the k largest counts.
+- A count is never larger than len(nums). Could the count itself be an index?
+- Ties: smaller value first, so the answer is deterministic.
 
 Follow-ups
 ----------

@@ -24,7 +24,7 @@ These ARE the brute-force rung of sorting. Know their properties:
 - Bubble     O(n^2), best O(n) with early exit, stable, in place.
 - Selection  O(n^2) always, at most n-1 swaps (good when writes are costly), NOT stable.
 - Insertion  O(n^2), best O(n) on nearly sorted input, stable, in place, online.
-  Insertion sort is what Timsort uses on short runs, and its number of shifts
+  Timsort extends short runs with BINARY insertion sort, and the number of shifts
   equals the number of inversions (Exercise 06).
 
 Follow-ups

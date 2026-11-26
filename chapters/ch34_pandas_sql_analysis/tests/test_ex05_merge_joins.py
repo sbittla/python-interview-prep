@@ -31,8 +31,25 @@ def test_validate_raises_on_duplicate_keys(load):
     orders = pd.DataFrame({"order_id": [1, 2], "user_id": [5, 6]})
     ok = m.checked_lookup(orders, pd.DataFrame({"user_id": [5, 6], "tier": ["a", "b"]}))
     assert ok["tier"].tolist() == ["a", "b"]
+    partial = m.checked_lookup(orders, pd.DataFrame({"user_id": [6], "tier": ["b"]}))
+    assert partial["order_id"].tolist() == [1, 2]                   # user 5 missing: row kept (left join)
+    assert pd.isna(partial["tier"].iloc[0]) and partial["tier"].iloc[1] == "b"
     with pytest.raises(MergeError):
         m.checked_lookup(orders, pd.DataFrame({"user_id": [5, 5], "tier": ["a", "b"]}))
+
+
+def test_nan_keys_pandas_vs_sqlite(load):
+    m = load("ex05_merge_joins")
+    a = pd.DataFrame({"user_id": [1.0, float("nan")], "a": [1, 2]})
+    b = pd.DataFrame({"user_id": [1.0, float("nan")], "tier": ["x", "y"]})
+    joined = m.checked_lookup(a, b)                                  # left join on user_id
+    assert joined["tier"].tolist() == ["x", "y"]                     # pandas: NaN matches NaN
+    with closing(sqlite3.connect(":memory:")) as conn:
+        a.to_sql("a", conn, index=False)
+        b.to_sql("b", conn, index=False)
+        rows = conn.execute("SELECT a.a, b.tier FROM a LEFT JOIN b ON a.user_id = b.user_id "
+                            "ORDER BY a.a").fetchall()
+    assert rows == [(1, "x"), (2, None)]                             # SQL: NULL matches nothing
 
 
 def test_join_row_count_random(load):

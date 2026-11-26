@@ -1,0 +1,13 @@
+section title                              bank  book
+44.1    Python language and internals        15     8
+44.2    Data structures and complexity       14     8
+44.3    Algorithms and patterns              15     8
+44.4    Concurrency and performance          12     8
+44.5    Testing and engineering practice     13     8
+44.6    ML and statistics                    14     8
+44.7    GenAI and LLM engineering            19     8
+all                                         102    56
+gaps (need >= 10 in bank, >= 8 in book): []
+chapters cited: 39 | most cited: [(7, 9), (35, 9), (28, 8), (31, 6), (27, 5)]
+teaching chapters 5-43 never cited: []
+top tags: [('asyncio', 5), ('hashing', 5), ('metrics', 5), ('inference', 4), ('design', 3), ('gil', 3)]

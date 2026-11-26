@@ -31,6 +31,14 @@ def test_first_time_shortcut_is_wrong(load):
     assert m.first_time_funnel(events, m.STEPS[:2]) == [1, 0]
 
 
+def test_repeated_mid_step_uses_earliest_qualifying_time(load):
+    m = load("ex10_funnel_conversion")
+    events = ev([(1, "2026-01-01 09:00", "view"), (1, "2026-01-01 09:01", "cart"),
+                 (1, "2026-01-01 09:10", "cart"), (1, "2026-01-01 09:05", "checkout")])
+    assert m.reached_per_step(events, m.STEPS[:3]) == [1, 1, 1]      # cart at 09:01, checkout after it
+    assert m.brute_force_funnel(events, m.STEPS[:3]) == [1, 1, 1]
+
+
 def test_random_vs_brute_and_sql(load):
     m = load("ex10_funnel_conversion")
     rng = random.Random(10)

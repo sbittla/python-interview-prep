@@ -29,3 +29,16 @@ def test_empty(load):
     r = m.classify("")
     assert r == {"counts": {"S": 0, "M": 0, "L": 0}, "track": "S", "likely_rounds": [],
                  "top_terms": []}
+
+
+def test_top_terms_ties_are_alphabetical(load):
+    m = load("ex07_job_description_classifier")
+    # SIGNALS lists "rest" before "backend"; the tie must still sort alphabetically
+    assert m.classify("REST for the backend")["top_terms"] == [("backend", 1), ("rest", 1)]
+
+
+def test_punctuated_terms_stay_whole(load):
+    m = load("ex07_job_description_classifier")
+    r = m.classify("Run A/B testing and fit scikit-learn models; fine-tuning a plus.")
+    assert r["counts"] == {"S": 0, "M": 3, "L": 1}
+    assert r["track"] == "M"

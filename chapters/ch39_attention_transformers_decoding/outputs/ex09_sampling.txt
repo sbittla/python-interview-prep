@@ -1,0 +1,18 @@
+p=0.4  keep=[1, 0, 0, 0]  loop=[1, 0, 0, 0]  wrong(cum<=p)=[0, 0, 0, 0]
+p=0.5  keep=[1, 0, 0, 0]  loop=[1, 0, 0, 0]  wrong(cum<=p)=[1, 0, 0, 0]
+p=0.6  keep=[1, 1, 0, 0]  loop=[1, 1, 0, 0]  wrong(cum<=p)=[1, 0, 0, 0]
+p=0.75 keep=[1, 1, 0, 0]  loop=[1, 1, 0, 0]  wrong(cum<=p)=[1, 1, 0, 0]
+p=0.9  keep=[1, 1, 1, 1]  loop=[1, 1, 1, 1]  wrong(cum<=p)=[1, 1, 1, 0]
+p=1.0  keep=[1, 1, 1, 1]  loop=[1, 1, 1, 1]  wrong(cum<=p)=[1, 1, 1, 1]
+
+greedy: 0  top_k(2): [1, 1, 0, 0, 0, 0]  top_k(3) with tie: [1, 1, 1, 1, 0, 0]
+T=0.25 probs=[0.977, 0.018, 0.002, 0.002, 0.0, 0.0]  entropy=0.124
+T=1.0  probs=[0.535, 0.197, 0.119, 0.119, 0.027, 0.004]  entropy=1.279
+T=4.0  probs=[0.256, 0.199, 0.176, 0.176, 0.121, 0.073]  entropy=1.728
+top_p=0.8 at T=1: [1, 1, 1, 0, 0, 0]  at T=4: [1, 1, 1, 1, 0, 0]
+
+filtered probs (T=0.8, k=4, p=0.9): [0.695, 0.199, 0.107, 0.0, 0.0, 0.0]
+empirical freq over 20000 draws    : [0.693, 0.199, 0.109, 0.0, 0.0, 0.0]
+max |freq - prob| < 0.01: True
+same seed, same draws: True
+T=0: temperature must be > 0 (use greedy for T = 0)

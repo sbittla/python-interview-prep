@@ -1,0 +1,14 @@
+fixed size=4 overlap=2: ['a b c d', 'c d e f', 'e f g']
+fixed size=4 overlap=0: ['a b c d', 'e f g h']
+short text: ['a b']  empty: []
+overlap == size -> need size > 0 and 0 <= overlap < size
+sentences max=3: ['One two.', 'Three four five.', 'Six.']
+long sentence max=3: ['Short.', 'This sentence has', 'seven words in', 'it.']
+
+char_chunks(d06, 60)[:2]: ['## Creating keys\nAn access key has an id and a secret. The s', 'ecret is shown only once, when the key is created. Each user']
+  [Access keys > Creating keys] (20 words) An access key has an id and a secret. The secret is shown only once, when the key is created.
+  [Access keys > Creating keys] (8 words) Each user can hold two active access keys.
+  [Access keys > Rotation] (6 words) Rotate access keys every 90 days.
+  [Access keys > Rotation] (16 words) Create the second key, deploy it to your applications, then deactivate and delete the old key.
+  [Access keys > Rotation] (8 words) Holding two keys makes rotation possible without downtime.
+preamble + empty heading: [{'heading': '', 'text': 'Intro text.'}, {'heading': 'B', 'text': 'Body of B.'}]

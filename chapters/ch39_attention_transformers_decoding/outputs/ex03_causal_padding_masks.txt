@@ -1,0 +1,13 @@
+causal_mask(4):
+ [[1 0 0 0]
+ [1 1 0 0]
+ [1 1 1 0]
+ [1 1 1 1]]
+causal_mask(2, 4) (2 new queries, 2 cached keys): [[1, 1, 1, 0], [1, 1, 1, 1]]
+loop == broadcast: True
+right padding keys [[1, 1, 0, 0], [1, 1, 1, 1]]  fully masked (b, h, query): []
+ left padding keys [[0, 0, 1, 1], [1, 1, 1, 1]]  fully masked (b, h, query): [(0, 0, 0), (0, 0, 1)]
+naive softmax, left padding: NaN rows = [0, 1]
+changing positions 4-5 moves outputs at positions: [4, 5]
+additive mask row 1: [0.0, 0.0, -inf, -inf, -inf, -inf]
+causal_mask(3, 2): n_k must be >= n_q

@@ -1,0 +1,16 @@
+all numbers hypothetical: M8B on G80, $2.50/accelerator-hour, API $0.50/$1.50 per 1M tokens
+rung 1 (output tokens only, batch 64): 5 replicas
+KV fits 129 sequences; batch for TPOT <= 25 ms: 64 | <= 10 ms: 8
+prompt batch TPOT ms  e2e s in_decode prefill decode total
+  3000     8     9.7   3.13       144      18     26    44
+  3000    64    21.2   6.58       317      18      8    26
+  1500    64    14.9   4.58       223       9      5    14
+   300    64     9.9   2.98       148       2      4     6
+API: $1.95 per 1k requests
+self-host, 26 replicas, avg 50 QPS: $0.36 per 1k requests
+self-host, 26 replicas, avg 20 QPS: $0.90 per 1k requests
+self-host, 26 replicas, avg  5 QPS: $3.61 per 1k requests
+break-even average load: 9.3 QPS
+TPOT <= 5 ms: no batch size meets the TPOT SLO within memory
+batch 256: batch 256 exceeds the 129 sequences that fit
+M70B on one G80: batch 1 exceeds the 0 sequences that fit

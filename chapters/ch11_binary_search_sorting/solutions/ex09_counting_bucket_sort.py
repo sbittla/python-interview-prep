@@ -10,7 +10,7 @@ k = max - min + 1. Negative values must work.
 of radix sort).
 (c) Bucket sort floats uniformly spread in [0, 1).
 (d) Interview application: return the k most frequent values, ties broken by
-smaller value, in O(n) using frequency buckets.
+smaller value, using frequency buckets instead of a full sort.
 
 Examples
 --------
@@ -35,7 +35,10 @@ Approach ladder
 Follow-ups
 ----------
 - Bucket sort worst case: everything lands in one bucket -> cost of the inner sort.
-- Top-k frequent with a heap is O(n log k); bucket version is O(n).
+- Top-k frequent with a heap is O(n log k); the bucket version is O(n) when
+  any tie order is acceptable. The deterministic "smaller value first"
+  tie-break here sorts inside each bucket it reads: O(n + d log d) worst case
+  for d distinct values (e.g. all frequencies equal).
 - Sort characters of a string by frequency: same bucket idea.
 """
 from __future__ import annotations

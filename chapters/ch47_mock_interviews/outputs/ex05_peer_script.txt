@@ -1,0 +1,52 @@
+Mock S2: Heaps and graphs (60 min, rubric §47.3)
+Role: Software engineer, onsite coding round
+
+Interviewer files (do not share):
+  A: chapters/ch15_heaps_top_k/solutions/ex03_top_k_frequent_words.py
+  B: chapters/ch16_graphs/solutions/ex08_course_schedule.py
+
+Read aloud:
+  A (§15.4): Return the k most frequent words, most frequent first; equal counts in alphabetical order.
+  B (§16.8): Given n courses and (course, prerequisite) pairs, return an order that takes every course, or [] if none exists.
+
+Timeline:
+  00:00 intro - introduce yourself; say the length; ask them to think aloud
+  05:00 A: top-k frequent words - read the prompt; answer questions; do not volunteer constraints
+  13:00 checkpoint A: no plan stated yet? offer hint A1
+  27:00 B: course schedule - read the prompt; answer questions; do not volunteer constraints
+  38:00 checkpoint B: no plan stated yet? offer hint B1
+  55:00 closing - stop coding; ask the follow-ups; leave time for their questions
+
+Hints (one at a time, after ~3 min stuck; log each as HINT):
+  A1. Which word should a size-k min-heap pop first when counts tie?
+  A2. Sorting by (-count, word) is a correct baseline; start there.
+  B1. Which courses can you take on day one?
+  B2. Count in-degrees; repeatedly take a course with in-degree zero.
+
+Follow-ups:
+  - words arrive as a stream (see §15.3)
+  - return one cycle when there is no order
+  - fewest semesters if any number of courses fit in one
+
+Strong looks like:
+  - compares sort O(n log n) with a size-k heap O(n log k) before coding
+  - gets the alphabetical tie-break right inside a min-heap
+  - Kahn's algorithm; a cycle shows up as an order shorter than n; O(V + E)
+
+Scoring sheet (0=missing 1=weak 2=mixed 3=solid 4=strong):
+  [ ] Clarifying requirements and constraints (10)
+  [ ] Approach and trade-off reasoning (20)
+  [ ] Correctness on tests and edge cases (25)
+  [ ] Code quality and Pythonic style (15)
+  [ ] Complexity analysis (10)
+  [ ] Testing and debugging (10)
+  [ ] Communication (10)
+
+--- L3 uses the AI-assisted rubric ---
+Mock L3: Tool-calling agent loop with an assistant allowed (75 min, rubric §47.4)
+Scoring sheet (0=missing 1=weak 2=mixed 3=solid 4=strong):
+  [ ] Problem decomposition and planning (20)
+  [ ] Prompting and context management (15)
+  [ ] Verifying and critiquing AI output (30)
+  [ ] Integration and code quality (20)
+  [ ] Explaining and owning the final code (15)

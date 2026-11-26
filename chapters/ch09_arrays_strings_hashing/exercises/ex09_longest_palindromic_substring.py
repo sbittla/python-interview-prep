@@ -20,13 +20,13 @@ Constraints
 
 Hints
 -----
-- Every palindrome has a centre: a character (odd length) or a gap (even length).
-- expand(s, lo, hi) grows while s[lo] == s[hi] and returns the final [lo, hi) bounds.
-- Try 2n - 1 centres; keep the longest (strictly longer keeps the earliest start).
+- Every palindrome is symmetric about a middle. Where can that middle be?
+- How many possible middles does a string of length n have?
+- Ties: the earliest start wins. Which comparison keeps that?
 
 Follow-ups
 ----------
-- Count all palindromic substrings: same expansion, add 1 per successful step.
+- Count all palindromic substrings (count_palindromes).
 - Longest palindromic *subsequence* is a different problem: DP (Chapter 19).
 """
 from __future__ import annotations

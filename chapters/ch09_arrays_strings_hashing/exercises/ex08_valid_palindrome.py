@@ -24,9 +24,9 @@ Constraints
 
 Hints
 -----
-- Two indices lo and hi moving towards each other; skip characters that are not alphanumeric.
-- Compare lower-cased characters.
-- One-delete: on the first mismatch, test whether s[lo+1..hi] or s[lo..hi-1] is a palindrome.
+- The reversed-copy check is a fine first answer; what does it cost in space?
+- Can you compare characters from both ends without building a copy?
+- One-delete: at the first mismatch, how many candidate deletions are there?
 
 Follow-ups
 ----------

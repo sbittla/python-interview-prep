@@ -22,9 +22,9 @@ Constraints
 
 Hints
 -----
-- Different lengths -> cannot be anagrams.
-- One dict: +1 for each char of s, -1 for each char of t; all counts must end at 0.
-- sorted(s) == sorted(t) and Counter(s) == Counter(t) are valid one-liners.
+- What cheap check rules many pairs out immediately?
+- Anagrams have the same multiset of characters. How do you compare multisets in O(n)?
+- Can one dictionary serve both strings?
 
 Follow-ups
 ----------

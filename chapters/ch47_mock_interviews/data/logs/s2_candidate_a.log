@@ -1,0 +1,21 @@
+# Scripted log: mock S2, problem A (top-k frequent words), candidate A.
+# Format: MM:SS EVENT [detail]. Lines starting with # are comments.
+00:00 START top-k frequent words
+00:35 SAY restates: k most frequent, ties alphabetical
+01:05 ASK can k exceed the number of distinct words?
+01:40 ASK are words already lowercase?
+02:30 SAY example ["a","b","a"], k=1 -> ["a"]
+04:10 PLAN sort by (-count, word): O(n log n)
+05:20 PLAN size-k min-heap: O(n log k), tie key needs care
+06:00 COMPLEXITY O(n log k) time, O(n) space for the counter
+06:40 CODE_START
+08:30 SAY counter first, then a heap entry whose ordering reverses words on ties
+10:40 SAY pushing and popping when the heap exceeds k
+12:20 SAY output is popped smallest first, so reverse it
+13:50 RUN 4/5
+14:30 BUG_FOUND heap pops the alphabetically smaller word on ties
+16:10 RUN 5/5
+17:00 TEST_ADDED all counts equal
+18:20 TEST_ADDED k equals number of distinct words
+19:30 SAY re-derives complexity from the code
+20:45 END

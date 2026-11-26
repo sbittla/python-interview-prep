@@ -17,8 +17,10 @@ a behavioural round). Given `total_hours` of study time, write
    exactly to total_hours;
 4. unknown round types raise ValueError.
 
-Then `weekly_schedule(rounds, weeks, hours_per_week)` returns a list of strings, one per week,
-spreading each type's hours over the weeks with the same largest-remainder rule per week.
+Then `weekly_schedule(rounds, weeks, hours_per_week)` returns a list of strings, one per week
+("Week k: type=h, ..." with zero-hour types omitted). Every week must hold exactly
+hours_per_week hours: each week, split hours_per_week over the types in proportion to the hours
+each type still has *remaining*, again with largest remainder, then subtract.
 
 Examples
 --------
@@ -34,6 +36,8 @@ Hints
 -----
 - Use integer arithmetic for the remainders to avoid float ties: numerator % denominator.
 - sorted(types, key=lambda t: (-remainder[t], t)) gives the leftover order.
+- Splitting each type over the weeks independently looks fine per type but lets week totals
+  drift (13, 12, 11 instead of 12, 12, 12): the leftovers all land on week 1.
 
 Follow-ups
 ----------

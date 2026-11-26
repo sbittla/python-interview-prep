@@ -17,8 +17,10 @@ a behavioural round). Given `total_hours` of study time, write
    exactly to total_hours;
 4. unknown round types raise ValueError.
 
-Then `weekly_schedule(rounds, weeks, hours_per_week)` returns a list of strings, one per week,
-spreading each type's hours over the weeks with the same largest-remainder rule per week.
+Then `weekly_schedule(rounds, weeks, hours_per_week)` returns a list of strings, one per week
+("Week k: type=h, ..." with zero-hour types omitted). Every week must hold exactly
+hours_per_week hours: each week, split hours_per_week over the types in proportion to the hours
+each type still has *remaining*, again with largest remainder, then subtract.
 
 Examples
 --------
@@ -40,6 +42,8 @@ Hints
 -----
 - Use integer arithmetic for the remainders to avoid float ties: numerator % denominator.
 - sorted(types, key=lambda t: (-remainder[t], t)) gives the leftover order.
+- Splitting each type over the weeks independently looks fine per type but lets week totals
+  drift (13, 12, 11 instead of 12, 12, 12): the leftovers all land on week 1.
 
 Follow-ups
 ----------
@@ -84,14 +88,15 @@ def plan_hours(rounds: list[tuple[str, int]], total_hours: int) -> dict[str, int
 
 def weekly_schedule(rounds: list[tuple[str, int]], weeks: int, hours_per_week: int) -> list[str]:
     """One line per week: 'Week k: type=h, ...' (types with 0 hours omitted)."""
-    plan = plan_hours(rounds, weeks * hours_per_week)
-    # Spread each type over the weeks: week shares are again largest-remainder splits.
-    per_type = {kind: largest_remainder({f"w{i:02d}": 1 for i in range(weeks)}, h)
-                for kind, h in plan.items()}
+    remaining = plan_hours(rounds, weeks * hours_per_week)
     lines = []
     for i in range(weeks):
-        parts = [f"{kind}={per_type[kind][f'w{i:02d}']}" for kind in plan
-                 if per_type[kind][f"w{i:02d}"]]
+        # Share of a type this week <= its remaining hours, so nothing goes negative,
+        # and the last week receives exactly what is left.
+        week = largest_remainder(remaining, hours_per_week)
+        for kind, h in week.items():
+            remaining[kind] -= h
+        parts = [f"{kind}={h}" for kind, h in week.items() if h]
         lines.append(f"Week {i + 1}: " + ", ".join(parts))
     return lines
 

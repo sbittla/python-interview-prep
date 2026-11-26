@@ -9,6 +9,8 @@ Problem
 (b) solve(nums): return the smallest positive integer that does NOT appear in an
     arbitrary list of integers ("first missing positive"), using O(n) time and
     O(1) extra space (you may modify the input).
+(c) find_duplicates_marking(nums): values in 1..n, each once or twice; return
+    the repeated values in O(n) time and O(1) extra space, restoring nums.
 
 Examples
 --------
@@ -35,8 +37,10 @@ Approach ladder
 
 Follow-ups
 ----------
-- Find all numbers disappeared / all duplicates in 1..n: same cyclic sort, then
-  scan mismatches.
+- Find all duplicates in 1..n: sign marking (find_duplicates_marking) — flip
+  nums[v-1] negative on first sight; already negative means a repeat. Same
+  O(n) time / O(1) space, no swaps, and the signs can be restored afterwards.
+- All numbers disappeared: same cyclic sort, then scan mismatches.
 - Not allowed to modify input? Use Floyd's cycle detection (find-the-duplicate,
   Chapter 10) or the sum / xor identity for the single-missing case.
 """
@@ -87,6 +91,25 @@ def find_error(nums: list[int]) -> tuple[int, int]:
     raise ValueError("no error found")
 
 
+def find_duplicates_marking(nums: list[int]) -> list[int]:
+    """Values 1..n, each appearing once or twice: return the repeated ones, sorted.
+
+    Index-as-hash by sign marking: visiting v flips nums[v-1] negative; finding
+    it already negative means v was seen before. O(n) time, O(1) extra space
+    (besides the output); the signs are restored before returning.
+    """
+    dups = []
+    for x in nums:
+        v = abs(x)                      # the slot may already be flipped
+        if nums[v - 1] < 0:
+            dups.append(v)
+        else:
+            nums[v - 1] = -nums[v - 1]
+    for i, x in enumerate(nums):        # undo the marks
+        nums[i] = abs(x)
+    return sorted(dups)
+
+
 def main() -> None:
     for nums in [[1, 2, 0], [3, 4, -1, 1], [7, 8, 9, 11, 12], [1], [2, 1], [1, 1], []]:
         print(f"first missing positive {nums!s:<18} -> {solve(list(nums))}"
@@ -94,6 +117,8 @@ def main() -> None:
     print("cyclic sort [3, 1, 5, 4, 2]:", cyclic_sort([3, 1, 5, 4, 2]))
     for nums in [[1, 2, 2, 4], [3, 2, 3, 4, 6, 5], [2, 2]]:
         print(f"find_error {nums} -> (duplicate, missing) = {find_error(nums)}")
+    nums = [4, 3, 2, 7, 8, 2, 3, 1]
+    print(f"sign-marking duplicates {nums} -> {find_duplicates_marking(nums)}  restored: {nums}")
 
 
 if __name__ == "__main__":

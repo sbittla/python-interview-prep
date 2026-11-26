@@ -42,7 +42,9 @@ Hints
 -----
 - rank methods: "first" = ROW_NUMBER, "min" = RANK, "dense" = DENSE_RANK.
 - `LIMIT 1 OFFSET n-1` on DISTINCT values only answers ONE group.
-- Islands: subtract the cumcount (0, 1, 2, ...) in days from each date.
+- Islands: subtract the cumcount (0, 1, 2, ...) in days from each date. Dates
+  must be unique per key: dedupe first, or use DENSE_RANK in SQL, else a
+  repeated date splits a run.
 - SQLite: julianday(date) - ROW_NUMBER() OVER (PARTITION BY store ORDER BY date).
 
 Follow-ups

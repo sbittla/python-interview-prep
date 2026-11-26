@@ -29,8 +29,8 @@ Constraints
 Approach ladder
 ---------------
 1. Brute force — nested loops over both tables: O(n * m).
-2. Improved   — sort both by key and merge-walk: O(n log n + m log m) (what
-   a database does without an index).
+2. Improved   — sort both by key and merge-walk: O(n log n + m log m)
+   (a sort-merge join).
 3. Optimal    — hash join: build a hash table on one side, probe with the
    other: O(n + m + output). pandas merge factorises keys with hashing.
    Why move up: O(n*m) is 10**12 at a million rows each.

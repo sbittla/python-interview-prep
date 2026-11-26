@@ -21,13 +21,13 @@ Constraints
 
 Hints
 -----
-- Keep four boundaries: top, bottom, left, right.
-- Per loop: top row, right column, bottom row (if top < bottom), left column (if left < right); then shrink.
-- Anti-diagonals: cells with the same r + c belong together.
+- Picture the spiral as rings peeled from the outside in.
+- What changes after you finish one side of a ring?
+- Test 1 x n and n x 1 grids: do you visit any cell twice?
 
 Follow-ups
 ----------
-- Generate an n x n spiral matrix of 1..n^2 (same boundaries, write instead of read).
+- Generate an n x n spiral matrix of 1..n^2.
 - Counter-clockwise or starting elsewhere: change the order of the four legs.
 - Main diagonals (r - c constant) vs anti-diagonals (r + c constant).
 """

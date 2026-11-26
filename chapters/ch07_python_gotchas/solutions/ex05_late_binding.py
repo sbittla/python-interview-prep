@@ -15,7 +15,8 @@ Examples
 --------
 >>> [f(10) for f in make_multipliers(3)]
 [0, 10, 20]
->>> c = make_counter(); c(), c(), c()
+>>> c = make_counter()
+>>> c(), c(), c()
 (1, 2, 3)
 
 Constraints

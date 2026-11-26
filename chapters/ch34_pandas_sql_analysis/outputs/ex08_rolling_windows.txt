@@ -12,3 +12,4 @@ leading NaNs in rows_7 per store: {'north': 6, 'south': 6}
 rows where rows_7 != days_7 (after the first 7): 12
 SQL window functions match: True
 final running totals: {'north': 7411.29, 'south': 5038.07}
+prior-7-day mean (closed='left') first 3 north: [nan, 309.14, 256.29] | matches RANGE 7..1 PRECEDING: True

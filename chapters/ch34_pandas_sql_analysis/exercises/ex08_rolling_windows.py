@@ -16,6 +16,9 @@ ordered by date, build `window_features(sales)` with columns:
 All floats rounded to 2 dp (dod_pct to 1). Sorted by store, date; fresh index.
 `sql_window_features(conn)` builds the same table with SQLite window
 functions; `brute_force_rows_7(values)` recomputes rows_7 with slices.
+`prior_week_mean(sales)` / `sql_prior_week_mean(conn)` — per row, the mean
+revenue of the 7 calendar days BEFORE the row's date (date - 7 .. date - 1,
+today excluded; NaN when none exist), as a list in (store, date) order.
 
 Examples
 --------
@@ -34,6 +37,8 @@ Hints
 - SQL: SUM(x) OVER (PARTITION BY s ORDER BY d ROWS UNBOUNDED PRECEDING),
   LAG(x), AVG(x) OVER (... ROWS BETWEEN 6 PRECEDING AND CURRENT ROW),
   and RANGE BETWEEN 6 PRECEDING over julianday(date) (SQLite >= 3.28).
+- A time window "7D" is (d - 7 days, d]; closed="left" gives [d - 7, d), i.e.
+  RANGE BETWEEN 7 PRECEDING AND 1 PRECEDING.
 
 Follow-ups
 ----------
@@ -78,6 +83,19 @@ def sql_window_features(conn: sqlite3.Connection) -> pd.DataFrame:
     raise NotImplementedError("TODO")
 
 
+def prior_week_mean(sales: pd.DataFrame) -> list[float]:
+    raise NotImplementedError("TODO")
+
+
+SQL_PRIOR_WEEK = """
+-- TODO: write the query
+"""
+
+
+def sql_prior_week_mean(conn: sqlite3.Connection) -> list[float]:
+    raise NotImplementedError("TODO")
+
+
 def main() -> None:
     sales = load_sales()
     wf = window_features(sales)
@@ -99,6 +117,12 @@ def main() -> None:
           sql["store"].equals(wf["store"]) and sql["date"].equals(wf["date"])
           and np.allclose(sql[num].to_numpy(float), wf[num].to_numpy(float), equal_nan=True, atol=0.011))
     print("final running totals:", wf.groupby("store")["run_total"].last().to_dict())
+    prior = prior_week_mean(sales)
+    with closing(sqlite3.connect(":memory:")) as conn:
+        sales.assign(date=sales["date"].dt.strftime("%Y-%m-%d")).to_sql("sales", conn, index=False)
+        sql_prior = sql_prior_week_mean(conn)
+    print("prior-7-day mean (closed='left') first 3 north:", prior[:3],
+          "| matches RANGE 7..1 PRECEDING:", np.allclose(prior, sql_prior, equal_nan=True, atol=0.011))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,10 @@
+1.0 0.5 0.0 ['d06', 'd15']
+
+retriever                 R@1    R@3    R@5    MRR   n  skipped
+keyword (docs)         0.5417 0.9583 0.9583 0.7917  12  ['q13']
+dense (docs)           0.7500 1.0000 1.0000 0.9167  12  ['q13']
+dense (chunks->docs)   0.6667 0.9167 1.0000 0.8542  12  ['q13']
+
+queries where dense (docs) has recall@1 < 1: [('q02', 0.5), ('q07', 0.0), ('q08', 0.5), ('q12', 0.0)]
+regressions of 'keyword (docs)' vs dense (docs): [('mrr', 0.9167, 0.7917), ('recall@1', 0.75, 0.5417), ('recall@3', 1.0, 0.9583), ('recall@5', 1.0, 0.9583)]
+regressions of 'dense (chunks->docs)' vs dense (docs): [('mrr', 0.9167, 0.8542), ('recall@1', 0.75, 0.6667), ('recall@3', 1.0, 0.9167)]

@@ -1,0 +1,11 @@
+top_k with a tie at the boundary: [('b', 0.9), ('c', 0.9)] [('y', 0.7), ('w', 0.5)]
+zero row stays zero: [[0.6, 0.8], [0.0, 0.0]]
+raw dot   : {'short': 2.0, 'long': 4.0}
+cosine    : {'short': 0.6325, 'long': 0.4714}
+
+'how often should I rotate credentials'
+  top-3: [('d06#1', 0.2844), ('d15#0', 0.2125), ('d12#1', 0.1567)]  same as brute force: True
+  where year == 2025, post-filter: [('d15#0', 0.2125), ('d12#1', 0.1567)]
+  where year == 2025, pre-filter: [('d15#0', 0.2125), ('d12#1', 0.1567), ('d03#1', 0.14)]
+  where access in {internal}, area startswith 'sup': [('d12#0', 0.1766), ('d12#1', 0.0443)]
+  filter matching nothing: []

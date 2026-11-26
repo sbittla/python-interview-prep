@@ -1,0 +1,20 @@
+outline sections parsed: 493
+bank entries: 102 (in book: 56)
+per section: 44.1=15 44.2=14 44.3=15 44.4=12 44.5=13 44.6=14 44.7=19
+validation errors: 0
+broken sample:
+  py01: id prefix 'py' belongs in 44.1, not 44.2
+  py01: question must end with '?'
+  py01: answer has 4 sentences (want 1-3)
+  py01: xref §7.99 not in COURSE_OUTLINE.md
+  py01: tags must be 1+ lowercase slugs
+  py01: keyword 'zebra' not in answer
+  py01: duplicate id
+  py01: 'book' must be a bool
+  py01: duplicate id
+  #2: missing or non-string 'id'
+  #2: missing or non-string 'section'
+  #2: missing or non-string 'answer'
+  #2: missing or non-string 'xref'
+  #2: 'tags' must be a list of strings
+  #2: 'keywords' must be a list of strings

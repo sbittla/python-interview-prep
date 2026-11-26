@@ -21,7 +21,8 @@ Rules:
    every loop contains general coding rounds). A profile with no matches gets S.
 3. "parts" is the track's part list from TRACK_PARTS. When skip_python_basics is True, Part "I"
    is removed (the reader skims it instead).
-4. "reasons" lists, in sorted order, the keywords that matched the winning track.
+4. "reasons" lists, in sorted order, the keywords that scored for the winning track: role
+   words found in its ROLE_KEYWORDS plus interest words found in its INTEREST_KEYWORDS.
 
 Examples
 --------

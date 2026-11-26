@@ -1,0 +1,10 @@
+happy path: 1.50
+generated []: want None, got 'raises ZeroDivisionError'
+generated ['0.125']: want '0.13', got '0.12'
+generated ['1.005']: want '1.01', got '1.00'
+generated ['2.675']: want '2.68', got '2.67'
+generated ['0.01', '0.02']: want '0.02', got '0.01'
+fixed failures: []
+random cases where generated != oracle: 39 of 2000
+random cases where fixed != oracle: 0 of 2000
+complexity: {'time': 'O(n)', 'space': 'O(1)'}

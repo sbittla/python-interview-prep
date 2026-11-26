@@ -19,14 +19,12 @@ Constraints
 
 Hints
 -----
-- Anagrams share a canonical key; group words in a dict key -> list.
-- Key option 1: ''.join(sorted(word)). Option 2: tuple of 26 letter counts.
-- Lists cannot be dict keys; convert to tuple.
+- Two words belong together when some canonical key of each is equal. What key?
+- Which Python types can be dict keys?
 
 Follow-ups
 ----------
-- Unicode words: use the sorted-string key, or a Counter frozen as
-  tuple(sorted(Counter(w).items())).
+- Unicode words: which of your keys still works beyond a-z?
 - Group strings that are rotations/shifts of each other ("abc" ~ "bcd"): key is
   the tuple of differences between consecutive letters mod 26.
 - Return only groups of size >= 2.

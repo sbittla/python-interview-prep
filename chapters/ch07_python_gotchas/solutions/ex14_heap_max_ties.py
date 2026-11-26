@@ -85,7 +85,9 @@ def main() -> None:
     nums = [5, 1, 9, 3, 7]
     print("buggy top 2:", buggy_top_k_largest(nums, 2))
     print("fixed top 2:", top_k_largest(nums, 2))
-    print("negation max-heap pop:", -heapq.heappop([-x for x in sorted(nums)]))
+    max_heap = [-x for x in nums]
+    heapq.heapify(max_heap)                    # a plain list is NOT a heap until heapified
+    print("negation max-heap pops:", [-heapq.heappop(max_heap) for _ in range(3)])
     jobs = [(2, {"name": "b"}), (1, {"name": "a"}), (2, {"name": "c"})]
     try:
         buggy_run_jobs(jobs)

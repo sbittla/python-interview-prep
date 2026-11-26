@@ -33,3 +33,23 @@ def test_random(load):
         missing, dup = perm[i], perm[j]
         perm[i] = dup
         assert m.find_error(perm) == (dup, missing)
+
+
+def test_find_duplicates_marking(load):
+    m = load("ex12_missing_and_duplicate")
+    nums = [4, 3, 2, 7, 8, 2, 3, 1]
+    assert m.find_duplicates_marking(nums) == [2, 3]
+    assert nums == [4, 3, 2, 7, 8, 2, 3, 1]          # signs restored
+    assert m.find_duplicates_marking([1]) == []
+    assert m.find_duplicates_marking([1, 1]) == [1]
+    rng = random.Random(121)
+    for _ in range(200):
+        n = rng.randint(1, 9)
+        vals = list(range(1, n + 1))
+        twice = rng.sample(vals, rng.randint(0, n // 2))
+        nums = vals[:n - len(twice)] + twice          # length n, values in 1..n
+        rng.shuffle(nums)
+        before = list(nums)
+        expected = sorted(v for v in set(nums) if nums.count(v) == 2)
+        assert m.find_duplicates_marking(nums) == expected
+        assert nums == before

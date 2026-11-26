@@ -1,0 +1,7 @@
+baseline: {'ALL': (9, 12), 'numeric': (3, 4), 'policy': (2, 4), 'unanswerable': (4, 4)}
+candidate A: {'ALL': (11, 12), 'numeric': (4, 4), 'policy': (4, 4), 'unanswerable': (3, 4)}
+  newly failing ['q10'], newly passing ['q2', 'q4', 'q7'] -> ('BLOCK', ['critical regression: q10'])
+candidate B: {'ALL': (10, 12), 'numeric': (3, 4), 'policy': (3, 4), 'unanswerable': (4, 4)}
+  newly failing [], newly passing ['q2'] -> ('PASS', [])
+policy slice regresses: ('BLOCK', ['overall drop 0.17 > 0.02', 'slice policy drop 0.50 > 0.25'])
+missing answer: False | capital refusal: True | '150' in '$1500': False

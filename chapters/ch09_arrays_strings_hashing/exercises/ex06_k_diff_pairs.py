@@ -22,9 +22,8 @@ Constraints
 
 Hints
 -----
-- Build a Counter of values; pairs are counted by value, not by index.
-- k > 0: count x with x + k in the counter.
-- k == 0 is special: count values that appear at least twice.
+- Pairs are distinct by value. How should duplicates in the input count?
+- Does your rule for k > 0 still make sense when k == 0?
 
 Follow-ups
 ----------

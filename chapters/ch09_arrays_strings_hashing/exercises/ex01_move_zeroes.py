@@ -22,13 +22,13 @@ Constraints
 
 Hints
 -----
-- Keep a `write` index: the next slot that should receive a non-zero value.
-- Scan with a `read` index; every non-zero goes to nums[write] (swap), then write += 1.
-- Implement brute_force (extra list) and bubble (adjacent swaps) to compare costs.
+- The output order of the non-zeros is the input order. What is the earliest slot each one can land in?
+- Can a single left-to-right scan know where the next non-zero belongs?
+- Implement brute_force (extra list) and bubble first; compare their costs.
 
 Follow-ups
 ----------
-- Minimise the number of writes (swap only when read != write).
+- Minimise the number of writes.
 - Move all values equal to a given target, or all negatives, to the end.
 - Stable partition by any predicate (this is the same template).
 """

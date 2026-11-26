@@ -17,7 +17,7 @@
 > | "accurate test, rare disease" | Bayes with the base rate (§35.3) |
 > | "CI for a median / AUC" | bootstrap (§35.5) |
 > | "is B better?" | z-test, power, no peeking (§35.6) |
-> | "imbalanced", "top-K results" | P/R, AP (§35.7); MRR, NDCG (§35.9) |
+> | "imbalanced"; "top-K" | AP (§35.7); NDCG (§35.9) |
 > | "loss is NaN"; "CV too good" | log-sum-exp (§35.10); leakage (§35.11) |
 
 NumPy idioms: → §33.4, §33.8. Models that use these metrics: → §36.1, §36.2.
@@ -30,7 +30,6 @@ X is (n, d), rows are examples; know each product's shape.
 |---|---|---|
 | Predictions | Xw | (n,) |
 | Cosine | u·v / (‖u‖‖v‖) | in [−1, 1] |
-| Projection of u on v | (u·v / v·v) v | nearest point on v's line |
 | Covariance | XcᵀXc / (n − 1), Xc = X − column means | (d, d), symmetric PSD |
 
 Gradient identities: ∇(aᵀw) = a, ∇(wᵀAw) = (A + Aᵀ)w, ∇‖Xw − y‖² = 2Xᵀ(Xw − y).
@@ -58,8 +57,8 @@ Chain rule: L(w) = mean(ℓ(Xw)) has ∇L = Xᵀℓ′(Xw)/n. Logistic ℓ = log
 **Worked problem 1 — Prove a hand-derived gradient.** Rung 1, the forward difference
 (f(w + εeᵢ) − f(w))/ε: d + 1 evaluations, error O(ε). Rung 2, the central difference
 (f(w + εeᵢ) − f(w − εeᵢ))/(2ε): 2d evaluations, error O(ε²) because the ε Taylor terms
-cancel. With O(nd) per evaluation the check is O(nd²); rung 3, the analytic gradient, is one
-O(nd) product. The check validates rung 3, then is switched off.
+cancel; at O(nd) per evaluation that is O(nd²). Rung 3, the analytic gradient, is one O(nd)
+product; the check validates it once.
 
 ```python
 import numpy as np
@@ -90,10 +89,10 @@ print(f"{rel_err(numerical_grad(loss, w), grad(w)):.0e}",
 5e-11 0.961
 ```
 
-Below ~10⁻⁷ passes (float64). Repo ε sweep on eˣ: central error 6e-11 at ε = 10⁻⁵, 1e-05 at
-ε = 10⁻¹¹, where round-off (≈ ε_machine·|f|/ε) dominates. **Wrong but tempting:**
-absolute instead of relative error; ε = 10⁻¹²; float32. **Edge cases:** kinks (ReLU at 0),
-huge logits (softplus), millions of parameters (check a random subset). **Follow-up:** checking
+Below ~10⁻⁷ passes (float64); far smaller ε lets round-off (≈ ε_machine·|f|/ε) dominate. **Wrong but tempting:**
+absolute instead of relative error; ε = 10⁻¹²; float32. **Edge cases:** kinks (ReLU at 0): ±ε
+straddles them, so avoid them or accept ~10⁻⁴ (above ~10⁻² is a bug); huge logits; millions of
+parameters (sample coordinates). **Follow-up:** checking
 a layer against autograd (→ §37.1).
 → repo: `chapters/ch35_ml_math_stats_metrics/solutions/ex02_gradient_check.py`
 
@@ -117,8 +116,8 @@ print(p1, round(float(p1), 3), posterior(p1, F(9, 10), F(91, 100)))   # 2nd posi
 10/109 0.092 100/199
 ```
 
-Only 9 %: per 10,000 people, 90 true and 891 false positives. Chaining tests assumes they
-are independent given the true state. The repo also counts and simulates.
+Only 9 %: per 10,000 people, 90 true and 891 false positives. Chaining assumes tests independent
+given the true state.
 → repo: `chapters/ch35_ml_math_stats_metrics/solutions/ex03_bayes_rule.py`
 
 ## 35.4 Distributions, sampling, sampling bias
@@ -127,7 +126,6 @@ are independent given the true state. The repo also counts and simulates.
 |---|---|---|---|
 | Bernoulli(p) / Binomial(n, p) | a click / clicks in n views | p / np | p(1 − p) / np(1 − p) |
 | Poisson(λ) | events per interval | λ | λ |
-| Exponential(λ) | waiting time | 1/λ | 1/λ² |
 | Normal(μ, σ²) | sums of many effects | μ | σ² |
 
 CLT: the sample mean is ≈ Normal(μ, σ²/n), so standard errors shrink as 1/√n. Sample variance
@@ -154,15 +152,15 @@ print(naive, welford(xs))
 0.0 (1000000010.0, 30.0)
 ```
 
-Two (n, mean, m2) summaries merge in O(1) (repo). **Sampling bias** survives any n: selection,
-survivorship, non-response, time drift. Randomise or stratify, or reweight by 1/P(sampled).
+Two (n, mean, m2) summaries merge in O(1) (repo). **Sampling bias** (selection, survivorship,
+non-response, drift) survives any n: randomise, stratify, or reweight by 1/P(sampled).
 → repo: `chapters/ch35_ml_math_stats_metrics/solutions/ex01_welford_variance.py`
 
 ## 35.5 Bootstrap and confidence intervals
 
-Resample the n observations *with replacement* B times, recompute the statistic, take the
-α/2 and 1 − α/2 quantiles: the **percentile** bootstrap. One (B, n) index matrix vectorises it;
-the work is O(B·n) either way, the loop just pays interpreter overhead.
+Resample n observations *with replacement* B times, recompute the statistic, take the α/2 and
+1 − α/2 quantiles: the **percentile** bootstrap. One (B, n) index matrix vectorises the
+O(B·n) work.
 
 ```python
 import numpy as np
@@ -180,23 +178,22 @@ print(bootstrap_ci(x, seed=7).round(3), bootstrap_ci(x, np.median, seed=7).round
 [1.079 2.056] [0.849 1.787]
 ```
 
-x̄ ± 1.96·s/√n suffices for a large-sample mean; bootstrap medians, ratios, AUC. Coverage, 300
-skewed datasets (repo):
+x̄ ± 1.96·s/√n suffices for a large-sample mean; bootstrap medians, ratios, AUC. Coverage on
+2,000 skewed datasets (repo; Monte Carlo SE ≈ ±0.005–0.008):
 
 ```text
-coverage n=10  bootstrap=0.84  normal=0.86  (target 0.95)
-coverage n=100 bootstrap=0.95  normal=0.95  (target 0.95)
+coverage n=10  bootstrap=0.862  normal=0.873  (target 0.95, 2000 datasets)
+coverage n=100 bootstrap=0.939  normal=0.941  (target 0.95, 2000 datasets)
 ```
 
-Small n undercovers (try BCa). "95 %" describes the procedure. Resample independent units
-(users, not views); it fails for the max.
+Both undercover, badly at n = 10 (try BCa). "95 %" describes the procedure. Resample
+independent units (users, not views).
 → repo: `chapters/ch35_ml_math_stats_metrics/solutions/ex04_bootstrap_ci.py`
 
 ## 35.6 A/B testing and significance
 
 **Worked problem 2 — Is B's conversion higher?** A: 200 of 2,000; B: 250 of 2,000. Rung 1, a
-permutation test, shuffles arm labels 10⁴ times: O(n_perm·n), no normal approximation. Rung 2,
-the pooled two-proportion z-test, is O(1): under H₀ both arms share rate p̂,
+permutation test (shuffle arm labels 10⁴ times): O(n_perm·n). Rung 2, the pooled z-test: O(1),
 SE = √(p̂(1 − p̂)(1/n_a + 1/n_b)), z = (p̂_b − p̂_a)/SE. Rung 3 sizes the test *before* it runs.
 
 ```python
@@ -225,37 +222,42 @@ print(round(z, 3), round(p, 4), n_per_arm(0.10, 0.12))
 2.502 0.0124 3841
 ```
 
-Repo cross-checks, then an A/A test (no effect) stopped at the first of 20 looks with p < 0.05:
+Repo: Wald CI, cross-checks, then an A/A test (no effect) stopped at the first of 20 looks:
 
 ```text
+95% CI for p_b - p_a: (0.0054, 0.0446)
 permutation p (10,000 shuffles): 0.0130
 simulated power at that n: 0.799
 A/A, test once at the end : 0.052
 A/A, peek 20 times, stop early: 0.243
 ```
 
+The test's pooled SE holds under H₀; the CI for p_b − p_a uses the unpooled SE
+√(p̂_a(1 − p̂_a)/n_a + p̂_b(1 − p̂_b)/n_b). `n_per_arm` likewise uses pooled p̄ (H₀ term) and
+unpooled p₁, p₂ (H₁ term).
+
 **Wrong but tempting:** "p = 0.012: a 1.2 % chance H₀ is true" (p is P(data this extreme | H₀));
-one-sided after seeing the direction; peeking; analysing sessions when users were randomised. **Edge cases:** SE = 0, unequal arms, n·p < 10 (exact test). **Follow-ups:** many
-metrics (Bonferroni α/m or FDR); sequential tests; half the effect ≈ 4× the users.
+one-sided after seeing the direction; peeking; analysing sessions when users were randomised.
+**Edge cases:** SE = 0, unequal arms, n·p < 10. **Follow-ups:** many metrics (Bonferroni or
+FDR); sequential tests; half the effect ≈ 4× the users.
 → repo: `chapters/ch35_ml_math_stats_metrics/solutions/ex05_ab_test.py`
 
 ## 35.7 Classification metrics: accuracy, precision, recall, F1, ROC-AUC, calibration
 
 | Metric | Formula | Use when |
 |---|---|---|
-| Accuracy | (TP + TN)/n | balanced classes, equal costs |
+| Accuracy | (TP + TN)/n | balanced, equal costs |
 | Precision / Recall | TP/(TP + FP) / TP/(TP + FN) | false alarms / misses costly |
 | F1 | 2PR/(P + R) | one threshold, both matter |
 | ROC-AUC | P(s₊ > s₋) + ½P(s₊ = s₋) | threshold-free ranking |
 | Average precision | Σₖ (Rₖ − Rₖ₋₁)Pₖ | rare positives |
 
-Rows are truth, columns predictions. Declare 0/0 (the repo returns 0.0, also when P + R = 0).
-Macro averages classes equally; micro pools counts (micro-F1 = accuracy, single-label);
-weighted uses support. At 1 % positives "always negative" scores 0.99 accuracy, 0 recall.
+Rows are truth, columns predictions. Declare 0/0 (repo: 0.0, also when P + R = 0). Macro
+averages classes; micro pools counts (micro-F1 = single-label accuracy); weighted uses support. At 1 % positives "always negative" scores 0.99 accuracy, 0 recall.
 
-**Worked problem 3 — ROC-AUC with ties, O(n log n).** Rung 1 compares all (positive,
-negative) pairs, ties worth ½: O(n₊n₋). Rung 2 sorts and sums trapezoids over one ROC point per
-*distinct* threshold: O(n log n); a tied block's diagonal trapezoid is exactly the ½ credit. Rung 3 skips the curve: AUC = U/(n₊n₋), Mann–Whitney
+**Worked problem 3 — ROC-AUC with ties.** Rung 1 compares all pairs, ties ½: O(n₊n₋).
+Rung 2 sums trapezoids over one ROC point per *distinct* threshold: O(n log n); a tied block's
+diagonal is exactly the ½ credit. Rung 3 skips the curve: AUC = U/(n₊n₋), Mann–Whitney
 U = R₊ − n₊(n₊ + 1)/2, R₊ the sum of positive ranks, tied scores sharing their average rank.
 
 ```python
@@ -273,7 +275,7 @@ def average_ranks(s):
 
 def auc_rank(y, s):
     y, s = np.asarray(y), np.asarray(s, dtype=float)
-    n_pos = int(y.sum())
+    n_pos = int((y == 1).sum())
     n_neg = len(y) - n_pos
     if n_pos == 0 or n_neg == 0:
         raise ValueError("need both classes")
@@ -292,13 +294,13 @@ By hand: the positive at 0.9 earns ½ + 1 + 1, each at 0.5 earns 0 + ½ + 1: 5.5
 all-pairs rung agrees on 2,000 tied scores. `exp` changes nothing: AUC ignores calibration. **Wrong but tempting:**
 `argsort().argsort()` ranks or one ROC point per sample: order dependent under ties (0.556
 vs 0.667 reversed, repo). **Edge cases:** one class (raise), all tied (0.5), inverted
-(flip). **Follow-ups:** a CI by bootstrap (§35.5); why AP under imbalance.
+(flip). **Follow-up:** a CI by bootstrap (§35.5).
 → repo: `chapters/ch35_ml_math_stats_metrics/solutions/ex07_roc_auc.py`
 
 **Average precision** here is the step-wise, non-interpolated sum over distinct thresholds
-(scikit-learn's definition); 11-point interpolated AP and the PR trapezoid differ (no classifier
-achieves linear interpolation in PR space). A random ranker's AP ≈ prevalence, its ROC-AUC 0.5,
-so AP exposes rare-class rankers that ROC-AUC flatters. **Calibration:** cases scored 0.8 should be ~80 % positive. Brier =
+(scikit-learn's); 11-point interpolated AP and the PR trapezoid differ (linear interpolation in
+PR space is unachievable). A random ranker's AP ≈ prevalence (ROC-AUC 0.5): AP exposes
+rare-class rankers ROC-AUC flatters. **Calibration:** cases scored 0.8 should be ~80 % positive. Brier =
 mean((p − y)²) is a proper scoring rule; ECE bins p into ten equal-width bins and averages
 |mean(y) − mean(p)| weighted by bin size. Sharpening logits ×3 keeps AP, ruins calibration:
 
@@ -323,8 +325,8 @@ Recalibrate on held-out data (Platt, isotonic, temperature).
 | MAPE | mean(\|y − ŷ\|/\|y\|) | — | undefined at y = 0 |
 
 The loss decides what you estimate. Constant target: R² is 1.0 if perfect, else 0.0
-(scikit-learn's default). Line 1: y = [3, −0.5, 2, 7]; then y = [1, 2, 2, 3,
-50]; last, y = [1, 2, 3] predicted reversed:
+(scikit-learn's default). Line 1: y = [3, −0.5, 2, 7], ŷ = [2.5, 0, 2, 8];
+then y = [1, 2, 2, 3, 50]; last, y = [1, 2, 3] predicted reversed:
 
 ```text
 mse 0.375  rmse 0.6124  mae 0.5  r2 0.9486
@@ -334,7 +336,8 @@ r2 predicting the mean : 0.0
 r2 worse than the mean : -3.0
 ```
 
-Adjusted R² = 1 − (1 − R²)(n − 1)/(n − p − 1). Batch RMSE: average MSEs, then take the root.
+Adjusted R² = 1 − (1 − R²)(n − 1)/(n − p − 1). Batch RMSE: weight batch MSEs by size (squared-error sum / n),
+then take the root.
 → repo: `chapters/ch35_ml_math_stats_metrics/solutions/ex09_regression_metrics.py`
 
 ## 35.9 Ranking/retrieval metrics: Precision@K, Recall@K, MRR, MAP, NDCG
@@ -342,8 +345,9 @@ Adjusted R² = 1 − (1 − R²)(n − 1)/(n − p − 1). Batch RMSE: average M
 Ranks are 1-based. P@K = top-K hits / K; R@K = hits / |relevant|; MRR averages 1/rank of
 the first hit (0 if none). AP@K averages P@i at each relevant i ≤ K; this book
 divides by min(|relevant|, K) (others use |relevant| or hits found). NDCG@K = DCG/IDCG with
-DCG = Σ (2^gᵢ − 1)/log₂(i + 1); IDCG sorts *all judged* gains descending, optimal because
-discounts fall with rank.
+DCG = Σ gain(gᵢ)/log₂(i + 1); IDCG sorts *all judged* gains descending (optimal: discounts fall
+with rank). This book's gain is 2^g − 1; scikit-learn's `ndcg_score` uses linear gain g; the
+original Järvelin–Kekäläinen DCG leaves ranks below the log base undiscounted.
 
 ```python
 from math import log2
@@ -356,32 +360,35 @@ def ap_at_k(ranked, relevant, k):
             total += hits / i                      # P@i at each relevant position
     return total / min(len(relevant), k) if relevant else 0.0
 
-def ndcg_at_k(ranked, gains, k):
-    dcg = lambda gs: sum((2 ** g - 1) / log2(i + 1) for i, g in enumerate(gs, start=1))
+def ndcg_at_k(ranked, gains, k, exp_gain=True):
+    gain = (lambda g: 2 ** g - 1) if exp_gain else (lambda g: g)
+    dcg = lambda gs: sum(gain(g) / log2(i + 1) for i, g in enumerate(gs, start=1))
     ideal = dcg(sorted(gains.values(), reverse=True)[:k])
     return dcg([gains.get(d, 0) for d in ranked[:k]]) / ideal if ideal > 0 else 0.0
 
 ranked = ["d3", "d1", "d7", "d2", "d9"]
+gains = {"d1": 3, "d2": 2, "d3": 0, "d4": 1, "d7": 1}
 print(round(ap_at_k(ranked, {"d1", "d2", "d4"}, 5), 4),
-      round(ndcg_at_k(ranked, {"d1": 3, "d2": 2, "d3": 0, "d4": 1, "d7": 1}, 3), 4))
+      round(ndcg_at_k(ranked, gains, 3), 4), round(ndcg_at_k(ranked, gains, 3, False), 4))
 ```
 
 ```text
-0.3333 0.5234
+0.3333 0.5234 0.5025
 ```
 
-O(K) per query plus O(m log m) for IDCG. MRR when only the first hit matters; Recall@K for a
-retriever feeding a reranker (→ §40.6, §40.9); NDCG for graded relevance.
-**Wrong but tempting:** IDCG from only the *retrieved* items (missing relevant documents then
-scores 1.0); a log₂(i) discount (division by zero at rank 1).
+O(K) per query plus O(m log m) for IDCG. Recall@K suits a retriever feeding a reranker
+(→ §40.6, §40.9).
+**Wrong but tempting:** IDCG from only the *retrieved* items (a list that misses relevant
+documents still scores 1.0 if what it returned is in gain order); a plain log₂(i) discount
+(division by zero at rank 1).
 → repo: `chapters/ch35_ml_math_stats_metrics/solutions/ex10_ranking_metrics.py`
 
 ## 35.10 Numerical stability: log-sum-exp, stable softmax and cross-entropy (lab)
 
-**Worked problem 4 — Cross-entropy from logits that never overflows.** Rung 1,
-`log(exp(z).sum())`, overflows past z ≈ 709. Rung 2, softmax with the row max subtracted
-(`chapters/ch33_numpy_vectorization/solutions/ex09_softmax.py`), still underflows tiny
-probabilities to 0, whose log is −inf. Rung 3 stays in log space:
+**Worked problem 4 — Overflow-free cross-entropy.** Rung 1, `log(exp(z).sum())`, overflows
+past z ≈ 709. Rung 2, max-shifted softmax
+(`chapters/ch33_numpy_vectorization/solutions/ex09_softmax.py`), underflows tiny probabilities
+to 0 (log −inf). Rung 3 stays in log space:
 lse(z) = m + log Σ e^(z − m), log-softmax = z − lse(z), CE picks one entry. O(nC) throughout.
 
 ```python
@@ -407,10 +414,9 @@ with np.errstate(over="ignore"):
 [inf, inf]
 ```
 
-The gradient is (softmax(Z) − onehot(y))/n, from ∂/∂zⱼ[lse(z) − z_y] = softmaxⱼ − [j = y]; the
-repo matches it to central differences within 8e-11. Binary labels: loss = softplus(z) − yz. Clipping
-probabilities to [10⁻¹⁵, 1 − 10⁻¹⁵] only caps the damage: logit 40, label 0 has true loss 40,
-clipped ≈ 34.5. PyTorch's `cross_entropy` takes logits; NaN losses: → §37.8. **Wrong but
+Gradient: (softmax(Z) − onehot(y))/n, since ∂/∂zⱼ[lse(z) − z_y] = softmaxⱼ − [j = y] (repo:
+matches central differences to 8e-11). Binary: loss = softplus(z) − yz. Clipping probabilities
+at 10⁻¹⁵ only caps the damage: logit 40, label 0, true loss 40, clipped ≈ 34.5. PyTorch's `cross_entropy` takes logits; NaN losses: → §37.8. **Wrong but
 tempting:** `log(softmax(z))`; one global max for a batch. **Edge cases:** all −inf row, C = 1. **Follow-ups:** label smoothing; softmax(z/T).
 → repo: `chapters/ch35_ml_math_stats_metrics/solutions/ex11_stable_logsumexp_ce.py`
 
@@ -420,12 +426,12 @@ tempting:** `log(softmax(z))`; one global max for a batch. **Edge cases:** all �
 from the label or the future, "refund issued" predicting fraud) or *contamination* (scaling,
 imputation, feature selection, encoding or oversampling fitted before splitting).
 
-| Splitter | Guarantees | Use for |
+| Splitter | Guarantee | Use for |
 |---|---|---|
-| k-fold | each row tested once; sizes differ ≤ 1 | i.i.d. rows |
-| stratified | per-class counts differ ≤ 1 | imbalance |
-| group | no group in both train and test | several rows per user |
-| time series | train strictly before test | forecasting, drift |
+| k-fold | each row tested once | i.i.d. rows |
+| stratified | class counts per fold differ ≤ 1 | imbalance |
+| group | no group on both sides | rows per user |
+| time series | train before test | forecasting |
 
 Repo: 60 rows, 2,000 noise features, random labels; top-20 features, 5-fold nearest-centroid CV:
 
@@ -435,15 +441,24 @@ random labels, select features INSIDE CV: 0.52 (chance = 0.5)
 ```
 
 Fit every step inside the fold; nested CV keeps tuning out of the reported score.
-**Imbalance:** stratify, report PR metrics, reweight (w_c = n/(C·n_c): 0.625 and 2.5 for 12:3),
-resample the *training fold only*, or move the threshold.
+
+| Feature step | Rule |
+|---|---|
+| Scaling | kNN, SVM, linear models; not trees |
+| Categoricals | one-hot if few levels; target/frequency encoding (in-fold) if many |
+| Skew | log1p or Box-Cox |
+| Missing | impute in-fold, add an is-missing flag |
+| Time | date parts; lags from the past only |
+
+**Imbalance:** stratify, report PR metrics, reweight (w_c = n/(C·n_c)), resample the
+*training fold only*, or move the threshold.
 → repo: `chapters/ch35_ml_math_stats_metrics/solutions/ex12_cv_leakage.py`
 
 ## Interviewer's view
 
 - **Definition before number** (ddof, 0/0, ties, which AP, sidedness); cross-check by hand.
 - **Metric fits the cost:** imbalance → AP; ranking → NDCG/MRR.
-- **Name the trap:** base rates, peeking, leakage, overflow.
+- **Name the trap:** base rates, peeking, leakage.
 
 ## Exercises
 
@@ -453,7 +468,7 @@ resample the *training fold only*, or move the threshold.
 | ex02 | Gradient check | ★ | finite differences |
 | ex03 | Bayes screening | ★ | base rates |
 | ex04 | Bootstrap CIs | ★ | resampling |
-| ex05 | A/B test, power, peeking | ★ | hypothesis test |
+| ex05 | A/B test, power | ★ | hypothesis test |
 | ex06 | Confusion, P/R/F1 | ★ | counting |
 | ex07 | ROC-AUC three ways | ★ | rank statistic |
 | ex08 | AP, calibration | ★ | threshold sweep |
@@ -476,18 +491,17 @@ Index: `chapters/ch35_ml_math_stats_metrics/README.md`.
 <summary>Answers</summary>
 
 1. Its O(ε) Taylor terms cancel: error O(ε²).
-2. 0.009 / (0.009 + 0.0891) = 10/109 ≈ 0.092.
+2. 10/109 ≈ 0.092.
 3. Each look is another chance to cross: 24 % with 20 looks.
 4. ½.
-5. Test-fold labels chose the features: 0.95 on random labels.
+5. Test labels chose the features (0.95 on noise).
 
 </details>
 
 ## Summary card
 
-- **Gradients:** logistic ∇ = Xᵀ(σ(Xw) − y)/n; check by central differences, rel. error < 10⁻⁷.
-- **Bayes:** include the base rate. **Variance:** state ddof; Welford for streams.
-- **Bootstrap:** resample units with replacement. **A/B:** pooled z; size first; never peek.
+- **Gradients:** check by central differences, relative error < 10⁻⁷.
+- **Bayes:** base rate. **Variance:** ddof; Welford. **A/B:** pooled z; size first; no peeking.
 - **P/R/F1:** declare 0/0. **AUC:** ties ½, ranks, O(n log n). **AP:** baseline = prevalence.
 - **Regression:** MSE → mean, MAE → median, R² < 0 possible. **NDCG:** IDCG over all judged.
 - **Stability:** log-sum-exp, losses from logits. **CV:** fit every step inside the fold.

@@ -1,0 +1,13 @@
+generated (no cache): [[9, 9, 9, 9, 9, 9, 9, 10, 10, 10], [5, 8, 2, 10, 18, 18, 0, 0, 0, 0]]
+identical with cache: True
+concatenate-cache rung matches: True
+chunked prefill (3 + 2) then 10 decode steps, max |logit diff| < 1e-10: True
+cache.k shape: (2, 2, 4, 24, 4) (L, B, H, T_max, d_h); length = 15
+position restarted at 0 gives different logits: True
+overflow: cache full: 25 > T_max=24
+
+KV cache sizing (fp16, B=1, T=4096, L=32, d_h=128):
+  n_kv_heads=32: 2.000 GiB
+  n_kv_heads= 8: 0.500 GiB
+  n_kv_heads= 1: 0.062 GiB
+  B=16, n_kv_heads=8: 8.0 GiB

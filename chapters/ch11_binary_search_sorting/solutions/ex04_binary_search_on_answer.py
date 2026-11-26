@@ -25,6 +25,7 @@ Constraints
 -----------
 - 1 <= len(piles) <= h <= 10^9; 1 <= piles[i] <= 10^9.
 - 1 <= days <= len(weights).
+- max_min_distance: 2 <= m <= len(positions).
 
 Approach ladder
 ---------------
@@ -33,6 +34,18 @@ Approach ladder
    works. So the answers look like F F F F T T T T over k.
 3. Optimal    — binary search the first True over [1, max(piles)].
    O(n log max(piles)). The search range is the answer space, not the array.
+
+Loop invariant (first_true): every x < lo has pred(x) False and pred(hi) is
+True (hi starts one past the range as a sentinel). The gap shrinks every step,
+so the loop ends with lo == hi == the first True.
+
+Wrong-but-tempting
+------------------
+- Floor division p // k for the hours of one pile: a pile of 3 at rate 2 needs
+  2 hours, not 1, so the answer comes out too small (see wrong_floor_hours).
+- Searching [1, sum(piles)] works but is wasteful; [0, ...] divides by zero.
+- "Maximise" with the lower mid (lo + hi) // 2 and `lo = mid`: when hi = lo + 1
+  the loop never ends; use the upper mid (lo + hi + 1) // 2.
 
 Follow-ups
 ----------
@@ -63,6 +76,11 @@ def first_true(lo: int, hi: int, pred: Callable[[int], bool]) -> int:
 
 def hours_needed(piles: list[int], k: int) -> int:
     return sum((p + k - 1) // k for p in piles)   # integer ceil(p / k)
+
+
+def wrong_floor_hours(piles: list[int], h: int) -> int:
+    """Wrong-but-tempting: floor instead of ceiling hours per pile."""
+    return first_true(1, max(piles), lambda k: sum(p // k for p in piles) <= h)
 
 
 def brute_force(piles: list[int], h: int) -> int:
@@ -105,7 +123,7 @@ def max_min_distance(positions: list[int], m: int) -> int:
                 last = p
         return count >= m
 
-    lo, hi = 1, pos[-1] - pos[0]
+    lo, hi = 0, pos[-1] - pos[0]      # gap 0 is always feasible (positions may repeat)
     while lo < hi:
         mid = (lo + hi + 1) // 2      # upper mid: avoids infinite loop when lo = mid
         if can_place(mid):
@@ -123,12 +141,14 @@ def main() -> None:
     print("min rate (binary search):", solve(piles, h), " brute:", brute_force(piles, h))
     print("min rate [30,11,23,4,20], h=5:", solve([30, 11, 23, 4, 20], 5))
     print("min rate [30,11,23,4,20], h=6:", solve([30, 11, 23, 4, 20], 6))
+    print("wrong floor-hours rate:", wrong_floor_hours(piles, h), "(too small)")
     print("one huge pile [10**9], h=2:", solve([10**9], 2))
     weights = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     print("min capacity, 5 days:", min_capacity(weights, 5))
     print("min capacity, 1 day:", min_capacity(weights, 1))
     print("min capacity, 10 days:", min_capacity(weights, 10))
     print("max min distance [1,2,3,4,7], m=3:", max_min_distance([1, 2, 3, 4, 7], 3))
+    print("max min distance [5,5,5], m=2:", max_min_distance([5, 5, 5], 2))
     print("first_true on x*x >= 50 in [0, 50]:", first_true(0, 50, lambda x: x * x >= 50))
 
 

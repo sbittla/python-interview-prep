@@ -10,7 +10,9 @@ The maths is built from scratch in §36.10; here you wire the torch APIs correct
    where total_norm is the L2 norm of every gradient concatenated. Return the pre-clip norm.
    Must match ``torch.nn.utils.clip_grad_norm_``.
 2. ``warmup_cosine(step, warmup, total, base_lr)``: linear warm-up from base_lr/warmup to
-   base_lr over ``warmup`` steps, then cosine decay to 0 at ``total``.
+   base_lr over ``warmup`` steps, then cosine decay reaching 0 at the last step (step total-1),
+   so that final update is a no-op by design; use progress = (step - warmup) / (total - warmup)
+   if the last step should still move the weights.
 3. ``torch_schedule(warmup, total, base_lr)``: the same schedule via ``LambdaLR``; return the LR
    used at each of the ``total`` steps (read it *before* ``scheduler.step()``).
 4. ``spike_run(clip)``: SGD on a linear model where one batch contains a huge outlier. Return

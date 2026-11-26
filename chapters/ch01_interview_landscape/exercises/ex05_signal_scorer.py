@@ -4,8 +4,9 @@ Chapter 01 · Pattern: weighted average + veto rules · Target time: 25 min
 
 Problem
 -------
-Interviewers usually rate a handful of signals on a 1-4 scale (1 = strong no, 4 = strong yes).
-Different rounds weight the signals differently (WEIGHTS). Write
+A common rubric shape rates a handful of signals on a small scale; here 1-4 (1 = strong no,
+4 = strong yes). Different rounds weight the signals differently (WEIGHTS; the numbers are
+illustrative, not any company's real rubric). Write
 `score_round(round_type, ratings)` returning a dict with:
 
 - "score": weighted average rounded to 2 decimals (only signals in WEIGHTS[round_type]);

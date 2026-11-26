@@ -33,6 +33,14 @@ Approach ladder
    Invariant (half-open, lower_bound): every index < lo has nums[i] < x and
    every index >= hi has nums[i] >= x. When lo == hi, that is the boundary.
 
+Wrong-but-tempting
+------------------
+- Mixing `<` and `<=`: lower_bound tests nums[mid] < x, upper_bound tests
+  nums[mid] <= x. Swapping them silently returns the other boundary.
+- Forgetting the `first == len(nums)` check: nums[first] raises IndexError
+  when target is larger than every element (see wrong_no_bounds_check).
+- Rung 2 looks O(log n) but is O(n) on [x, x, ..., x].
+
 Follow-ups
 ----------
 - Count occurrences in O(log n): upper_bound - lower_bound.
@@ -105,6 +113,14 @@ def solve(nums: list[int], target: int) -> list[int]:
     return [first, upper_bound(nums, target) - 1]
 
 
+def wrong_no_bounds_check(nums: list[int], target: int) -> list[int]:
+    """Wrong-but-tempting: reads nums[first] before checking first < len(nums)."""
+    first = lower_bound(nums, target)
+    if nums[first] != target:                 # IndexError when target > max(nums)
+        return [-1, -1]
+    return [first, upper_bound(nums, target) - 1]
+
+
 def solve_bisect(nums: list[int], target: int) -> list[int]:
     first = bisect_left(nums, target)
     if first == len(nums) or nums[first] != target:
@@ -139,6 +155,10 @@ def main() -> None:
     print("floor/ceiling of 10:", floor_ceiling(nums, 10))
     print("all equal [3,3,3,3]:", solve([3, 3, 3, 3], 3))
     print("empty:", solve([], 3))
+    try:
+        wrong_no_bounds_check(nums, 10)
+    except IndexError as e:
+        print("wrong_no_bounds_check(nums, 10): IndexError:", e)
     # bisect with key= (Python 3.10+): find the first record whose age >= 30
     people = [("ana", 22), ("bo", 30), ("cy", 30), ("di", 41)]
     i = bisect_left(people, 30, key=lambda p: p[1])

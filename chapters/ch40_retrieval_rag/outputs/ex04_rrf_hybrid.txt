@@ -1,0 +1,25 @@
+rrf: [('b', 0.032522), ('a', 0.032266), ('c', 0.032002)]
+rrf, missing + duplicate ids: [('a', 0.016393), ('c', 0.016393), ('b', 0.015873)]
+k=1 vs k=60 on [[a, b, c, d], [c, b, d, a]]:
+  k=1 : [('c', 0.75), ('a', 0.7), ('b', 0.666667), ('d', 0.45)]
+  k=60: [('c', 0.032266), ('b', 0.032258), ('a', 0.032018), ('d', 0.031498)]
+
+naive sum : [('d1', 4.05), ('d2', 3.39), ('d3', 1.41)]
+min-max   : [('d2', 1.6111), ('d1', 1.0), ('d3', 1.0)]
+rrf       : [('d1', 0.032266), ('d3', 0.032266), ('d2', 0.032258)]
+
+first relevant rank per query (keyword / dense / hybrid RRF):
+  q01    1    1    1  how often should I rotate credentials
+  q02    2    1    2  why does deleting my bucket fail with E409
+  q03    2    1    1  upload a 20 GB video file
+  q04    1    1    1  is my data encrypted at rest
+  q05    2    1    2  too many requests error 429
+  q06    2    1    2  copy objects automatically to another region
+  q07    1    2    1  make objects undeletable for regulators
+  q08    1    1    1  move old data to cheaper storage
+  q09    1    1    1  share a file with a temporary download link
+  q10    1    1    1  restore an overwritten object
+  q11    2    1    2  how many buckets can one account create
+  q12    1    2    1  who handles a P1 ticket at night
+MRR: {'keyword': 0.7917, 'dense': 0.9167, 'hybrid': 0.8333}
+hybrid below both retrievers on any query: False

@@ -36,13 +36,27 @@ def test_nth_random(load):
 
 def test_latest_ties_and_duplicates(load):
     m = load("ex11_sql_classics")
-    orders = pd.DataFrame({"order_id": [1, 2, 3, 4, 4], "user_id": [1, 1, 1, 2, 2],
+    # tied 01-05 rows appear with the LARGER order_id first, so sorting by date alone picks 2
+    orders = pd.DataFrame({"order_id": [1, 3, 2, 4, 4], "user_id": [1, 1, 1, 2, 2],
                            "order_date": pd.to_datetime(["2026-01-02", "2026-01-05", "2026-01-05",
                                                          "2026-01-01", "2026-01-01"])})
     assert m.latest_per_user(orders) == {1: 3, 2: 4}
     with closing(sqlite3.connect(":memory:")) as conn:
         orders.assign(order_date=orders["order_date"].dt.strftime("%Y-%m-%d")).to_sql("orders", conn, index=False)
         assert m.sql_latest_per_user(conn) == {1: 3, 2: 4}
+
+
+def test_latest_tie_order_both_ways(load):
+    m = load("ex11_sql_classics")
+    # same-date ties inserted [3, 2] for user 1 and [2, 3] for user 2: only "order_id DESC" gets both
+    orders = pd.DataFrame({"order_id": [3, 2, 2, 3], "user_id": [1, 1, 2, 2],
+                           "order_date": pd.to_datetime(["2026-01-05"] * 4)})
+    orders = orders.assign(order_id=orders["order_id"] + 10 * orders["user_id"])   # unique ids
+    expected = {1: 13, 2: 23}
+    assert m.latest_per_user(orders) == expected
+    with closing(sqlite3.connect(":memory:")) as conn:
+        orders.assign(order_date=orders["order_date"].dt.strftime("%Y-%m-%d")).to_sql("orders", conn, index=False)
+        assert m.sql_latest_per_user(conn) == expected
 
 
 def test_streaks(load):

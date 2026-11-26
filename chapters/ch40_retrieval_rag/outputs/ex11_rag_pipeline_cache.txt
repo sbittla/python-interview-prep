@@ -1,0 +1,23 @@
+'how often rotate keys'
+
+'How often should I rotate access keys?' cached=False llm_calls=1
+  Access keys / Rotation: Rotate access keys every 90 days [1]. Access keys / Creating keys: An access key has an id and a secret [2].
+  citations={1: 'd06#1', 2: 'd06#0'}
+
+'how often should i ROTATE access keys' cached=True llm_calls=1
+  Access keys / Rotation: Rotate access keys every 90 days [1]. Access keys / Creating keys: An access key has an id and a secret [2].
+  citations={1: 'd06#1', 2: 'd06#0'}
+
+[public] Who handles a P1 ticket at night? cached=False retrieved=['d01#1', 'd01#0', 'd03#1']
+  I don't know.
+
+[staff] Who handles a P1 ticket at night? cached=False retrieved=['d01#1', 'd12#1', 'd01#0']
+  Support levels / Escalation: The on-call storage engineer owns every P1 ticket until it is resolved or downgraded [2].
+
+no chunk passes the filter: "I don't know." llm_calls=3
+
+after add_chunks (version 1): cached=False
+  Access keys / Rotation: Rotate access keys every 90 days [1]. Access keys / Policy update: From 2026, rotate access keys every 30 days instead of every 90 days [3].
+
+cache_size=2 stats: {'evicted': 2, 'hit': 1, 'miss': 4} llm calls: 4
+ValueError: empty query

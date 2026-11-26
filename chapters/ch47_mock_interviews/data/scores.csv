@@ -1,0 +1,9 @@
+date,mock,rubric,ratings
+2026-09-01,S1,coding,clarifying=2;approach=2;correctness=2;code_quality=3;complexity=1;testing=1;communication=3
+2026-09-08,S2,coding,clarifying=3;approach=2;correctness=3;code_quality=3;complexity=2;testing=1;communication=3
+2026-09-15,M1,coding,clarifying=3;approach=3;correctness=2;code_quality=3;complexity=2;testing=2;communication=3
+2026-09-20,L3,ai,decomposition=2;prompting=3;verifying=1;integration=3;ownership=2
+2026-09-22,S3,coding,clarifying=4;approach=3;correctness=3;code_quality=3;complexity=2;testing=2;communication=4
+2026-09-29,S4,coding,clarifying=4;approach=3;correctness=3;code_quality=4;complexity=3;testing=2;communication=3
+2026-10-04,L3,ai,decomposition=3;prompting=3;verifying=3;integration=3;ownership=3
+2026-10-06,S2,coding,clarifying=4;approach=4;correctness=4;code_quality=3;complexity=3;testing=3;communication=4

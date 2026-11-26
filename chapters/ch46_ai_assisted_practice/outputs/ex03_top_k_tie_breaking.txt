@@ -1,0 +1,7 @@
+tidy sentence: [('the', 2), ('cat', 1)]
+empty-token  ('', 1): generated=[('', 1)] oracle=[]
+other        ('A\nc', 2): generated=[('a\nc', 1)] oracle=[('a', 1), ('c', 1)]
+tie-order    ('CAT b', 3): generated=[('cat', 1), ('b', 1)] oracle=[('b', 1), ('cat', 1)]
+fixed counterexamples: {}
+fixed: [('a', 2), ('b', 2)] [] [('a', 2), ('b', 1)] []
+complexity: {'time': 'O(L + d log k)', 'space': 'O(L)'}

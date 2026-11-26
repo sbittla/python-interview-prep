@@ -1,0 +1,14 @@
+kappa: 0.5 0.0
+
+judge             mode     accuracy coverage flip rate
+unbiased          single     1.0000   1.0000    0.0000
+unbiased          swap       1.0000   1.0000    0.0000
+position 0.3      single     0.9000   1.0000    0.4000
+position 0.3      swap       1.0000   0.6000    0.4000
+length 0.02/word  single     0.8000   1.0000    0.0000
+length 0.02/word  swap       0.8000   1.0000    0.0000
+
+length-biased judge errors (index, gold, verdict): [(4, 'A', 'B'), (5, 'A', 'B')]
+kappa vs gold, unbiased         : 1.0
+kappa vs gold, position 0.3     : 0.7826
+kappa vs gold, length 0.02/word : 0.6154

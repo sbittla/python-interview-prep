@@ -1,0 +1,26 @@
+Mock S2, coding rubric (worked example):
+criterion                                 wt rating     points
+Clarifying requirements and constraints   10 4 strong    10.00
+Approach and trade-off reasoning          20 3 solid     15.00
+Correctness on tests and edge cases       25 3 solid     18.75
+Code quality and Pythonic style           15 3 solid     11.25
+Complexity analysis                       10 2 mixed      5.00
+Testing and debugging                     10 2 mixed      5.00
+Communication                             10 4 strong    10.00
+total                                    100             75.00  -> close
+feedback:
+  1. Correctness on tests and edge cases: -6.25 -> stress-test against brute force on seeded small inputs (see §2.1)
+  2. Approach and trade-off reasoning: -5.00 -> say brute force and its cost, then one better idea with its trade-off (see §2.1)
+  3. Complexity analysis: -5.00 -> state time and space before coding and re-derive them after (see §2.4)
+
+High total, one collapsed criterion:
+total=92.50 verdict=close (floor: Testing and debugging)
+
+Mock L3, AI-assisted rubric:
+total=63.75 verdict=not yet
+top fix: Verifying and critiquing AI output: -15.00 -> write the oracle first and probe edges on every generated diff (see §46.4)
+
+Validation:
+  ValueError: missing=[] unknown=['complexty']
+  ValueError: ratings must be ints 0-4: ['testing']
+  ValueError: ratings must be ints 0-4: ['testing']

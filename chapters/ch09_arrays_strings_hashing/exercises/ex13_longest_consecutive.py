@@ -22,16 +22,15 @@ Constraints
 
 Hints
 -----
-- Put values in a set for O(1) membership.
-- Only start counting at x when x - 1 is not in the set.
-- Each value is walked over at most once in total, so the nested loop is still O(n).
+- Sorting gives O(n log n). Which structure gives O(1) membership instead?
+- Which values are worth starting a count from?
+- Argue the total work: how often is each value stepped over?
 
 Follow-ups
 ----------
 - Return the run itself, not just its length.
 - Streaming inserts: union-find or a dict of run endpoints (Chapter 16).
-- Why is the nested loop still O(n)? Amortised argument: each element is the
-  "next" of at most one run walk.
+- Why is a nested loop here still O(n)? Be ready to argue it.
 """
 from __future__ import annotations
 

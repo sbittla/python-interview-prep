@@ -20,9 +20,10 @@ Constraints
 Approach ladder
 ---------------
 1. Brute force — compare every word against a representative of every existing
-   group with an anagram check. O(n^2 * L) in the worst case.
+   group with a sorted() anagram check. O(n * g * L log L) for g groups, i.e.
+   O(n^2 * L log L) when every word is its own group.
 2. Improved   — key = "".join(sorted(word)); dict key -> list. O(n * L log L).
-3. Optimal    — key = tuple of 26 letter counts: O(n * L) time. In practice
+3. Optimal    — key = tuple of 26 letter counts: O(n * (L + 26)) time. In practice
    sorted() wins for short words because it runs in C; say so in the interview.
    Why move up: a canonical key turns "compare with every group" into one O(1)
    average dict lookup.

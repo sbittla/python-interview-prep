@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional
+from typing import Any, Literal, Optional
 
 import pytest
 
@@ -40,3 +40,28 @@ def test_binding_errors(load):
         m.solve(area, 1, 2, 3, 4)
     with pytest.raises(TypeError):
         m.solve(area)
+
+
+def tagged(*names: str, mode: Literal["a", "w"] = "a", **meta: int) -> None:
+    return None
+
+
+def test_varargs_checked_per_element(load):
+    m = load("ex12_check_annotations")
+    assert m.solve(tagged, "x", "y", size=3) == []
+    assert m.solve(tagged, "x", 3, flag=True) == [
+        "meta['flag']: expected int, got bool", "names[1]: expected str, got int"]
+
+
+def test_literal_and_special_forms(load):
+    m = load("ex12_check_annotations")
+    assert m.solve(tagged, mode="w") == []
+    assert m.solve(tagged, mode="r") == ["mode: expected Literal['a', 'w'], got str"]
+
+    def one(x: Literal[1]) -> None:
+        return None
+    assert m.solve(one, True) == ["x: expected Literal[1], got bool"]   # True == 1 but not a 1
+
+    def anything(x: Any, y) -> None:
+        return None
+    assert m.solve(anything, object(), 5) == []

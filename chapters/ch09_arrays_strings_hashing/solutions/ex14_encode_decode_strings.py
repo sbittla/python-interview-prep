@@ -25,8 +25,10 @@ Approach ladder
 ---------------
 1. Naive delimiter — ",".join(strs). Breaks as soon as a string contains ",",
    and cannot tell [] from [""].
-2. Escaping — escape the delimiter and the escape char ("\\," and "\\\\").
-   Correct but fiddly; decode must scan char by char.
+2. Escaping — backslash-escape backslashes and commas, end each item with ",".
+   O(total length) and correct (escape_encode / escape_decode), but the
+   decoder must inspect every character, and the escape order is easy to get
+   wrong (escape the backslash first).
 3. Optimal    — length prefix: for each string write len(s), a "#", then s.
    The decoder reads digits up to "#", then jumps exactly len characters, so
    the content is never interpreted. O(total length) both ways.
@@ -48,6 +50,30 @@ def naive_encode(strs: list[str]) -> str:
 
 def naive_decode(s: str) -> list[str]:
     return s.split(",")
+
+
+def escape_encode(strs: list[str]) -> str:
+    """Rung 2: backslash-escape backslashes and commas; end every item with ','."""
+    return "".join(x.replace("\\", "\\\\").replace(",", "\\,") + "," for x in strs)
+
+
+def escape_decode(s: str) -> list[str]:
+    out: list[str] = []
+    cur: list[str] = []
+    i = 0
+    while i < len(s):
+        ch = s[i]
+        if ch == "\\":                # escaped char: take the next one literally
+            cur.append(s[i + 1])
+            i += 2
+            continue
+        if ch == ",":                  # unescaped comma ends an item
+            out.append("".join(cur))
+            cur = []
+        else:
+            cur.append(ch)
+        i += 1
+    return out
 
 
 def encode(strs: list[str]) -> str:
@@ -91,7 +117,7 @@ def rle_decode(s: str) -> str:
     parts = []
     count = 0
     for ch in s:
-        if ch.isdigit():
+        if "0" <= ch <= "9":               # ASCII only: str.isdigit() accepts '²'
             count = count * 10 + int(ch)   # multi-digit counts like "12a"
         else:
             parts.append(ch * count)
@@ -104,6 +130,8 @@ def main() -> None:
     for strs in samples:
         enc = encode(strs)
         print(f"{strs!s:<22} -> {enc!r:<22} round-trip ok: {decode(enc) == strs}")
+    tricky = ["a,b", "c\\", "", ","]
+    print("escaped:", repr(escape_encode(tricky)), "round-trip ok:", escape_decode(escape_encode(tricky)) == tricky)
     print("naive comma join breaks:", naive_decode(naive_encode(["a,b", "c"])), "and [] ->", naive_decode(naive_encode([])))
     for s in ["aaabcc", "abc", "", "aaaaaaaaaaaab"]:
         print(f"rle {s!r:<16} -> {rle_encode(s)!r:<10} back ok: {rle_decode(rle_encode(s)) == s}")

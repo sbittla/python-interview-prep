@@ -43,6 +43,14 @@ Approach ladder
        j = half - i; the cut is right when A[i-1] <= B[j] and B[j-1] <= A[i].
        O(log min(m, n)).
 
+Wrong-but-tempting
+------------------
+- (a) Comparing nums[mid] with nums[mid - 1] and moving the wrong way, or
+  reading nums[mid + 1] with a closed loop `while lo <= hi` (index error at
+  the end).
+- (b) Searching [0, x // 2]: wrong for x = 1 (floor(sqrt(1)) = 1 > 0).
+- (d) Binary searching the LONGER list: j = half - i can go negative.
+
 Follow-ups
 ----------
 - k-th smallest of two sorted lists: same partition idea, or discard k/2 per step.
@@ -94,8 +102,25 @@ def brute_force(a: list[int], b: list[int]) -> float:
     return (merged[n // 2 - 1] + merged[n // 2]) / 2
 
 
+def median_two_pointers(a: list[int], b: list[int]) -> float:
+    """Rung 2: walk a merge only up to the middle. O(m + n) time, O(1) space."""
+    n = len(a) + len(b)
+    i = j = 0
+    prev = cur = 0
+    for _ in range(n // 2 + 1):           # advance to the element at index n // 2
+        prev = cur
+        if j >= len(b) or (i < len(a) and a[i] <= b[j]):
+            cur = a[i]
+            i += 1
+        else:
+            cur = b[j]
+            j += 1
+    return float(cur) if n % 2 else (prev + cur) / 2
+
+
 def median_by_counting(a: list[int], b: list[int]) -> float:
-    """Rung 2: k-th smallest via value-space bisect (no merge). Used as a cross-check."""
+    """Cross-check: k-th smallest by binary search over candidate VALUES,
+    counting with bisect_right. O((m + n) log(m + n)) because of the set/sort."""
     n = len(a) + len(b)
 
     def kth(k: int) -> int:           # k-th smallest, 1-based, by binary search on candidate values
@@ -148,8 +173,8 @@ def main() -> None:
     pairs = [([1, 3], [2]), ([1, 2], [3, 4]), ([], [1]), ([2], []), ([1, 2, 3], [4, 5, 6, 7, 8]),
              ([0, 0], [0, 0]), ([-5, 3, 6, 12, 15], [-12, -10, -6, -3, 4, 10])]
     for a, b in pairs:
-        print(f"median {a} + {b}: partition={solve(a, b)} counting={median_by_counting(a, b)} "
-              f"merge={brute_force(a, b)}")
+        print(f"median {a} + {b}: partition={solve(a, b)} two-ptr={median_two_pointers(a, b)} "
+              f"counting={median_by_counting(a, b)} merge={brute_force(a, b)}")
 
 
 if __name__ == "__main__":
